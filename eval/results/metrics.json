@@ -923,5 +923,1245 @@
   "seconds": 39.8,
   "sec_per_kloc": 36.1,
   "tokens_per_kloc": 0
+ },
+ "agent_llm_norag": {
+  "all_open": {
+   "overall": {
+    "tp": 26,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.929,
+    "recall": 1.0,
+    "f1": 0.963
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.333,
+     "recall": 1.0,
+     "f1": 0.5
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "16/16",
+    "B": "3/3",
+    "C": "1/1",
+    "D": "5/5",
+    "E": "1/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 1,
+   "fpr_clean_files": 0.029,
+   "pairs": 18,
+   "pair_accuracy": 0.944,
+   "calibration": {
+    "L0": {
+     "tp": 1,
+     "fp": 2,
+     "precision": 0.333
+    },
+    "L2": {
+     "tp": 3,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 22,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [
+    "cmdi/convert_fixed.py:12 CWE-840 L0",
+    "ssrf/fetch.py:13 CWE-840 L0"
+   ],
+   "missed": []
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 25,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.962,
+    "f1": 0.98
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "16/16",
+    "B": "3/3",
+    "C": "0/1",
+    "D": "5/5",
+    "E": "1/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 18,
+   "pair_accuracy": 0.944,
+   "calibration": {
+    "L2": {
+     "tp": 3,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 22,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)"
+   ]
+  },
+  "seconds": 1079.5,
+  "sec_per_kloc": 977.8,
+  "tokens_per_kloc": 514569
+ },
+ "agent_llm_rag": {
+  "all_open": {
+   "overall": {
+    "tp": 26,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.929,
+    "recall": 1.0,
+    "f1": 0.963
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-22": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "16/16",
+    "B": "3/3",
+    "C": "1/1",
+    "D": "5/5",
+    "E": "1/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 18,
+   "pair_accuracy": 0.944,
+   "calibration": {
+    "L0": {
+     "tp": 1,
+     "fp": 2,
+     "precision": 0.333
+    },
+    "L2": {
+     "tp": 3,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 22,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [
+    "requirements.txt:2 CWE-1395 L0",
+    "ssrf/fetch.py:13 CWE-840 L0"
+   ],
+   "missed": []
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 25,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.962,
+    "f1": 0.98
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "16/16",
+    "B": "3/3",
+    "C": "0/1",
+    "D": "5/5",
+    "E": "1/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 18,
+   "pair_accuracy": 0.944,
+   "calibration": {
+    "L2": {
+     "tp": 3,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 22,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)"
+   ]
+  },
+  "seconds": 1052.1,
+  "sec_per_kloc": 953.0,
+  "tokens_per_kloc": 487968
+ },
+ "llm_only_files": {
+  "all_open": {
+   "overall": {
+    "tp": 23,
+    "fp": 18,
+    "fn": 3,
+    "precision": 0.561,
+    "recall": 0.885,
+    "f1": 0.687
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-20": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 2,
+     "fp": 1,
+     "fn": 2,
+     "precision": 0.667,
+     "recall": 0.5,
+     "f1": 0.571
+    },
+    "CWE-287": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-352": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-502": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-772": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.75,
+     "recall": 1.0,
+     "f1": 0.857
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.75,
+     "recall": 1.0,
+     "f1": 0.857
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-88": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.833,
+     "recall": 1.0,
+     "f1": 0.909
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    }
+   },
+   "recall_per_group": {
+    "A": "14/16",
+    "B": "3/3",
+    "C": "1/1",
+    "D": "5/5",
+    "E": "0/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 12,
+   "fpr_clean_files": 0.343,
+   "pairs": 18,
+   "pair_accuracy": 0.389,
+   "calibration": {
+    "L0": {
+     "tp": 25,
+     "fp": 18,
+     "precision": 0.581
+    }
+   },
+   "false_positives": [
+    "authz/admin_fixed.py:39 CWE-352 L0",
+    "authz/notes_fixed.py:49 CWE-352 L0",
+    "authz/trap_global_hook.py:15 CWE-287 L0",
+    "authz/trap_global_hook.py:26 CWE-352 L0",
+    "authz/trap_public_catalog.py:10 CWE-772 L0",
+    "authz/trap_public_catalog.py:16 CWE-772 L0",
+    "authz/trap_public_catalog.py:16 CWE-400 L0",
+    "cmdi/archive_fixed.py:14 CWE-22 L0",
+    "cmdi/convert_fixed.py:13 CWE-78 L0",
+    "cmdi/ping_fixed.py:14 CWE-918 L0",
+    "cmdi/ping_fixed.py:14 CWE-88 L0",
+    "config/settings_fixed.py:17 CWE-327 L0",
+    "logic/checkout_fixed.py:11 CWE-20 L0",
+    "logic/checkout_fixed.py:12 CWE-20 L0",
+    "sqli/product_routes.py:11 CWE-89 L0",
+    "ssrf/fetch_fixed.py:16 CWE-400 L0",
+    "tests/test_fixtures.py:1 CWE-798 L0",
+    "requirements.txt:2 CWE-502 L0"
+   ],
+   "missed": [
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "requirements.txt CWE-1395 (flask==2.2.2)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 26,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-79": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-798": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 5,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-918": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "0/16",
+    "B": "0/3",
+    "C": "0/1",
+    "D": "0/5",
+    "E": "0/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 18,
+   "pair_accuracy": 0.0,
+   "calibration": {},
+   "false_positives": [],
+   "missed": [
+    "sqli/user_lookup.py CWE-89 (search_users)",
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "sqli/report_percent.py CWE-89 (report)",
+    "sqli/repo_layer.py CWE-89 (find_product)",
+    "sqli/injected_comment.py CWE-89 (staff_lookup)",
+    "cmdi/ping.py CWE-78 (ping)",
+    "cmdi/archive.py CWE-78 (backup)",
+    "cmdi/convert.py CWE-78 (convert_image)",
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "path/denylist.py CWE-22 (docs)",
+    "path/prefix_unnormalised.py CWE-22 (export)",
+    "xss/greet.py CWE-79 (hello)",
+    "xss/search_page.py CWE-79 (search)",
+    "xss/comment.py CWE-79 (preview)",
+    "ssrf/fetch.py CWE-918 (preview)",
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (app.config[\"SECRET_KEY\"])",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "config/settings.py CWE-798 (smtp_password =)",
+    "config/settings.py CWE-327 (hash_password)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "requirements.txt CWE-1395 (flask==2.2.2)"
+   ]
+  },
+  "seconds": 406.7,
+  "sec_per_kloc": 368.4,
+  "tokens_per_kloc": 146318
+ },
+ "sast_llm_triage": {
+  "all_open": {
+   "overall": {
+    "tp": 20,
+    "fp": 14,
+    "fn": 6,
+    "precision": 0.588,
+    "recall": 0.769,
+    "f1": 0.667
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 3,
+     "fp": 13,
+     "fn": 0,
+     "precision": 0.188,
+     "recall": 1.0,
+     "f1": 0.316
+    },
+    "CWE-79": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.667,
+     "f1": 0.8
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 5,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "16/16",
+    "B": "0/3",
+    "C": "0/1",
+    "D": "4/5",
+    "E": "0/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 6,
+   "fpr_clean_files": 0.171,
+   "pairs": 18,
+   "pair_accuracy": 0.556,
+   "calibration": {
+    "L0": {
+     "tp": 8,
+     "fp": 11,
+     "precision": 0.421
+    },
+    "L1": {
+     "tp": 12,
+     "fp": 3,
+     "precision": 0.8
+    }
+   },
+   "false_positives": [
+    "cmdi/archive.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:14 CWE-78 L1",
+    "cmdi/convert.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:13 CWE-78 L1",
+    "cmdi/ping.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:14 CWE-78 L0",
+    "cmdi/trap_argv_list.py:4 CWE-78 L0",
+    "cmdi/trap_argv_list.py:14 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:4 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:16 CWE-78 L1",
+    "config/settings_fixed.py:17 CWE-327 L0"
+   ],
+   "missed": [
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "requirements.txt CWE-1395 (flask==2.2.2)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 26,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "per_cwe": {
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-79": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-798": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 5,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-918": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "0/16",
+    "B": "0/3",
+    "C": "0/1",
+    "D": "0/5",
+    "E": "0/1"
+   },
+   "clean_files": 35,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 18,
+   "pair_accuracy": 0.0,
+   "calibration": {},
+   "false_positives": [],
+   "missed": [
+    "sqli/user_lookup.py CWE-89 (search_users)",
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "sqli/report_percent.py CWE-89 (report)",
+    "sqli/repo_layer.py CWE-89 (find_product)",
+    "sqli/injected_comment.py CWE-89 (staff_lookup)",
+    "cmdi/ping.py CWE-78 (ping)",
+    "cmdi/archive.py CWE-78 (backup)",
+    "cmdi/convert.py CWE-78 (convert_image)",
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "path/denylist.py CWE-22 (docs)",
+    "path/prefix_unnormalised.py CWE-22 (export)",
+    "xss/greet.py CWE-79 (hello)",
+    "xss/search_page.py CWE-79 (search)",
+    "xss/comment.py CWE-79 (preview)",
+    "ssrf/fetch.py CWE-918 (preview)",
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (app.config[\"SECRET_KEY\"])",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "config/settings.py CWE-798 (smtp_password =)",
+    "config/settings.py CWE-327 (hash_password)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "requirements.txt CWE-1395 (flask==2.2.2)"
+   ]
+  },
+  "seconds": 141.3,
+  "sec_per_kloc": 128.0,
+  "tokens_per_kloc": 47400
  }
 }

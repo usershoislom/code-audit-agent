@@ -105,7 +105,8 @@ class TriageResult:
 
 
 def triage(model: ChatModel, tools: ToolRegistry, ledger: ReadLedger, candidate_desc: str, context: str,
-           card_text: str, slice_ranges: list[tuple[str, int, int]], budget: int = 6) -> TriageResult:
+           card_text: str, slice_ranges: list[tuple[str, int, int]], budget: int = 6,
+           candidate_ref: Ref | None = None) -> TriageResult:
     messages = [
         {"role": "system", "content": SYSTEM_TRIAGE},
         {"role": "user", "content": (
@@ -131,11 +132,12 @@ def triage(model: ChatModel, tools: ToolRegistry, ledger: ReadLedger, candidate_
             messages += [{"role": "assistant", "content": act.model_dump_json()},
                          {"role": "user", "content": "Tool budget exhausted. Give your verdict now."}]
             continue
-        return _validate_verdict(act, seen, slice_ranges, res)
+        return _validate_verdict(act, seen, slice_ranges, res, candidate_ref)
     return res
 
 
-def _validate_verdict(act: TriageAction, ledger: ReadLedger, slice_ranges, res: TriageResult) -> TriageResult:
+def _validate_verdict(act: TriageAction, ledger: ReadLedger, slice_ranges, res: TriageResult,
+                      candidate_ref: Ref | None = None) -> TriageResult:
     res.raw = act.model_dump()
     res.severity = act.severity
     res.explanation = act.explanation
@@ -156,6 +158,8 @@ def _validate_verdict(act: TriageAction, ledger: ReadLedger, slice_ranges, res: 
             res.protection_rejected = "no protection_ref given"
         elif not ledger.verify(ref):
             res.protection_rejected = f"{act.protection_ref} was never read by a tool"
+        elif candidate_ref is not None and (ref.file, ref.line) == (candidate_ref.file, candidate_ref.line):
+            res.protection_rejected = f"{act.protection_ref} is the candidate's own line, not a protection"
         elif not ledger.is_code_line(ref):
             res.protection_rejected = f"{act.protection_ref} is not executable code (comment/docstring/blank)"
         elif not any(f == ref.file and a <= ref.line <= b for f, a, b in slice_ranges):

@@ -44,5 +44,57 @@
   },
   "loc": 1104,
   "sandbox": "local-unshare"
+ },
+ "agent_llm_norag": {
+  "seconds": 1079.5,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.01,
+    "candidates": 2.31,
+    "llm_entrypoints": 861.08,
+    "context": 0.05,
+    "triage": 215.98,
+    "verify": 0.04
+   },
+   "candidates": 86,
+   "findings_initial": 61,
+   "llm_usage": {
+    "local": {},
+    "gemma_remote": {
+     "prompt_tokens": 402415,
+     "completion_tokens": 165669,
+     "calls": 171
+    },
+    "groq": {}
+   }
+  },
+  "loc": 1104,
+  "sandbox": null
+ },
+ "agent_llm_rag": {
+  "seconds": 1052.1,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.01,
+    "candidates": 2.67,
+    "llm_entrypoints": 873.36,
+    "context": 0.04,
+    "triage": 175.9,
+    "verify": 0.04
+   },
+   "candidates": 83,
+   "findings_initial": 60,
+   "llm_usage": {
+    "local": {},
+    "gemma_remote": {
+     "prompt_tokens": 388275,
+     "completion_tokens": 150442,
+     "calls": 153
+    },
+    "groq": {}
+   }
+  },
+  "loc": 1104,
+  "sandbox": null
  }
 }

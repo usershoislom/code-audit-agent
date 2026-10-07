@@ -17,7 +17,7 @@ from caa.core.audit import AuditLog
 from caa.core.engine import ContextSlice, EvidenceEngine
 from caa.core.kb import KnowledgeBase
 from caa.core.llm.router import Confidentiality, ModelRouter
-from caa.core.models import Evidence, Finding, Group, Level, Status
+from caa.core.models import Evidence, Finding, Group, Level, Ref, Status
 from caa.core.triage import TriageResult, dumps, triage
 
 
@@ -105,7 +105,8 @@ class Orchestrator:
                 card = self.kb.get(f.cwe) if o.use_rag else None
                 return f.id, triage(model, tools, eng.ledger, _describe(f), ctx.text,
                                     self.kb.render(card) if card else "(knowledge base disabled)",
-                                    ctx.ranges, budget=o.triage_budget)
+                                    ctx.ranges, budget=o.triage_budget,
+                                    candidate_ref=Ref(file=f.location.file, line=f.location.start_line))
 
             def stage_triage():
                 # independent candidates -> concurrent model calls; results are keyed, order-independent

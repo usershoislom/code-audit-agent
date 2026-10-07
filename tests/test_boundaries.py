@@ -135,3 +135,13 @@ def test_lines_read_by_other_stages_do_not_count_as_seen(registry):
     t = _triage(registry, [{"action": "verdict", "verdict": "not_vulnerable", "protection_ref": f"{rel}:14"}],
                 [(rel, 12, 18)])
     assert t.verdict == "insufficient_data" and "never read" in t.protection_rejected
+
+
+def test_refutation_cannot_cite_the_candidate_line_itself(registry):
+    from caa.core.models import Ref
+    rel = "sqli/user_lookup.py"
+    model = ScriptedModel(replies=[json.dumps({"action": "verdict", "verdict": "not_vulnerable",
+                                               "protection_ref": f"{rel}:16"})])
+    t = triage(model, registry, registry.fs.ledger, "c", _shown(registry, rel, 12, 17), "k", [(rel, 12, 17)],
+               budget=1, candidate_ref=Ref(file=rel, line=16))
+    assert t.verdict == "insufficient_data" and "own line" in t.protection_rejected
