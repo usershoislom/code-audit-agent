@@ -53,14 +53,37 @@ class ModelRouter:
         return model
 
 
+class _Lazy:
+    """Defers client creation (and model auto-discovery) until a provider is actually routed to."""
+
+    def __init__(self, config, audit):
+        self.config, self._audit, self._m = config, audit, None
+
+    def _get(self):
+        if self._m is None:
+            from caa.core.llm.provider import OpenAICompatibleModel
+            self._m = OpenAICompatibleModel(self.config, audit=self._audit)
+        return self._m
+
+    @property
+    def usage(self):
+        return self._m.usage if self._m else {}
+
+    def complete_json(self, messages, schema, purpose):
+        return self._get().complete_json(messages, schema, purpose)
+
+    def embed(self, texts):
+        return self._get().embed(texts)
+
+
 def build_router(cfg: dict, audit: AuditLog = NULL_AUDIT) -> ModelRouter | None:
     """cfg: parsed configs/providers.yaml."""
-    from caa.core.llm.provider import OpenAICompatibleModel, ProviderConfig
+    from caa.core.llm.provider import ProviderConfig
 
     provs = cfg.get("providers") or {}
     models = {}
     for name, p in provs.items():
-        models[name] = OpenAICompatibleModel(ProviderConfig(name=name, **p), audit=audit)
+        models[name] = _Lazy(ProviderConfig(name=name, **p), audit)
     if not models:
         return None
     return ModelRouter(models, cfg.get("roles") or {"analysis": next(iter(models))}, audit)

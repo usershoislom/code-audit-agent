@@ -43,7 +43,8 @@ class CodeEngine(EvidenceEngine):
     name = "code"
 
     def __init__(self, root: Path, kb: KnowledgeBase, sandbox: Sandbox | None = None, audit: AuditLog = NULL_AUDIT,
-                 use_semgrep: bool = True, use_bandit: bool = True, codeql_sarif: Path | None = None):
+                 use_semgrep: bool = True, use_bandit: bool = True, codeql_sarif: Path | None = None,
+                 generators: set[str] | None = None, reanchor: bool = True):
         self.root = root.resolve()
         self.ledger = ReadLedger()
         self.fs = RepoFS(self.root, self.ledger)
@@ -57,6 +58,8 @@ class CodeEngine(EvidenceEngine):
         self._registry = ToolRegistry(self.fs, self.symbols, kb, audit)
         self._wc: WorkingCopy | None = None
         self.sarif_runs: list[dict] = []
+        self.generators = generators if generators is not None else {"secrets", "deps", "authz", "injection"}
+        self.reanchor = reanchor
 
     # ------------------------------------------------------------- stage 1
     def inventory(self) -> dict:
@@ -96,12 +99,17 @@ class CodeEngine(EvidenceEngine):
         self.sarif_runs = runs
         cands = sast.sarif_runs_to_candidates(runs)
         cands = [c for c in cands if self.kb.get(c.cwe)]          # only classes we have knowledge for
-        cands += scan_secrets(self.fs)
-        cands += deps_tool.scan_dependencies(self.fs)
-        cands += authz_candidates(self.routes)
-        cands += self._injection_candidates()
+        g = self.generators
+        if "secrets" in g:
+            cands += scan_secrets(self.fs)
+        if "deps" in g:
+            cands += deps_tool.scan_dependencies(self.fs)
+        if "authz" in g:
+            cands += authz_candidates(self.routes)
+        if "injection" in g:
+            cands += self._injection_candidates()
         for c in cands:
-            if c.group == Group.DATAFLOW:
+            if self.reanchor and c.group == Group.DATAFLOW:
                 self._reanchor(c)
         self.audit.write("candidates", count=len(cands), by_source=dict(Counter(c.source for c in cands)))
         return cands

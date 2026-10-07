@@ -1,27 +1,27 @@
 # Model providers. Switching model/provider = editing this file, no code change.
 # `is_local` is NOT configurable: it is derived from base_url (loopback only).
+# Third-party target data is routed ONLY to a local provider (see caa/core/llm/router.py).
 providers:
   local:
-    # Gemma 4 31B via Ollama (OpenAI-compatible endpoint). Model card: 256K context;
-    # we cap num_ctx to keep KV-cache inside 24 GB VRAM with a Q4 quant.
+    # Gemma 4 31B via Ollama/llama.cpp on this machine (256K context per model card;
+    # num_ctx capped to fit KV-cache in 24 GB with a Q4 quant).
     model: gemma4:31b
     base_url: http://127.0.0.1:11434/v1
     structured_output: json_schema
-    temperature: 0.0
-    seed: 0
-    max_tokens: 2048
     extra_body: {options: {num_ctx: 32768}}
-    # embedding_model: nomic-embed-text   # optional, enables hybrid kb_lookup
+  gemma_remote:
+    # The user's Gemma deployment. Not loopback => treated as EXTERNAL: allowed only
+    # for our own stand (--own-stand). Tunnel it to 127.0.0.1 (ssh -L) to use it as `local`.
+    model: auto                       # single-model server: id taken from /v1/models
+    base_url: https://ai-llm.inference.gpu.uz/v1
+    api_key_env: GEMMA_API_KEY
+    structured_output: json_object
   groq:
-    # Free hosted provider. Allowed ONLY for our own stand / offline judge roles;
-    # the router refuses it for third-party target data.
+    # Free hosted provider: own stand / offline judge only.
     model: llama-3.3-70b-versatile
     base_url: https://api.groq.com/openai/v1
     api_key_env: GROQ_API_KEY
     structured_output: json_object
-    temperature: 0.0
-    seed: 0
-    max_tokens: 2048
 roles:
-  analysis: local      # triage, entry-point pass, patch
-  judge: groq          # offline evaluation helper on own stand only
+  analysis: gemma_remote   # triage, entry-point pass, patch (rerouted to `local` for third-party targets)
+  judge: groq

@@ -66,6 +66,8 @@ class OpenAICompatibleModel:
         key = os.environ.get(config.api_key_env, "") if config.api_key_env else ""
         self.client = OpenAI(base_url=config.base_url, api_key=key or "not-needed", timeout=config.timeout_s)
         self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0}
+        if config.model == "auto":      # servers that host one model: take it from /models
+            self.config = config.model_copy(update={"model": self.client.models.list().data[0].id})
 
     def _response_format(self, schema: type[BaseModel]) -> dict:
         if self.config.structured_output == "json_schema":

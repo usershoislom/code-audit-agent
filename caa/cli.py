@@ -18,6 +18,17 @@ from caa.reports.render import to_markdown, to_sarif
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def load_dotenv(path: Path = ROOT / ".env") -> None:
+    """Minimal .env reader (KEY=VALUE); never overrides variables already set."""
+    import os
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        if "=" in line and not line.lstrip().startswith("#"):
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
 def _load_yaml(p: Path) -> dict:
     return yaml.safe_load(p.read_text()) if p.exists() else {}
 
@@ -96,6 +107,7 @@ def main(argv=None) -> int:
     lv.add_argument("--providers", default=str(ROOT / "configs" / "providers.yaml"))
     lv.set_defaults(fn=cmd_live)
     args = p.parse_args(argv)
+    load_dotenv()
     return args.fn(args)
 
 

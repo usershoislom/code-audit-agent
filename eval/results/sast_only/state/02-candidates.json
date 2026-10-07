@@ -1,0 +1,3882 @@
+[
+ {
+  "id": "CAA-d8fa872f",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/archive.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/archive.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/archive.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-b203c778",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/archive.py",
+   "start_line": 14,
+   "end_line": 14,
+   "function": "backup"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/archive.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B605.start_process_with_a_shell"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/archive.py",
+      "start_line": 14,
+      "end_line": 14,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    os.system(\"tar czf /var/backups/\" + name + \".tgz /srv/data\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B605.start_process_with_a_shell"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-433bad03",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/archive_fixed.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/archive_fixed.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/archive_fixed.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-33c18287",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/archive_fixed.py",
+   "start_line": 14,
+   "end_line": 14,
+   "function": "backup"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/archive_fixed.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B605.start_process_with_a_shell"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/archive_fixed.py",
+      "start_line": 14,
+      "end_line": 14,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    os.system(\"tar czf /var/backups/\" + shlex.quote(name) + \".tgz /srv/data\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B605.start_process_with_a_shell"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-68fcdaa6",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/convert.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/convert.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/convert.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-bc2556a7",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/convert.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "convert_image"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/convert.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B602.subprocess_popen_with_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/convert.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    return subprocess.check_output(cmd, shell=True)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B602.subprocess_popen_with_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-50a74a04",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/convert_fixed.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/convert_fixed.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/convert_fixed.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-9a968212",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/convert_fixed.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "convert_image"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/convert_fixed.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B602.subprocess_popen_with_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/convert_fixed.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    return subprocess.check_output(cmd, shell=True)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B602.subprocess_popen_with_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-33eb8487",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/ping.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/ping.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/ping.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-1abe4edd",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/ping.py",
+   "start_line": 14,
+   "end_line": 14,
+   "function": "ping"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/ping.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B602.subprocess_popen_with_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/ping.py",
+      "start_line": 14,
+      "end_line": 14,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    out = subprocess.run(f\"ping -c 1 {host}\", shell=True, capture_output=True, text=True)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B602.subprocess_popen_with_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-dafb7904",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/ping_fixed.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/ping_fixed.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/ping_fixed.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-a1e66f44",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/ping_fixed.py",
+   "start_line": 14,
+   "end_line": 14,
+   "function": "ping"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Starting a process with a partial executable path",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B607.start_process_with_partial_path",
+    "refs": [
+     {
+      "file": "cmdi/ping_fixed.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B607.start_process_with_partial_path",
+    "bandit.B603.subprocess_without_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B607.start_process_with_partial_path",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/ping_fixed.py",
+      "start_line": 14,
+      "end_line": 14,
+      "function": null
+     },
+     "message": "Starting a process with a partial executable path",
+     "snippet": "13     host = request.args.get(\"host\", \"127.0.0.1\")\n14     out = subprocess.run([\"ping\", \"-c\", \"1\", host], capture_output=True, text=True)\n15     return {\"out\": out.stdout}\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B607.start_process_with_partial_path",
+       "bandit.B603.subprocess_without_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Starting a process with a partial executable path"
+  }
+ },
+ {
+  "id": "CAA-762151de",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_argv_list.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/trap_argv_list.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_argv_list.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-78baf4e9",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_argv_list.py",
+   "start_line": 14,
+   "end_line": 14,
+   "function": "lookup"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Starting a process with a partial executable path",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B607.start_process_with_partial_path",
+    "refs": [
+     {
+      "file": "cmdi/trap_argv_list.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B607.start_process_with_partial_path",
+    "bandit.B603.subprocess_without_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B607.start_process_with_partial_path",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_argv_list.py",
+      "start_line": 14,
+      "end_line": 14,
+      "function": null
+     },
+     "message": "Starting a process with a partial executable path",
+     "snippet": "13     domain = request.args.get(\"domain\", \"example.org\")\n14     out = subprocess.run([\"nslookup\", \"--\", domain], capture_output=True, text=True, timeout=5)\n15     return {\"out\": out.stdout}\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B607.start_process_with_partial_path",
+       "bandit.B603.subprocess_without_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Starting a process with a partial executable path"
+  }
+ },
+ {
+  "id": "CAA-ebef619f",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_constant_shell.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/trap_constant_shell.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_constant_shell.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-b755d6b4",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_constant_shell.py",
+   "start_line": 15,
+   "end_line": 15,
+   "function": "disk"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "subprocess call with shell=True identified, security issue.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B602.subprocess_popen_with_shell_equals_true",
+    "refs": [
+     {
+      "file": "cmdi/trap_constant_shell.py",
+      "line": 15,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B602.subprocess_popen_with_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B602.subprocess_popen_with_shell_equals_true",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_constant_shell.py",
+      "start_line": 15,
+      "end_line": 15,
+      "function": null
+     },
+     "message": "subprocess call with shell=True identified, security issue.",
+     "snippet": "14 def disk():\n15     out = subprocess.run(f\"du -sh {LOG_DIR}\", shell=True, capture_output=True, text=True)\n16     return {\"out\": out.stdout}\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B602.subprocess_popen_with_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "subprocess call with shell=True identified, security issue."
+  }
+ },
+ {
+  "id": "CAA-c30ec4be",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_digit_guard.py",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cmdi/trap_digit_guard.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_digit_guard.py",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "3 import shlex\n4 import subprocess\n5 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-aaf0c737",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/trap_digit_guard.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "kill_job"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cmdi/trap_digit_guard.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B605.start_process_with_a_shell"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cmdi/trap_digit_guard.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    os.system(\"kill -TERM \" + pid)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B605.start_process_with_a_shell"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-8cc39187",
+  "title": "Hard-coded credential",
+  "cwe": "CWE-798",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 6,
+   "end_line": 6,
+   "function": null
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Credential-like value hard-coded in source.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.secrets.hardcoded-credential",
+    "refs": [
+     {
+      "file": "config/settings.py",
+      "line": 6,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.secrets.hardcoded-credential",
+    "bandit.B105.hardcoded_password_string"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.secrets.hardcoded-credential",
+     "source": "semgrep",
+     "cwe": "CWE-798",
+     "group": "D",
+     "location": {
+      "file": "config/settings.py",
+      "start_line": 6,
+      "end_line": 6,
+      "function": null
+     },
+     "message": "Credential-like value hard-coded in source.",
+     "snippet": "app.config[\"SECRET_KEY\"] = \"s3cr3t-Flask-K3y-2024-prod\"",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.secrets.hardcoded-credential",
+       "bandit.B105.hardcoded_password_string"
+      ]
+     }
+    }
+   ],
+   "message": "Credential-like value hard-coded in source."
+  }
+ },
+ {
+  "id": "CAA-6dc56888",
+  "title": "Hard-coded credential",
+  "cwe": "CWE-798",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 8,
+   "end_line": 8,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Possible hardcoded password: 'Wint3r!Mailer#2024'",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B105.hardcoded_password_string",
+    "refs": [
+     {
+      "file": "config/settings.py",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B105.hardcoded_password_string"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B105.hardcoded_password_string",
+     "source": "bandit",
+     "cwe": "CWE-798",
+     "group": "D",
+     "location": {
+      "file": "config/settings.py",
+      "start_line": 8,
+      "end_line": 8,
+      "function": null
+     },
+     "message": "Possible hardcoded password: 'Wint3r!Mailer#2024'",
+     "snippet": "7 AWS_ACCESS_KEY_ID = \"AKIAZ7Q4X2MPLE5R3WN8\"\n8 smtp_password = \"Wint3r!Mailer#2024\"\n9 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B105.hardcoded_password_string"
+      ]
+     }
+    }
+   ],
+   "message": "Possible hardcoded password: 'Wint3r!Mailer#2024'"
+  }
+ },
+ {
+  "id": "CAA-4db4bc61",
+  "title": "Weak cryptographic hash",
+  "cwe": "CWE-327",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 12,
+   "end_line": 12,
+   "function": "hash_password"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Weak hash algorithm used (MD5/SHA1).",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.crypto.weak-hash",
+    "refs": [
+     {
+      "file": "config/settings.py",
+      "line": 12,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.crypto.weak-hash",
+    "bandit.B324.hashlib"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.crypto.weak-hash",
+     "source": "semgrep",
+     "cwe": "CWE-327",
+     "group": "D",
+     "location": {
+      "file": "config/settings.py",
+      "start_line": 12,
+      "end_line": 12,
+      "function": null
+     },
+     "message": "Weak hash algorithm used (MD5/SHA1).",
+     "snippet": "    return hashlib.md5(pw.encode()).hexdigest()",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.crypto.weak-hash",
+       "bandit.B324.hashlib"
+      ]
+     }
+    }
+   ],
+   "message": "Weak hash algorithm used (MD5/SHA1)."
+  }
+ },
+ {
+  "id": "CAA-85a78868",
+  "title": "Debug mode enabled",
+  "cwe": "CWE-489",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": null
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Flask debug mode enabled (interactive debugger exposes code execution).",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.config.flask-debug",
+    "refs": [
+     {
+      "file": "config/settings.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.config.flask-debug",
+    "bandit.B201.flask_debug_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.config.flask-debug",
+     "source": "semgrep",
+     "cwe": "CWE-489",
+     "group": "D",
+     "location": {
+      "file": "config/settings.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Flask debug mode enabled (interactive debugger exposes code execution).",
+     "snippet": "    app.run(debug=True)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.config.flask-debug",
+       "bandit.B201.flask_debug_true"
+      ]
+     }
+    }
+   ],
+   "message": "Flask debug mode enabled (interactive debugger exposes code execution)."
+  }
+ },
+ {
+  "id": "CAA-f67a114b",
+  "title": "Weak cryptographic hash",
+  "cwe": "CWE-327",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "config/settings_fixed.py",
+   "start_line": 17,
+   "end_line": 17,
+   "function": "cache_key"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Weak hash algorithm used (MD5/SHA1).",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.crypto.weak-hash",
+    "refs": [
+     {
+      "file": "config/settings_fixed.py",
+      "line": 17,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.crypto.weak-hash"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.crypto.weak-hash",
+     "source": "semgrep",
+     "cwe": "CWE-327",
+     "group": "D",
+     "location": {
+      "file": "config/settings_fixed.py",
+      "start_line": 17,
+      "end_line": 17,
+      "function": null
+     },
+     "message": "Weak hash algorithm used (MD5/SHA1).",
+     "snippet": "    return hashlib.md5(url.encode(), usedforsecurity=False).hexdigest()",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.crypto.weak-hash"
+      ]
+     }
+    }
+   ],
+   "message": "Weak hash algorithm used (MD5/SHA1)."
+  }
+ },
+ {
+  "id": "CAA-3dcf722d",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/avatar.py",
+   "start_line": 12,
+   "end_line": 12,
+   "function": "avatar"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/avatar.py",
+      "line": 12,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/avatar.py",
+      "start_line": 12,
+      "end_line": 12,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    return send_file(BASE_DIR + \"/avatars/\" + filename)",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-9380f86c",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/denylist.py",
+   "start_line": 15,
+   "end_line": 15,
+   "function": "docs"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/denylist.py",
+      "line": 15,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/denylist.py",
+      "start_line": 15,
+      "end_line": 15,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(os.path.join(BASE_DIR, \"docs\", page)) as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-4e616929",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/download.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "download"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/download.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/download.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(os.path.join(BASE_DIR, name), \"rb\") as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-e0caae90",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/prefix_unnormalised.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "export"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/prefix_unnormalised.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/prefix_unnormalised.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(target) as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-d3738621",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/trap_allowlist.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "template"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/trap_allowlist.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/trap_allowlist.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(os.path.join(BASE_DIR, \"templates\", kind + \".html\")) as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-fdd661f4",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/trap_basename.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "thumbs"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/trap_basename.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/trap_basename.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(os.path.join(BASE_DIR, \"thumbs\", img), \"rb\") as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-7ad21d87",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "path/trap_secure_filename.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "report_file"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "File path built from a non-constant value is opened or served.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.path.user-path-open",
+    "refs": [
+     {
+      "file": "path/trap_secure_filename.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.path.user-path-open"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.path.user-path-open",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "path/trap_secure_filename.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "File path built from a non-constant value is opened or served.",
+     "snippet": "    with open(os.path.join(BASE_DIR, \"reports\", safe)) as fh:",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.path.user-path-open"
+      ]
+     }
+    }
+   ],
+   "message": "File path built from a non-constant value is opened or served."
+  }
+ },
+ {
+  "id": "CAA-8438defd",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/injected_comment.py",
+   "start_line": 17,
+   "end_line": 17,
+   "function": "staff_lookup"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/injected_comment.py",
+      "line": 17,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/injected_comment.py",
+      "start_line": 17,
+      "end_line": 17,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(\"SELECT name FROM staff WHERE badge = '\" + badge + \"'\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-1c619ee1",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/orders_concat.py",
+   "start_line": 15,
+   "end_line": 15,
+   "function": "list_orders"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Possible SQL injection vector through string-based query construction.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B608.hardcoded_sql_expressions",
+    "refs": [
+     {
+      "file": "sqli/orders_concat.py",
+      "line": 15,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B608.hardcoded_sql_expressions",
+     "source": "bandit",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/orders_concat.py",
+      "start_line": 15,
+      "end_line": 15,
+      "function": null
+     },
+     "message": "Possible SQL injection vector through string-based query construction.",
+     "snippet": "14     status = request.args.get(\"status\", \"open\")\n15     query = \"SELECT id, total FROM orders WHERE status = '\" + status + \"'\"\n16     cur = get_db().cursor()\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "Possible SQL injection vector through string-based query construction."
+  }
+ },
+ {
+  "id": "CAA-394c76d5",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/orders_concat.py",
+   "start_line": 17,
+   "end_line": 17,
+   "function": "list_orders"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/orders_concat.py",
+      "line": 17,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/orders_concat.py",
+      "start_line": 17,
+      "end_line": 17,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(query)",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-820d646a",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/repo_layer.py",
+   "start_line": 6,
+   "end_line": 6,
+   "function": "find_product"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Possible SQL injection vector through string-based query construction.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B608.hardcoded_sql_expressions",
+    "refs": [
+     {
+      "file": "sqli/repo_layer.py",
+      "line": 6,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B608.hardcoded_sql_expressions",
+     "source": "bandit",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/repo_layer.py",
+      "start_line": 6,
+      "end_line": 6,
+      "function": null
+     },
+     "message": "Possible SQL injection vector through string-based query construction.",
+     "snippet": "5     conn = sqlite3.connect(\"app.db\")\n6     sql = \"SELECT id, title FROM products WHERE title LIKE '%{}%'\".format(term)\n7     return conn.execute(sql).fetchall()\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "Possible SQL injection vector through string-based query construction."
+  }
+ },
+ {
+  "id": "CAA-8b6f3dd1",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/repo_layer.py",
+   "start_line": 7,
+   "end_line": 7,
+   "function": "find_product"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/repo_layer.py",
+      "line": 7,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/repo_layer.py",
+      "start_line": 7,
+      "end_line": 7,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    return conn.execute(sql).fetchall()",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-39dc7c93",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/report_percent.py",
+   "start_line": 15,
+   "end_line": 15,
+   "function": "report"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Possible SQL injection vector through string-based query construction.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B608.hardcoded_sql_expressions",
+    "refs": [
+     {
+      "file": "sqli/report_percent.py",
+      "line": 15,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B608.hardcoded_sql_expressions",
+     "source": "bandit",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/report_percent.py",
+      "start_line": 15,
+      "end_line": 15,
+      "function": null
+     },
+     "message": "Possible SQL injection vector through string-based query construction.",
+     "snippet": "14     region = request.form[\"region\"]\n15     sql = \"SELECT sum(amount) FROM sales WHERE region = '%s'\" % region\n16     return {\"total\": get_db().execute(sql).fetchone()[0]}\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "Possible SQL injection vector through string-based query construction."
+  }
+ },
+ {
+  "id": "CAA-0067bc10",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/report_percent.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "report"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/report_percent.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/report_percent.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    return {\"total\": get_db().execute(sql).fetchone()[0]}",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-eadf9f15",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/trap_column_map.py",
+   "start_line": 19,
+   "end_line": 19,
+   "function": "payments"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/trap_column_map.py",
+      "line": 19,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/trap_column_map.py",
+      "start_line": 19,
+      "end_line": 19,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(f\"SELECT id, amount FROM payments ORDER BY {column}\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-285152cd",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/trap_constant_table.py",
+   "start_line": 17,
+   "end_line": 17,
+   "function": "audit_count"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/trap_constant_table.py",
+      "line": 17,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/trap_constant_table.py",
+      "start_line": 17,
+      "end_line": 17,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(f\"SELECT count(*) FROM {TABLE}\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-8cf9acce",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/trap_int_cast.py",
+   "start_line": 17,
+   "end_line": 17,
+   "function": "invoice_page"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/trap_int_cast.py",
+      "line": 17,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/trap_int_cast.py",
+      "start_line": 17,
+      "end_line": 17,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(f\"SELECT id FROM invoices ORDER BY id LIMIT 20 OFFSET {offset}\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-1f877485",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/trap_sort_allowlist.py",
+   "start_line": 20,
+   "end_line": 20,
+   "function": "customers"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/trap_sort_allowlist.py",
+      "line": 20,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/trap_sort_allowlist.py",
+      "start_line": 20,
+      "end_line": 20,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(f\"SELECT id, name FROM customers ORDER BY name {direction}\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-875d5129",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "sqli/user_lookup.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "search_users"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "sqli/user_lookup.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "sqli/user_lookup.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    cur.execute(f\"SELECT id, email FROM users WHERE name = '{name}'\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-ca849552",
+  "title": "Server-side request forgery",
+  "cwe": "CWE-918",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "ssrf/fetch.py",
+   "start_line": 13,
+   "end_line": 13,
+   "function": "preview"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Outbound request to a non-constant URL inside a request handler.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.ssrf.user-url-fetch",
+    "refs": [
+     {
+      "file": "ssrf/fetch.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.ssrf.user-url-fetch"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.ssrf.user-url-fetch",
+     "source": "semgrep",
+     "cwe": "CWE-918",
+     "group": "A",
+     "location": {
+      "file": "ssrf/fetch.py",
+      "start_line": 13,
+      "end_line": 13,
+      "function": null
+     },
+     "message": "Outbound request to a non-constant URL inside a request handler.",
+     "snippet": "    r = requests.get(url, timeout=5)",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.ssrf.user-url-fetch"
+      ]
+     }
+    }
+   ],
+   "message": "Outbound request to a non-constant URL inside a request handler."
+  }
+ },
+ {
+  "id": "CAA-7f1bf1df",
+  "title": "Server-side request forgery",
+  "cwe": "CWE-918",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "ssrf/fetch_fixed.py",
+   "start_line": 16,
+   "end_line": 16,
+   "function": "preview"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Outbound request to a non-constant URL inside a request handler.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.ssrf.user-url-fetch",
+    "refs": [
+     {
+      "file": "ssrf/fetch_fixed.py",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.ssrf.user-url-fetch"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.ssrf.user-url-fetch",
+     "source": "semgrep",
+     "cwe": "CWE-918",
+     "group": "A",
+     "location": {
+      "file": "ssrf/fetch_fixed.py",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Outbound request to a non-constant URL inside a request handler.",
+     "snippet": "    r = requests.get(url, timeout=5, allow_redirects=False)",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.ssrf.user-url-fetch"
+      ]
+     }
+    }
+   ],
+   "message": "Outbound request to a non-constant URL inside a request handler."
+  }
+ },
+ {
+  "id": "CAA-8f85ee5e",
+  "title": "Hard-coded credential",
+  "cwe": "CWE-798",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "tests/test_fixtures.py",
+   "start_line": 1,
+   "end_line": 1,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Possible hardcoded password: 'example-password-123'",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B105.hardcoded_password_string",
+    "refs": [
+     {
+      "file": "tests/test_fixtures.py",
+      "line": 1,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B105.hardcoded_password_string"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B105.hardcoded_password_string",
+     "source": "bandit",
+     "cwe": "CWE-798",
+     "group": "D",
+     "location": {
+      "file": "tests/test_fixtures.py",
+      "start_line": 1,
+      "end_line": 1,
+      "function": null
+     },
+     "message": "Possible hardcoded password: 'example-password-123'",
+     "snippet": "1 TEST_USER = {\"email\": \"alice@example.test\", \"password\": \"example-password-123\"}\n2 \n3 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B105.hardcoded_password_string"
+      ]
+     }
+    }
+   ],
+   "message": "Possible hardcoded password: 'example-password-123'"
+  }
+ },
+ {
+  "id": "CAA-85569570",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/comment.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "preview"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/comment.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/comment.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    resp = make_response(\"<div class='comment'>\" + body + \"</div>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-328f3ef0",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/comment_fixed.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "preview"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/comment_fixed.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/comment_fixed.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    resp = make_response(\"<div class='comment'>\" + str(escape(body)) + \"</div>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-8537ace4",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/greet.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "hello"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/greet.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/greet.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return f\"<h1>Hello {name}</h1>\"",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-323ae7ca",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/greet_fixed.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "hello"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/greet_fixed.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/greet_fixed.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return f\"<h1>Hello {escape(name)}</h1>\"",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-d1f7588b",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/search_page.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "search"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/search_page.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/search_page.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return render_template_string(\"<p>Results for \" + q + \"</p>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-016e3741",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/search_page_fixed.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "search"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/search_page_fixed.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/search_page_fixed.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return render_template_string(\"<p>Results for {{ q }}</p>\", q=q)",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-06467464",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/trap_int_count.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "badge"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/trap_int_count.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/trap_int_count.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return f\"<span class='badge'>{n}</span>\"",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ },
+ {
+  "id": "CAA-603ab841",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "xss/trap_server_value.py",
+   "start_line": 11,
+   "end_line": 11,
+   "function": "about"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML built by string formatting is returned from a request handler without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.raw-html-response",
+    "refs": [
+     {
+      "file": "xss/trap_server_value.py",
+      "line": 11,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.raw-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.raw-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "xss/trap_server_value.py",
+      "start_line": 11,
+      "end_line": 11,
+      "function": null
+     },
+     "message": "HTML built by string formatting is returned from a request handler without escaping.",
+     "snippet": "    return f\"<p>Running on {platform.python_version()}</p>\"",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.raw-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML built by string formatting is returned from a request handler without escaping."
+  }
+ }
+]

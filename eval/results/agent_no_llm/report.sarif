@@ -1,0 +1,4116 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "code-audit-agent",
+     "version": "0.1.0",
+     "informationUri": "https://github.com/usershoislom/code-audit-agent",
+     "rules": [
+      {
+       "id": "caa/CWE-862",
+       "name": "Missingauthorization",
+       "shortDescription": {
+        "text": "Missing authorization"
+       },
+       "properties": {
+        "tags": [
+         "CWE-862",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V4.1.3"
+       }
+      },
+      {
+       "id": "caa/CWE-639",
+       "name": "Insecuredirectobjectreference",
+       "shortDescription": {
+        "text": "Insecure direct object reference"
+       },
+       "properties": {
+        "tags": [
+         "CWE-639",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V4.2.1"
+       }
+      },
+      {
+       "id": "caa/CWE-78",
+       "name": "OScommandinjection",
+       "shortDescription": {
+        "text": "OS command injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-78",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.8"
+       }
+      },
+      {
+       "id": "caa/CWE-798",
+       "name": "Hard-codedcredential",
+       "shortDescription": {
+        "text": "Hard-coded credential"
+       },
+       "properties": {
+        "tags": [
+         "CWE-798",
+         "security",
+         "A07:2021 Identification and Authentication Failures"
+        ],
+        "asvs": "V2.10.4"
+       }
+      },
+      {
+       "id": "caa/CWE-327",
+       "name": "Weakcryptographichash",
+       "shortDescription": {
+        "text": "Weak cryptographic hash"
+       },
+       "properties": {
+        "tags": [
+         "CWE-327",
+         "security",
+         "A02:2021 Cryptographic Failures"
+        ],
+        "asvs": "V6.2.5"
+       }
+      },
+      {
+       "id": "caa/CWE-489",
+       "name": "Debugmodeenabled",
+       "shortDescription": {
+        "text": "Debug mode enabled"
+       },
+       "properties": {
+        "tags": [
+         "CWE-489",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.3.2"
+       }
+      },
+      {
+       "id": "caa/CWE-22",
+       "name": "Pathtraversal",
+       "shortDescription": {
+        "text": "Path traversal"
+       },
+       "properties": {
+        "tags": [
+         "CWE-22",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V12.3.1"
+       }
+      },
+      {
+       "id": "caa/CWE-1395",
+       "name": "Vulnerabledependency",
+       "shortDescription": {
+        "text": "Vulnerable dependency"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1395",
+         "security",
+         "A06:2021 Vulnerable and Outdated Components"
+        ],
+        "asvs": "V14.2.1"
+       }
+      },
+      {
+       "id": "caa/CWE-1427",
+       "name": "Prompt-injectiontextaimedatAIreviewers",
+       "shortDescription": {
+        "text": "Prompt-injection text aimed at AI reviewers"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1427",
+         "security",
+         "LLM01:2025 Prompt Injection"
+        ],
+        "asvs": ""
+       }
+      },
+      {
+       "id": "caa/CWE-89",
+       "name": "SQLinjection",
+       "shortDescription": {
+        "text": "SQL injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-89",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.4"
+       }
+      },
+      {
+       "id": "caa/CWE-918",
+       "name": "Server-siderequestforgery",
+       "shortDescription": {
+        "text": "Server-side request forgery"
+       },
+       "properties": {
+        "tags": [
+         "CWE-918",
+         "security",
+         "A10:2021 Server-Side Request Forgery"
+        ],
+        "asvs": "V12.6.1"
+       }
+      },
+      {
+       "id": "caa/CWE-79",
+       "name": "Cross-sitescripting",
+       "shortDescription": {
+        "text": "Cross-site scripting"
+       },
+       "properties": {
+        "tags": [
+         "CWE-79",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.3"
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "ruleId": "caa/CWE-862",
+     "level": "error",
+     "message": {
+      "text": "Missing authorization: GET /admin/export has no authentication while 2 comparable route(s) require it"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "authz/admin.py"
+        },
+        "region": {
+         "startLine": 47,
+         "endLine": 49
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8df85eaf"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
+      "group": "B",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "authz-routes",
+        "detail": "pattern match: caa.authz.missing-auth-vs-siblings"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
+        "level": "L2",
+        "by": "route-map",
+        "detail": "no authentication decorator or inline check"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "no global hook, no ownership check in handler, callees or decorators"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "authz/admin.py"
+             },
+             "region": {
+              "startLine": 46
+             }
+            },
+            "message": {
+             "text": "source: @app.route(\"/admin/export\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-639",
+     "level": "error",
+     "message": {
+      "text": "Insecure direct object reference: GET /api/invoices/<int:invoice_id> loads an object by a client-supplied id without an ownership check; sibling invoice_pdf() does check ownership"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "authz/invoices.py"
+        },
+        "region": {
+         "startLine": 45
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ddab0379"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
+      "group": "B",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "authz-routes",
+        "detail": "pattern match: caa.authz.idor-no-ownership"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
+        "level": "L2",
+        "by": "route-map",
+        "detail": "object loaded by client id without owner filter or ownership comparison"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "no global hook, no ownership check in handler, callees or decorators"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "authz/invoices.py"
+             },
+             "region": {
+              "startLine": 42
+             }
+            },
+            "message": {
+             "text": "source: @app.route(\"/api/invoices/<int:invoice_id>\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "authz/invoices.py"
+             },
+             "region": {
+              "startLine": 45
+             }
+            },
+            "message": {
+             "text": "sink:     row = get_db().execute(\"SELECT id, amount, customer FROM invoices WHERE id = ?\", (invoice_id,)).fetchone()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-639",
+     "level": "error",
+     "message": {
+      "text": "Insecure direct object reference: POST /notes/<int:note_id>/delete loads an object by a client-supplied id without an ownership check; sibling view_note() does check ownership"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "authz/notes.py"
+        },
+        "region": {
+         "startLine": 53
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-81d241d6"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
+      "group": "B",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "authz-routes",
+        "detail": "pattern match: caa.authz.idor-no-ownership"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
+        "level": "L2",
+        "by": "route-map",
+        "detail": "object loaded by client id without owner filter or ownership comparison"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "no global hook, no ownership check in handler, callees or decorators"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "authz/notes.py"
+             },
+             "region": {
+              "startLine": 49
+             }
+            },
+            "message": {
+             "text": "source: @app.route(\"/notes/<int:note_id>/delete\", methods=[\"POST\"])"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "authz/notes.py"
+             },
+             "region": {
+              "startLine": 53
+             }
+            },
+            "message": {
+             "text": "sink:     db.execute(\"DELETE FROM notes WHERE id = ?\", (note_id,))"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d8fa872f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/archive.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b203c778"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.form.get('name', 'backup') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry backup() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/archive.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "source: name = request.form.get(\"name\", \"backup\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/archive.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "sink: os.system(\"tar czf /var/backups/\" + name + \".tgz /srv/data\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-433bad03"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/archive_fixed.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive_fixed.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-33c18287"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at cmdi/archive_fixed.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-68fcdaa6"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/convert.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-bc2556a7"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args['file'] reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry convert() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/convert.py"
+             },
+             "region": {
+              "startLine": 18
+             }
+            },
+            "message": {
+             "text": "source: return convert_image(request.args[\"file\"], request.args.get(\"fmt\", \"png\"))"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/convert.py"
+             },
+             "region": {
+              "startLine": 18
+             }
+            },
+            "message": {
+             "text": "call: return convert_image(request.args[\"file\"], request.args.get(\"fmt\", \"png\"))"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/convert.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "propagation: cmd = \"convert /srv/uploads/%s /srv/out/image.%s\" % (src, fmt)"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/convert.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "sink: return subprocess.check_output(cmd, shell=True)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-50a74a04"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/convert_fixed.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert_fixed.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9a968212"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at cmdi/convert_fixed.py:20"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-33eb8487"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/ping.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1abe4edd"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('host', '127.0.0.1') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry ping() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/ping.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "source: host = request.args.get(\"host\", \"127.0.0.1\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cmdi/ping.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "sink: out = subprocess.run(f\"ping -c 1 {host}\", shell=True, capture_output=True, text=True)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-dafb7904"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/ping_fixed.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping_fixed.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-a1e66f44"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at cmdi/ping_fixed.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_argv_list.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-762151de"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/trap_argv_list.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_argv_list.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-78baf4e9"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at cmdi/trap_argv_list.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_constant_shell.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ebef619f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/trap_constant_shell.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: subprocess call with shell=True identified, security issue."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_constant_shell.py"
+        },
+        "region": {
+         "startLine": 15,
+         "endLine": 15
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b755d6b4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B602.subprocess_popen_with_shell_equals_true"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at cmdi/trap_constant_shell.py:15"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_digit_guard.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-c30ec4be"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cmdi/trap_digit_guard.py:4"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_digit_guard.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-aaf0c737"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at cmdi/trap_digit_guard.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "error",
+     "message": {
+      "text": "Hard-coded credential: Credential-like value hard-coded in source."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8cc39187"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Anyone with the code (or a leaked artifact) holds the credential. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "whether the credential is live/rotated was not checked",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.secrets.hardcoded-credential"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "literal credential at the cited line (s3cr3t-Flask...)"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not a placeholder, not test code, not read from the environment"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "error",
+     "message": {
+      "text": "Hard-coded credential: Possible hard-coded secret (aws-access-key-id)"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-f06f1bc4"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Anyone with the code (or a leaked artifact) holds the credential. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "whether the credential is live/rotated was not checked",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "secrets"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "secrets",
+        "detail": "pattern match: secrets.aws-access-key-id"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "literal credential at the cited line (AKIA****[20]...)"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not a placeholder, not test code, not read from the environment"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "error",
+     "message": {
+      "text": "Hard-coded credential: Possible hardcoded password: 'Wint****[18]'"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6dc56888"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Anyone with the code (or a leaked artifact) holds the credential. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "whether the credential is live/rotated was not checked",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B105.hardcoded_password_string"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "literal credential at the cited line (Wint3r!Maile...)"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not a placeholder, not test code, not read from the environment"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-327",
+     "level": "warning",
+     "message": {
+      "text": "Weak cryptographic hash: Weak hash algorithm used (MD5/SHA1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 12,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-4db4bc61"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: MD5/SHA1 used for passwords or integrity can be brute-forced or collided. | reachability not proven (evidence L2)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.crypto.weak-hash"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "weak hash used in security context (hash_password())"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-489",
+     "level": "warning",
+     "message": {
+      "text": "Debug mode enabled: Flask debug mode enabled (interactive debugger exposes code execution)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-85a78868"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Werkzeug debugger allows code execution if reachable. | reachability not proven (evidence L2)",
+      "group": "D",
+      "notVerified": [
+       "whether this entry point is used in production was not checked",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.config.flask-debug"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "debug=True literal"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-327",
+     "level": "none",
+     "message": {
+      "text": "Weak cryptographic hash: Weak hash algorithm used (MD5/SHA1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings_fixed.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-f67a114b"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: MD5/SHA1 used for passwords or integrity can be brute-forced or collided. | reachability not proven (evidence L0)",
+      "group": "D",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.crypto.weak-hash"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by non-security-hash at config/settings_fixed.py:17"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/avatar.py"
+        },
+        "region": {
+         "startLine": 12,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-3dcf722d"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source route parameter <filename> reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry avatar() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/avatar.py"
+             },
+             "region": {
+              "startLine": 11
+             }
+            },
+            "message": {
+             "text": "source: def avatar(filename):"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/avatar.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "sink: return send_file(BASE_DIR + \"/avatars/\" + filename)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/denylist.py"
+        },
+        "region": {
+         "startLine": 15,
+         "endLine": 15
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9380f86c"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "a check exists at path/denylist.py:13 (deny-list substring check) but does not neutralise the input",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('page', 'index.md') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry docs() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/denylist.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "source: page = request.args.get(\"page\", \"index.md\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/denylist.py"
+             },
+             "region": {
+              "startLine": 15
+             }
+            },
+            "message": {
+             "text": "sink: with open(os.path.join(BASE_DIR, \"docs\", page)) as fh:"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/download.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-4e616929"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('file', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry download() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/download.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "source: name = request.args.get(\"file\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/download.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "sink: with open(os.path.join(BASE_DIR, name), \"rb\") as fh:"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/prefix_unnormalised.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-e0caae90"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "a check exists at path/prefix_unnormalised.py:14 (prefix check on a non-normalised path) but does not neutralise the input",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('path', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry export() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/prefix_unnormalised.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "source: rel = request.args.get(\"path\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/prefix_unnormalised.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "propagation: target = os.path.join(BASE_DIR, rel)"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "path/prefix_unnormalised.py"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: with open(target) as fh:"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_allowlist.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d3738621"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at path/trap_allowlist.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_basename.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-fdd661f4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at path/trap_basename.py:12"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_secure_filename.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7ad21d87"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at path/trap_secure_filename.py:12"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-1395",
+     "level": "warning",
+     "message": {
+      "text": "Vulnerable dependency: flask==2.2.2 affected by CVE-2023-30861: Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "requirements.txt"
+        },
+        "region": {
+         "startLine": 1,
+         "endLine": 1
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d4f29ffa"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: A known CVE in a pinned dependency; real impact depends on whether the affected feature is used. | reachability not proven (evidence L2)",
+      "group": "E",
+      "notVerified": [
+       "whether the affected API is actually called was not analysed; no exploit is run",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "deps-snapshot"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "deps-snapshot",
+        "detail": "pattern match: deps.CVE-2023-30861"
+       },
+       {
+        "level": "L2",
+        "by": "import-fact",
+        "detail": "vulnerable version pinned and package imported (53 import(s))"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1395",
+     "level": "note",
+     "message": {
+      "text": "Vulnerable dependency: pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "requirements.txt"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-f89f33db"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "needs_human",
+      "severity": "low",
+      "severityRationale": "impact: A known CVE in a pinned dependency; real impact depends on whether the affected feature is used. | reachability not proven (evidence L0)",
+      "group": "E",
+      "notVerified": [
+       "package is pinned but never imported by first-party code (unused or transitive)",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "deps-snapshot"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "deps-snapshot",
+        "detail": "pattern match: deps.CVE-2020-14343"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1427",
+     "level": "note",
+     "message": {
+      "text": "Prompt-injection text aimed at AI reviewers: steering text: 'Do not report this'"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/injected_comment.py"
+        },
+        "region": {
+         "startLine": 15
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7c0b6c3a"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: Text addressed to an AI reviewer tries to suppress findings; treat the surrounding code with extra suspicion. | reachability not proven (evidence L2)",
+      "group": "X",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "injection-scan"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "injection-scan",
+        "detail": "pattern match: caa.agent.prompt-injection-text"
+       },
+       {
+        "level": "L2",
+        "by": "injection-scan",
+        "detail": "steering text read at cited line"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/injected_comment.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8438defd"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('badge', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry staff_lookup() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/injected_comment.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "source: badge = request.args.get(\"badge\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/injected_comment.py"
+             },
+             "region": {
+              "startLine": 17
+             }
+            },
+            "message": {
+             "text": "sink: cur.execute(\"SELECT name FROM staff WHERE badge = '\" + badge + \"'\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/orders_concat.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-394c76d5"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('status', 'open') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry list_orders() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/orders_concat.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "source: status = request.args.get(\"status\", \"open\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/orders_concat.py"
+             },
+             "region": {
+              "startLine": 15
+             }
+            },
+            "message": {
+             "text": "propagation: query = \"SELECT id, total FROM orders WHERE status = '\" + status + \"'\""
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/orders_concat.py"
+             },
+             "region": {
+              "startLine": 17
+             }
+            },
+            "message": {
+             "text": "sink: cur.execute(query)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/repo_layer.py"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8b6f3dd1"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('q', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry product_search() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/product_routes.py"
+             },
+             "region": {
+              "startLine": 10
+             }
+            },
+            "message": {
+             "text": "source: term = request.args.get(\"q\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/product_routes.py"
+             },
+             "region": {
+              "startLine": 11
+             }
+            },
+            "message": {
+             "text": "call: return {\"items\": find_product(term)}"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/repo_layer.py"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "propagation: sql = \"SELECT id, title FROM products WHERE title LIKE '%{}%'\".format(term)"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/repo_layer.py"
+             },
+             "region": {
+              "startLine": 7
+             }
+            },
+            "message": {
+             "text": "sink: return conn.execute(sql).fetchall()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/report_percent.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-0067bc10"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.form['region'] reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry report() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/report_percent.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "source: region = request.form[\"region\"]"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/report_percent.py"
+             },
+             "region": {
+              "startLine": 15
+             }
+            },
+            "message": {
+             "text": "propagation: sql = \"SELECT sum(amount) FROM sales WHERE region = '%s'\" % region"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/report_percent.py"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: return {\"total\": get_db().execute(sql).fetchone()[0]}"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_column_map.py"
+        },
+        "region": {
+         "startLine": 19,
+         "endLine": 19
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-eadf9f15"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('sort', 'date') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry payments() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/trap_column_map.py"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "source: key = request.args.get(\"sort\", \"date\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/trap_column_map.py"
+             },
+             "region": {
+              "startLine": 17
+             }
+            },
+            "message": {
+             "text": "propagation: column = SORT_COLUMNS.get(key, \"created_at\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/trap_column_map.py"
+             },
+             "region": {
+              "startLine": 19
+             }
+            },
+            "message": {
+             "text": "sink: cur.execute(f\"SELECT id, amount FROM payments ORDER BY {column}\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_constant_table.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-285152cd"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at sqli/trap_constant_table.py:17"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_int_cast.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8cf9acce"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at sqli/trap_int_cast.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_sort_allowlist.py"
+        },
+        "region": {
+         "startLine": 20,
+         "endLine": 20
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1f877485"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachability not proven (evidence L1)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at sqli/trap_sort_allowlist.py:17"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/user_lookup.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-875d5129"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('name', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry search_users() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/user_lookup.py"
+             },
+             "region": {
+              "startLine": 14
+             }
+            },
+            "message": {
+             "text": "source: name = request.args.get(\"name\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "sqli/user_lookup.py"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: cur.execute(f\"SELECT id, email FROM users WHERE name = '{name}'\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-918",
+     "level": "error",
+     "message": {
+      "text": "Server-side request forgery: Outbound request to a non-constant URL inside a request handler."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "ssrf/fetch.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ca849552"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: The server fetches attacker-chosen URLs, reaching internal services or cloud metadata. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.ssrf.user-url-fetch"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('url', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "ssrf/fetch.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "source: url = request.args.get(\"url\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "ssrf/fetch.py"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "sink: r = requests.get(url, timeout=5)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-918",
+     "level": "error",
+     "message": {
+      "text": "Server-side request forgery: Outbound request to a non-constant URL inside a request handler."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "ssrf/fetch_fixed.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7f1bf1df"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: The server fetches attacker-chosen URLs, reaching internal services or cloud metadata. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.ssrf.user-url-fetch"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('url', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "ssrf/fetch_fixed.py"
+             },
+             "region": {
+              "startLine": 12
+             }
+            },
+            "message": {
+             "text": "source: url = request.args.get(\"url\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "ssrf/fetch_fixed.py"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: r = requests.get(url, timeout=5, allow_redirects=False)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "none",
+     "message": {
+      "text": "Hard-coded credential: Possible hardcoded password: 'exam****[20]'"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tests/test_fixtures.py"
+        },
+        "region": {
+         "startLine": 1,
+         "endLine": 1
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8f85ee5e"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Anyone with the code (or a leaked artifact) holds the credential. | reachability not proven (evidence L0)",
+      "group": "D",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B105.hardcoded_password_string"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by env-value at tests/test_fixtures.py:1"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/comment.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-85569570"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.form.get('body', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/comment.py"
+             },
+             "region": {
+              "startLine": 9
+             }
+            },
+            "message": {
+             "text": "source: body = request.form.get(\"body\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/comment.py"
+             },
+             "region": {
+              "startLine": 10
+             }
+            },
+            "message": {
+             "text": "sink: resp = make_response(\"<div class='comment'>\" + body + \"</div>\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/comment_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-328f3ef0"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at xss/comment_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/greet.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8537ace4"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('name', 'guest') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry hello() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/greet.py"
+             },
+             "region": {
+              "startLine": 9
+             }
+            },
+            "message": {
+             "text": "source: name = request.args.get(\"name\", \"guest\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/greet.py"
+             },
+             "region": {
+              "startLine": 10
+             }
+            },
+            "message": {
+             "text": "sink: return f\"<h1>Hello {name}</h1>\""
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/greet_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-323ae7ca"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at xss/greet_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/search_page.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d1f7588b"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.args.get('q', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry search() is a route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/search_page.py"
+             },
+             "region": {
+              "startLine": 9
+             }
+            },
+            "message": {
+             "text": "source: q = request.args.get(\"q\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "xss/search_page.py"
+             },
+             "region": {
+              "startLine": 10
+             }
+            },
+            "message": {
+             "text": "sink: return render_template_string(\"<p>Results for \" + q + \"</p>\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/search_page_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-016e3741"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at xss/search_page_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/trap_int_count.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-06467464"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at xss/trap_int_count.py:9"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/trap_server_value.py"
+        },
+        "region": {
+         "startLine": 11,
+         "endLine": 11
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-603ab841"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at xss/trap_server_value.py:11"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

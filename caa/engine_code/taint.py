@@ -49,7 +49,10 @@ class Taint:
     normalized: bool = False          # path passed through realpath/abspath/normpath
 
     def extend(self, step: DataflowStep, normalized: bool | None = None) -> "Taint":
-        return Taint(self.steps + [step], self.param, self.normalized if normalized is None else normalized)
+        last = self.steps[-1] if self.steps else None
+        same_line = last is not None and last.ref.file == step.ref.file and last.ref.line == step.ref.line
+        steps = self.steps if same_line else self.steps + [step]
+        return Taint(steps, self.param, self.normalized if normalized is None else normalized)
 
 
 @dataclass

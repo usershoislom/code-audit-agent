@@ -201,6 +201,11 @@ def _finalise(f: Finding, kb: KnowledgeBase) -> None:
             f.not_verified.append("business-logic hypothesis: requires human confirmation")
     if f.level < Level.L4 and f.group in (Group.DATAFLOW, Group.ACCESS_CONTROL) and f.status != Status.REFUTED:
         f.not_verified.append("no dynamic (L4) confirmation was performed")
+    if f.status != Status.REFUTED:
+        if f.level >= Level.L4:
+            f.not_verified.append("dynamic check used one harmless marker on one entry point; "
+                                  "other call sites of the same sink were not exercised")
+        f.not_verified.append("scope: first-party code only; framework and driver behaviour assumed as documented")
     f.not_verified = list(dict.fromkeys(f.not_verified))
 
 

@@ -1,0 +1,7 @@
+{"ts": 1791377222.282, "kind": "run_start", "engine": "code", "options": {"use_verification": true, "use_llm_triage": false, "use_llm_entrypoints": false, "use_rag": false, "use_dynamic": false, "use_patch": false, "triage_budget": 6, "max_candidates": 200, "target_trust": "own_stand", "stages_to_save": true}, "tag": "own_stand"}
+{"ts": 1791377222.287, "kind": "stage_done", "stage": "inventory", "seconds": 0.01}
+{"ts": 1791377224.288, "kind": "candidates", "count": 77, "by_source": {"semgrep": 36, "bandit": 34, "secrets": 1, "deps-snapshot": 2, "authz-routes": 3, "injection-scan": 1}}
+{"ts": 1791377224.288, "kind": "stage_done", "stage": "candidates", "seconds": 2.0}
+{"ts": 1791377224.316, "kind": "stage_done", "stage": "context", "seconds": 0.02}
+{"ts": 1791377224.348, "kind": "stage_done", "stage": "verify", "seconds": 0.03}
+{"ts": 1791377224.358, "kind": "run_end", "stats": {"stage_seconds": {"inventory": 0.01, "candidates": 2.0, "context": 0.02, "verify": 0.03}, "candidates": 77, "findings_initial": 57}}

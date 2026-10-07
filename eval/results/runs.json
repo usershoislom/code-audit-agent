@@ -1,0 +1,48 @@
+{
+ "sast_only": {
+  "seconds": 2.2,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.01,
+    "candidates": 2.09,
+    "context": 0.04,
+    "verify": 0.0
+   },
+   "candidates": 70,
+   "findings_initial": 53
+  },
+  "loc": 1104,
+  "sandbox": null
+ },
+ "agent_no_llm": {
+  "seconds": 2.1,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.01,
+    "candidates": 2.0,
+    "context": 0.02,
+    "verify": 0.03
+   },
+   "candidates": 77,
+   "findings_initial": 57
+  },
+  "loc": 1104,
+  "sandbox": null
+ },
+ "agent_full": {
+  "seconds": 39.8,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 2.35,
+    "context": 0.03,
+    "verify": 4.67,
+    "patch": 32.6
+   },
+   "candidates": 77,
+   "findings_initial": 57
+  },
+  "loc": 1104,
+  "sandbox": "local-unshare"
+ }
+}

@@ -1,0 +1,1672 @@
+{
+ "CAA-d8fa872f": {
+  "ranges": [
+   [
+    "cmdi/archive.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-b203c778": {
+  "ranges": [
+   [
+    "cmdi/archive.py",
+    11,
+    15
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "cmdi/archive.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": "request.form.get('name', 'backup')"
+      },
+      "code": "name = request.form.get(\"name\", \"backup\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "cmdi/archive.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "os.system(\"tar czf /var/backups/\" + name + \".tgz /srv/data\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "backup",
+    "notes": []
+   }
+  }
+ },
+ "CAA-433bad03": {
+  "ranges": [
+   [
+    "cmdi/archive_fixed.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-33c18287": {
+  "ranges": [
+   [
+    "cmdi/archive_fixed.py",
+    11,
+    15
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "cmdi/archive_fixed.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "quote() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-68fcdaa6": {
+  "ranges": [
+   [
+    "cmdi/convert.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-bc2556a7": {
+  "ranges": [
+   [
+    "cmdi/convert.py",
+    11,
+    13
+   ],
+   [
+    "cmdi/convert.py",
+    16,
+    18
+   ],
+   [
+    "cmdi/convert.py",
+    17,
+    18
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    17,
+    24
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "cmdi/convert.py",
+       "line": 18,
+       "http_exchange": null,
+       "note": "request.args['file']"
+      },
+      "code": "return convert_image(request.args[\"file\"], request.args.get(\"fmt\", \"png\"))"
+     },
+     {
+      "kind": "call",
+      "ref": {
+       "file": "cmdi/convert.py",
+       "line": 18,
+       "http_exchange": null,
+       "note": "convert_image(src=...)"
+      },
+      "code": "return convert_image(request.args[\"file\"], request.args.get(\"fmt\", \"png\"))"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "cmdi/convert.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "cmd = \"convert /srv/uploads/%s /srv/out/image.%s\" % (src, fmt)"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "cmdi/convert.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return subprocess.check_output(cmd, shell=True)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "convert",
+    "notes": []
+   }
+  }
+ },
+ "CAA-50a74a04": {
+  "ranges": [
+   [
+    "cmdi/convert_fixed.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-9a968212": {
+  "ranges": [
+   [
+    "cmdi/convert_fixed.py",
+    11,
+    13
+   ],
+   [
+    "cmdi/convert.py",
+    17,
+    18
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    17,
+    24
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "cmdi/convert_fixed.py",
+     "line": 20,
+     "http_exchange": null,
+     "note": "regex fullmatch validation"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "parameter 'src' of convert_image() has no tainted caller"
+    ]
+   }
+  }
+ },
+ "CAA-33eb8487": {
+  "ranges": [
+   [
+    "cmdi/ping.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-1abe4edd": {
+  "ranges": [
+   [
+    "cmdi/ping.py",
+    11,
+    15
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "cmdi/ping.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": "request.args.get('host', '127.0.0.1')"
+      },
+      "code": "host = request.args.get(\"host\", \"127.0.0.1\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "cmdi/ping.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "out = subprocess.run(f\"ping -c 1 {host}\", shell=True, capture_output=True, text=True)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "ping",
+    "notes": []
+   }
+  }
+ },
+ "CAA-dafb7904": {
+  "ranges": [
+   [
+    "cmdi/ping_fixed.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-a1e66f44": {
+  "ranges": [
+   [
+    "cmdi/ping_fixed.py",
+    11,
+    15
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "cmdi/ping_fixed.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "sink uses bound parameters / argument list"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-762151de": {
+  "ranges": [
+   [
+    "cmdi/trap_argv_list.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-78baf4e9": {
+  "ranges": [
+   [
+    "cmdi/trap_argv_list.py",
+    11,
+    15
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "cmdi/trap_argv_list.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "sink uses bound parameters / argument list"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-ebef619f": {
+  "ranges": [
+   [
+    "cmdi/trap_constant_shell.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-b755d6b4": {
+  "ranges": [
+   [
+    "cmdi/trap_constant_shell.py",
+    13,
+    16
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "cmdi/trap_constant_shell.py",
+     "line": 15,
+     "http_exchange": null,
+     "note": "no request-controlled value reaches the sink argument"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-c30ec4be": {
+  "ranges": [
+   [
+    "cmdi/trap_digit_guard.py",
+    1,
+    9
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-aaf0c737": {
+  "ranges": [
+   [
+    "cmdi/trap_digit_guard.py",
+    11,
+    17
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "cmdi/trap_digit_guard.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "isdigit() validation"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-8cc39187": {
+  "ranges": [
+   [
+    "config/settings.py",
+    1,
+    11
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-6dc56888": {
+  "ranges": [
+   [
+    "config/settings.py",
+    3,
+    13
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-4db4bc61": {
+  "ranges": [
+   [
+    "config/settings.py",
+    7,
+    17
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-85a78868": {
+  "ranges": [
+   [
+    "config/settings.py",
+    11,
+    21
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-f67a114b": {
+  "ranges": [
+   [
+    "config/settings_fixed.py",
+    12,
+    22
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-3dcf722d": {
+  "ranges": [
+   [
+    "path/avatar.py",
+    10,
+    12
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "path/avatar.py",
+       "line": 11,
+       "http_exchange": null,
+       "note": "route parameter <filename>"
+      },
+      "code": "def avatar(filename):"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "path/avatar.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return send_file(BASE_DIR + \"/avatars/\" + filename)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "avatar",
+    "notes": []
+   }
+  }
+ },
+ "CAA-9380f86c": {
+  "ranges": [
+   [
+    "path/denylist.py",
+    10,
+    16
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "path/denylist.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": "request.args.get('page', 'index.md')"
+      },
+      "code": "page = request.args.get(\"page\", \"index.md\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "path/denylist.py",
+       "line": 15,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "with open(os.path.join(BASE_DIR, \"docs\", page)) as fh:"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [
+     {
+      "file": "path/denylist.py",
+      "line": 13,
+      "http_exchange": null,
+      "note": "deny-list substring check"
+     }
+    ],
+    "sink_found": true,
+    "entry": "docs",
+    "notes": []
+   }
+  }
+ },
+ "CAA-4e616929": {
+  "ranges": [
+   [
+    "path/download.py",
+    10,
+    14
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "path/download.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": "request.args.get('file', '')"
+      },
+      "code": "name = request.args.get(\"file\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "path/download.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "with open(os.path.join(BASE_DIR, name), \"rb\") as fh:"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "download",
+    "notes": []
+   }
+  }
+ },
+ "CAA-e0caae90": {
+  "ranges": [
+   [
+    "path/prefix_unnormalised.py",
+    10,
+    17
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "path/prefix_unnormalised.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": "request.args.get('path', '')"
+      },
+      "code": "rel = request.args.get(\"path\", \"\")"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "path/prefix_unnormalised.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "target = os.path.join(BASE_DIR, rel)"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "path/prefix_unnormalised.py",
+       "line": 16,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "with open(target) as fh:"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [
+     {
+      "file": "path/prefix_unnormalised.py",
+      "line": 14,
+      "http_exchange": null,
+      "note": "prefix check on a non-normalised path"
+     }
+    ],
+    "sink_found": true,
+    "entry": "export",
+    "notes": []
+   }
+  }
+ },
+ "CAA-d3738621": {
+  "ranges": [
+   [
+    "path/trap_allowlist.py",
+    12,
+    17
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "path/trap_allowlist.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "allow-list membership check"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-fdd661f4": {
+  "ranges": [
+   [
+    "path/trap_basename.py",
+    10,
+    14
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "path/trap_basename.py",
+     "line": 12,
+     "http_exchange": null,
+     "note": "basename() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-7ad21d87": {
+  "ranges": [
+   [
+    "path/trap_secure_filename.py",
+    10,
+    14
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "path/trap_secure_filename.py",
+     "line": 12,
+     "http_exchange": null,
+     "note": "secure_filename() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-8438defd": {
+  "ranges": [
+   [
+    "sqli/injected_comment.py",
+    12,
+    18
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/injected_comment.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": "request.args.get('badge', '')"
+      },
+      "code": "badge = request.args.get(\"badge\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/injected_comment.py",
+       "line": 17,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "cur.execute(\"SELECT name FROM staff WHERE badge = '\" + badge + \"'\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "staff_lookup",
+    "notes": []
+   }
+  }
+ },
+ "CAA-1c619ee1": {
+  "ranges": [
+   [
+    "sqli/orders_concat.py",
+    12,
+    18
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-394c76d5": {
+  "ranges": [
+   [
+    "sqli/orders_concat.py",
+    12,
+    18
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/orders_concat.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": "request.args.get('status', 'open')"
+      },
+      "code": "status = request.args.get(\"status\", \"open\")"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "sqli/orders_concat.py",
+       "line": 15,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "query = \"SELECT id, total FROM orders WHERE status = '\" + status + \"'\""
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/orders_concat.py",
+       "line": 17,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "cur.execute(query)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "list_orders",
+    "notes": []
+   }
+  }
+ },
+ "CAA-820d646a": {
+  "ranges": [
+   [
+    "sqli/repo_layer.py",
+    4,
+    7
+   ],
+   [
+    "sqli/product_routes.py",
+    9,
+    11
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-8b6f3dd1": {
+  "ranges": [
+   [
+    "sqli/product_routes.py",
+    8,
+    11
+   ],
+   [
+    "sqli/repo_layer.py",
+    4,
+    7
+   ],
+   [
+    "sqli/product_routes.py",
+    9,
+    11
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/product_routes.py",
+       "line": 10,
+       "http_exchange": null,
+       "note": "request.args.get('q', '')"
+      },
+      "code": "term = request.args.get(\"q\", \"\")"
+     },
+     {
+      "kind": "call",
+      "ref": {
+       "file": "sqli/product_routes.py",
+       "line": 11,
+       "http_exchange": null,
+       "note": "find_product(term=...)"
+      },
+      "code": "return {\"items\": find_product(term)}"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "sqli/repo_layer.py",
+       "line": 6,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "sql = \"SELECT id, title FROM products WHERE title LIKE '%{}%'\".format(term)"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/repo_layer.py",
+       "line": 7,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return conn.execute(sql).fetchall()"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "product_search",
+    "notes": []
+   }
+  }
+ },
+ "CAA-39dc7c93": {
+  "ranges": [
+   [
+    "sqli/report_percent.py",
+    12,
+    16
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": false,
+    "entry": null,
+    "notes": [
+     "no recognised sink at this line"
+    ]
+   }
+  }
+ },
+ "CAA-0067bc10": {
+  "ranges": [
+   [
+    "sqli/report_percent.py",
+    12,
+    16
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/report_percent.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": "request.form['region']"
+      },
+      "code": "region = request.form[\"region\"]"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "sqli/report_percent.py",
+       "line": 15,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "sql = \"SELECT sum(amount) FROM sales WHERE region = '%s'\" % region"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/report_percent.py",
+       "line": 16,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return {\"total\": get_db().execute(sql).fetchone()[0]}"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "report",
+    "notes": []
+   }
+  }
+ },
+ "CAA-eadf9f15": {
+  "ranges": [
+   [
+    "sqli/trap_column_map.py",
+    14,
+    20
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/trap_column_map.py",
+       "line": 16,
+       "http_exchange": null,
+       "note": "request.args.get('sort', 'date')"
+      },
+      "code": "key = request.args.get(\"sort\", \"date\")"
+     },
+     {
+      "kind": "propagation",
+      "ref": {
+       "file": "sqli/trap_column_map.py",
+       "line": 17,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "column = SORT_COLUMNS.get(key, \"created_at\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/trap_column_map.py",
+       "line": 19,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "cur.execute(f\"SELECT id, amount FROM payments ORDER BY {column}\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "payments",
+    "notes": []
+   }
+  }
+ },
+ "CAA-285152cd": {
+  "ranges": [
+   [
+    "sqli/trap_constant_table.py",
+    14,
+    18
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "sqli/trap_constant_table.py",
+     "line": 17,
+     "http_exchange": null,
+     "note": "no request-controlled value reaches the sink argument"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-8cf9acce": {
+  "ranges": [
+   [
+    "sqli/trap_int_cast.py",
+    12,
+    18
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "sqli/trap_int_cast.py",
+     "line": 14,
+     "http_exchange": null,
+     "note": "int() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-1f877485": {
+  "ranges": [
+   [
+    "sqli/trap_sort_allowlist.py",
+    14,
+    21
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "sqli/trap_sort_allowlist.py",
+     "line": 17,
+     "http_exchange": null,
+     "note": "allow-list membership check"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-875d5129": {
+  "ranges": [
+   [
+    "sqli/user_lookup.py",
+    12,
+    17
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "sqli/user_lookup.py",
+       "line": 14,
+       "http_exchange": null,
+       "note": "request.args.get('name', '')"
+      },
+      "code": "name = request.args.get(\"name\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "sqli/user_lookup.py",
+       "line": 16,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "cur.execute(f\"SELECT id, email FROM users WHERE name = '{name}'\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "search_users",
+    "notes": []
+   }
+  }
+ },
+ "CAA-ca849552": {
+  "ranges": [
+   [
+    "ssrf/fetch.py",
+    10,
+    14
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "ssrf/fetch.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": "request.args.get('url', '')"
+      },
+      "code": "url = request.args.get(\"url\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "ssrf/fetch.py",
+       "line": 13,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "r = requests.get(url, timeout=5)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "preview",
+    "notes": []
+   }
+  }
+ },
+ "CAA-7f1bf1df": {
+  "ranges": [
+   [
+    "ssrf/fetch_fixed.py",
+    10,
+    17
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "ssrf/fetch_fixed.py",
+       "line": 12,
+       "http_exchange": null,
+       "note": "request.args.get('url', '')"
+      },
+      "code": "url = request.args.get(\"url\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "ssrf/fetch_fixed.py",
+       "line": 16,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "r = requests.get(url, timeout=5, allow_redirects=False)"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "preview",
+    "notes": []
+   }
+  }
+ },
+ "CAA-8f85ee5e": {
+  "ranges": [
+   [
+    "tests/test_fixtures.py",
+    1,
+    6
+   ]
+  ],
+  "facts": {}
+ },
+ "CAA-85569570": {
+  "ranges": [
+   [
+    "xss/comment.py",
+    7,
+    11
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "xss/comment.py",
+       "line": 9,
+       "http_exchange": null,
+       "note": "request.form.get('body', '')"
+      },
+      "code": "body = request.form.get(\"body\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "xss/comment.py",
+       "line": 10,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "resp = make_response(\"<div class='comment'>\" + body + \"</div>\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "preview",
+    "notes": []
+   }
+  }
+ },
+ "CAA-328f3ef0": {
+  "ranges": [
+   [
+    "xss/comment_fixed.py",
+    7,
+    11
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "xss/comment_fixed.py",
+     "line": 10,
+     "http_exchange": null,
+     "note": "escape() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-8537ace4": {
+  "ranges": [
+   [
+    "xss/greet.py",
+    7,
+    10
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "xss/greet.py",
+       "line": 9,
+       "http_exchange": null,
+       "note": "request.args.get('name', 'guest')"
+      },
+      "code": "name = request.args.get(\"name\", \"guest\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "xss/greet.py",
+       "line": 10,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return f\"<h1>Hello {name}</h1>\""
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "hello",
+    "notes": []
+   }
+  }
+ },
+ "CAA-323ae7ca": {
+  "ranges": [
+   [
+    "xss/greet_fixed.py",
+    7,
+    10
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "xss/greet_fixed.py",
+     "line": 10,
+     "http_exchange": null,
+     "note": "escape() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-d1f7588b": {
+  "ranges": [
+   [
+    "xss/search_page.py",
+    7,
+    10
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": true,
+    "steps": [
+     {
+      "kind": "source",
+      "ref": {
+       "file": "xss/search_page.py",
+       "line": 9,
+       "http_exchange": null,
+       "note": "request.args.get('q', '')"
+      },
+      "code": "q = request.args.get(\"q\", \"\")"
+     },
+     {
+      "kind": "sink",
+      "ref": {
+       "file": "xss/search_page.py",
+       "line": 10,
+       "http_exchange": null,
+       "note": ""
+      },
+      "code": "return render_template_string(\"<p>Results for \" + q + \"</p>\")"
+     }
+    ],
+    "sanitizer": null,
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": "search",
+    "notes": []
+   }
+  }
+ },
+ "CAA-016e3741": {
+  "ranges": [
+   [
+    "xss/search_page_fixed.py",
+    7,
+    10
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "xss/search_page_fixed.py",
+     "line": 10,
+     "http_exchange": null,
+     "note": "no request-controlled value reaches the sink argument"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-06467464": {
+  "ranges": [
+   [
+    "xss/trap_int_count.py",
+    7,
+    10
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": {
+     "file": "xss/trap_int_count.py",
+     "line": 9,
+     "http_exchange": null,
+     "note": "int() neutralises the value"
+    },
+    "constant": null,
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ },
+ "CAA-603ab841": {
+  "ranges": [
+   [
+    "xss/trap_server_value.py",
+    9,
+    11
+   ]
+  ],
+  "facts": {
+   "trace": {
+    "reached": false,
+    "steps": [],
+    "sanitizer": null,
+    "constant": {
+     "file": "xss/trap_server_value.py",
+     "line": 11,
+     "http_exchange": null,
+     "note": "no request-controlled value reaches the sink argument"
+    },
+    "partial_checks": [],
+    "sink_found": true,
+    "entry": null,
+    "notes": []
+   }
+  }
+ }
+}
