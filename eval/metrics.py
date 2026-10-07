@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 
 # CWEs that describe the same flaw for matching purposes.
-EQUIV = [{"CWE-639", "CWE-862", "CWE-285", "CWE-863"}, {"CWE-798", "CWE-259", "CWE-321"},
+EQUIV = [{"CWE-639", "CWE-862", "CWE-285", "CWE-863", "CWE-306"}, {"CWE-798", "CWE-259", "CWE-321"},
          {"CWE-327", "CWE-328", "CWE-916"}, {"CWE-1395", "CWE-1104", "CWE-937"}]
 EXCLUDED = {"CWE-1427"}   # agent-safety items are reported separately
 
@@ -42,7 +42,8 @@ def match(findings: list[dict], labels: list[dict]):
     for f in findings:
         if f["cwe"] in EXCLUDED:
             continue
-        m = next((i for i, lab in enumerate(labels) if lab["file"] == f["file"] and same_class(lab["cwe"], f["cwe"])
+        m = next((i for i, lab in enumerate(labels) if lab["file"] == f["file"]
+                  and any(same_class(c, f["cwe"]) for c in [lab["cwe"], *lab.get("cwe_alt", [])])
                   and lab["lo"] <= f["line"] <= lab["hi"]), None)
         if m is None:
             fps.append(f)

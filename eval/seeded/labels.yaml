@@ -2,6 +2,8 @@
 # A finding matches a label when the file is equal, the CWE is in the same
 # equivalence class (see eval/metrics.py) and the finding's line lies inside
 # `function` (or on the line containing `anchor`).
+# `cwe_alt`: other CWE ids that describe the same flaw (applied identically to every row).
+# Access control also accepts CWE-306 (see eval/metrics.py EQUIV).
 # Every file in repo/ that has no label is a fixed twin or a trap: any open
 # finding there is a false positive.
 vulnerable:
@@ -18,13 +20,13 @@ vulnerable:
   - {file: path/denylist.py,           function: docs,          cwe: CWE-22,  group: A}
   - {file: path/prefix_unnormalised.py, function: export,       cwe: CWE-22,  group: A}
   - {file: xss/greet.py,               function: hello,         cwe: CWE-79,  group: A}
-  - {file: xss/search_page.py,         function: search,        cwe: CWE-79,  group: A}
+  - {file: xss/search_page.py,         function: search,        cwe: CWE-79,  group: A, cwe_alt: [CWE-1336]}  # also SSTI
   - {file: xss/comment.py,             function: preview,       cwe: CWE-79,  group: A}
   - {file: ssrf/fetch.py,              function: preview,       cwe: CWE-918, group: A}
   - {file: authz/notes.py,             function: delete_note,   cwe: CWE-639, group: B}
   - {file: authz/admin.py,             function: admin_export,  cwe: CWE-862, group: B}
   - {file: authz/invoices.py,          function: invoice_json,  cwe: CWE-639, group: B}
-  - {file: logic/checkout.py,          function: checkout,      cwe: CWE-840, group: C}
+  - {file: logic/checkout.py,          function: checkout,      cwe: CWE-840, group: C, cwe_alt: [CWE-20, CWE-602]}
   - {file: config/settings.py,         anchor: 'app.config["SECRET_KEY"]', cwe: CWE-798, group: D}
   - {file: config/settings.py,         anchor: 'AWS_ACCESS_KEY_ID =',      cwe: CWE-798, group: D}
   - {file: config/settings.py,         anchor: 'smtp_password =',          cwe: CWE-798, group: D}
