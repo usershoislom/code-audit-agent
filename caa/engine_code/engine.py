@@ -149,8 +149,15 @@ class CodeEngine(EvidenceEngine):
             start = min(r.deco_line for r in routes)
             end = max(r.end_line for r in routes)
             code = wrap(f"# file: {rel}\n" + self.fs.read_file(rel, max(1, start - 30), end), rel)
+            app = [r for r in self.routes.routes if r.file == rel]
+            has_policy = any(r.auth or r.ownership for r in app) or bool(self.routes.hooks_for(app[0]))
             for h in entrypoint_hypotheses(model, self.ledger, rm_json, code):
                 grp = Group.BUSINESS_LOGIC if h.cwe == "CWE-840" else Group.ACCESS_CONTROL
+                if grp == Group.ACCESS_CONTROL and not has_policy:
+                    # ABSENTIA: access-control flaws are deviations from the app's own policy; none exists here
+                    self.audit.write("hypothesis_dropped", file=h.file, line=h.line, cwe=h.cwe,
+                                     reason="no access-control policy in this app to deviate from")
+                    continue
                 out.append(Candidate(rule_id="caa.llm.entrypoint", source="llm-entrypoints", cwe=h.cwe, group=grp,
                                      location=Location(file=h.file, start_line=h.line), message=h.title,
                                      extra={"rationale": h.rationale}))
@@ -339,7 +346,14 @@ class CodeEngine(EvidenceEngine):
         if f.cwe == "CWE-862" and r.auth:
             self._refute(f, r.auth, "auth-present")
             return
-        policy = cand.get("sibling_check") or cand.get("policy_ref")
+        cands = [c.get("extra", {}) for c in f.extra.get("candidates") or []]
+        policy = next((c.get("sibling_check") or c.get("policy_ref") for c in cands
+                       if c.get("sibling_check") or c.get("policy_ref")), None)
+        if "authz-routes" not in f.sources:
+            # model-only hypothesis: the route map shows no deviation from a sibling policy -> no trace level
+            f.not_verified.append("route-map analysis did not confirm a deviation from the app's access policy; "
+                                  "hypothesis rests on the model only")
+            return
         refs = [Ref(file=r.file, line=r.deco_line, note="route")]
         if r.lookups:
             refs.append(r.lookups[0])
