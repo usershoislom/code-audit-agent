@@ -1,0 +1,22 @@
+# Run defaults. CLI flags override.
+target_trust: third_party     # third_party | own_stand  (decides confidentiality tag of model calls)
+llm:
+  enabled: false              # --llm turns it on; requires configs/providers.yaml
+  triage_tool_budget: 6       # tool calls per candidate
+  entrypoint_pass: true       # LLM pass over routes for groups B/C
+  max_candidates: 200
+sast:
+  semgrep: true
+  bandit: true
+  codeql_sarif: null          # path to an offline CodeQL SARIF, optional
+sandbox:
+  enabled: false              # L4 property checks: ONLY for trusted code / own stand (--trust-target)
+  backend: auto               # auto | docker | local-unshare
+  image: caa-sandbox:latest
+  timeout_s: 20
+  memory_mb: 512
+  cpus: 1
+patch:
+  enabled: true
+report:
+  min_level: 0                # findings below are listed in an appendix only
