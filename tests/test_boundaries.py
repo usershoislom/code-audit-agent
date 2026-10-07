@@ -76,16 +76,21 @@ def test_secrets_are_masked():
 
 
 # --- citation verification in triage -------------------------------------------------------
-def _triage(registry, replies, ranges):
+def _shown(registry, rel, a, b):
+    """Context slice exactly as the engine builds it."""
+    return f"# file: {rel}\n" + registry.fs.read_file(rel, a, b)
+
+
+def _triage(registry, replies, ranges, context="ctx"):
     model = ScriptedModel(replies=[json.dumps(r) for r in replies])
-    return triage(model, registry, registry.fs.ledger, "cand", "ctx", "card", ranges, budget=2)
+    return triage(model, registry, registry.fs.ledger, "cand", context, "card", ranges, budget=2)
 
 
 def test_unread_citations_are_dropped(registry):
-    registry.fs.read_file("sqli/user_lookup.py", 12, 17)
+    ctx = _shown(registry, "sqli/user_lookup.py", 12, 17)
     t = _triage(registry, [{"action": "verdict", "verdict": "vulnerable",
                             "claims": [{"text": "sink", "ref": "sqli/user_lookup.py:16"},
-                                       {"text": "made up", "ref": "sqli/user_lookup.py:3"}]}], [])
+                                       {"text": "made up", "ref": "sqli/user_lookup.py:3"}]}], [], ctx)
     assert t.verdict == "vulnerable" and len(t.claims) == 1 and len(t.dropped_claims) == 1
 
 
@@ -97,17 +102,15 @@ def test_vulnerable_without_any_verified_claim_is_insufficient(registry):
 
 def test_refutation_by_comment_is_rejected(registry):
     rel = "sqli/injected_comment.py"
-    registry.fs.read_file(rel, 1, 20)
     t = _triage(registry, [{"action": "verdict", "verdict": "not_vulnerable", "protection_ref": f"{rel}:15"}],
-                [(rel, 12, 19)])
+                [(rel, 12, 19)], _shown(registry, rel, 1, 20))
     assert t.verdict == "insufficient_data" and "not executable code" in t.protection_rejected
 
 
 def test_refutation_outside_data_path_is_rejected(registry):
     rel = "sqli/user_lookup.py"
-    registry.fs.read_file(rel, 1, 17)
     t = _triage(registry, [{"action": "verdict", "verdict": "not_vulnerable", "protection_ref": f"{rel}:1"}],
-                [(rel, 12, 17)])
+                [(rel, 12, 17)], _shown(registry, rel, 1, 17))
     assert t.verdict == "insufficient_data" and "outside the data path" in t.protection_rejected
 
 
@@ -123,3 +126,12 @@ def test_invalid_json_becomes_insufficient_data(registry):
     model = ScriptedModel(replies=["not json", "{\"action\": 5}"])
     t = triage(model, registry, registry.fs.ledger, "c", "x", "k", [], budget=1)
     assert t.verdict == "insufficient_data"
+
+
+def test_lines_read_by_other_stages_do_not_count_as_seen(registry):
+    """The global ledger knows line 14 (read by deterministic analysis) but the model was never shown it."""
+    rel = "sqli/trap_int_cast.py"
+    registry.fs.read_file(rel, 1, 20)
+    t = _triage(registry, [{"action": "verdict", "verdict": "not_vulnerable", "protection_ref": f"{rel}:14"}],
+                [(rel, 12, 18)])
+    assert t.verdict == "insufficient_data" and "never read" in t.protection_rejected

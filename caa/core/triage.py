@@ -19,6 +19,26 @@ from caa.core.untrusted import DATA_NOT_INSTRUCTIONS
 from caa.tools.registry import ToolRegistry
 
 _REF = re.compile(r"^\s*([^\s:]+):(\d+)\s*$")
+_FILE_HDR = re.compile(r'^(?:# file: ([^\s|]+)|<<UNTRUSTED_\w+ source="read_file ([^"]+)">>)')
+_NUMBERED = re.compile(r"^\s*(\d+)\| ?(.*)$")
+_SEARCH_HIT = re.compile(r"^([^\s:]+):(\d+): ?(.*)$")
+
+
+def absorb(session: ReadLedger, text: str) -> None:
+    """Record into the per-triage ledger exactly the lines the MODEL was shown (slice or tool output)."""
+    current = None
+    for line in text.splitlines():
+        h = _FILE_HDR.match(line)
+        if h:
+            current = h.group(1) or h.group(2)
+            continue
+        m = _NUMBERED.match(line)
+        if m and current:
+            session.record_lines(current, int(m.group(1)), [m.group(2)])
+            continue
+        s = _SEARCH_HIT.match(line)
+        if s:
+            session.record_lines(s.group(1), int(s.group(2)), [s.group(3)])
 
 
 def parse_ref(s: str | None) -> Ref | None:
@@ -94,6 +114,8 @@ def triage(model: ChatModel, tools: ToolRegistry, ledger: ReadLedger, candidate_
             f"Available tools:\n{tools.describe()}\nTool budget: {budget} calls.")},
     ]
     res = TriageResult()
+    seen = ReadLedger()          # what this model session was actually shown
+    absorb(seen, context)
     for _ in range(budget + 1):
         act = model.complete_json(messages, TriageAction, purpose="triage")
         if act is None:
@@ -101,6 +123,7 @@ def triage(model: ChatModel, tools: ToolRegistry, ledger: ReadLedger, candidate_
         if act.action == "tool" and res.tool_calls < budget and act.tool:
             res.tool_calls += 1
             out = tools.call(act.tool, act.args or {})
+            absorb(seen, out)
             messages += [{"role": "assistant", "content": act.model_dump_json()},
                          {"role": "user", "content": f"Tool output:\n{out}\n\nContinue."}]
             continue
@@ -108,7 +131,7 @@ def triage(model: ChatModel, tools: ToolRegistry, ledger: ReadLedger, candidate_
             messages += [{"role": "assistant", "content": act.model_dump_json()},
                          {"role": "user", "content": "Tool budget exhausted. Give your verdict now."}]
             continue
-        return _validate_verdict(act, ledger, slice_ranges, res)
+        return _validate_verdict(act, seen, slice_ranges, res)
     return res
 
 
@@ -187,6 +210,8 @@ def entrypoint_hypotheses(model: ChatModel, ledger: ReadLedger, route_map_json: 
     out = model.complete_json(messages, HypothesisList, purpose=purpose)
     if out is None:
         return []
+    ledger = ReadLedger()
+    absorb(ledger, handler_code)
     keep = []
     for h in out.hypotheses:
         if h.cwe.upper() in ("CWE-639", "CWE-862", "CWE-840", "CWE-285", "CWE-863") and \
@@ -198,9 +223,11 @@ def entrypoint_hypotheses(model: ChatModel, ledger: ReadLedger, route_map_json: 
 
 def file_baseline(model: ChatModel, ledger: ReadLedger, path: str, code: str) -> list[Hypothesis]:
     messages = [{"role": "system", "content": SYSTEM_FILE_BASELINE},
-                {"role": "user", "content": f"File {path}:\n{code}"}]
+                {"role": "user", "content": f"# file: {path}\n{code}"}]
     out = model.complete_json(messages, HypothesisList, purpose="file-baseline")
-    return [h for h in (out.hypotheses if out else []) if ledger.verify(Ref(file=h.file, line=h.line))]
+    seen = ReadLedger()
+    absorb(seen, f"# file: {path}\n{code}")
+    return [h for h in (out.hypotheses if out else []) if seen.verify(Ref(file=h.file, line=h.line))]
 
 
 # ----------------------------------------------------------------------------- patch

@@ -148,7 +148,7 @@ class CodeEngine(EvidenceEngine):
         for rel, routes in by_file.items():
             start = min(r.deco_line for r in routes)
             end = max(r.end_line for r in routes)
-            code = wrap(self.fs.read_file(rel, max(1, start - 30), end), rel)
+            code = wrap(f"# file: {rel}\n" + self.fs.read_file(rel, max(1, start - 30), end), rel)
             for h in entrypoint_hypotheses(model, self.ledger, rm_json, code):
                 grp = Group.BUSINESS_LOGIC if h.cwe == "CWE-840" else Group.ACCESS_CONTROL
                 out.append(Candidate(rule_id="caa.llm.entrypoint", source="llm-entrypoints", cwe=h.cwe, group=grp,
@@ -210,34 +210,40 @@ class CodeEngine(EvidenceEngine):
                     continue
                 seen.add((fl, a))
                 ranges.append((fl, a, b))
-                parts.append(f"# {fl}\n" + self.fs.read_file(fl, a, b))
+                parts.append(f"# file: {fl}\n" + self.fs.read_file(fl, a, b))
             for sym, ln in self.symbols.get_callers(f.location.function or ""):
                 if len(ranges) > 5:
                     break
                 ranges.append((sym.file, sym.start, sym.end))
-                parts.append(f"# caller {sym.file}\n" + self.fs.read_file(sym.file, sym.start, sym.end))
+                parts.append(f"# file: {sym.file} | caller {sym.qualname}\n" + self.fs.read_file(sym.file, sym.start, sym.end))
         elif f.group in (Group.ACCESS_CONTROL, Group.BUSINESS_LOGIC):
             fn = self.taint.func_at(file, line)
             a, b = ((fn.lineno - len(fn.decorator_list), fn.end_lineno) if fn else (max(1, line - 10), line + 10))
             ranges.append((file, a, b))
-            parts.append(f"# {file}\n" + self.fs.read_file(file, a, b))
+            parts.append(f"# file: {file}\n" + self.fs.read_file(file, a, b))
             sibs = [r.to_dict() for r in self.routes.routes if r.file == file]
             facts["routes_in_file"] = sibs
             parts.append("# route map (same file)\n" + json.dumps(sibs, indent=0))
             for r in self.routes.routes:
                 if r.file == file and r.func != (fn.name if fn else None):
                     ranges.append((r.file, r.deco_line, r.end_line))
-                    parts.append(f"# sibling {r.func}\n" + self.fs.read_file(r.file, r.deco_line, r.end_line))
+                    parts.append(f"# file: {r.file} | sibling {r.func}\n" + self.fs.read_file(r.file, r.deco_line, r.end_line))
             for h in [h for h in self.routes.global_auth if h.file == file]:
                 ranges.append((h.file, h.line, h.line + 6))
-                parts.append(f"# global hook\n" + self.fs.read_file(h.file, h.line, h.line + 6))
+                parts.append(f"# file: {h.file} | global hook\n" + self.fs.read_file(h.file, h.line, h.line + 6))
         else:
             a, b = max(1, line - 5), line + 5
             ranges.append((file, a, b))
             try:
-                parts.append(f"# {file}\n" + mask_secrets(self.fs.read_file(file, a, b)))
+                parts.append(f"# file: {file}\n" + mask_secrets(self.fs.read_file(file, a, b)))
             except OSError:
                 pass
+        # module-level statements (constants, imports, config) of the files on the path also define values
+        for fl in {r[0] for r in ranges if r[0].endswith(".py")}:
+            tree = self.taint.tree(fl)
+            for st in (tree.body if tree else []):
+                if not isinstance(st, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                    ranges.append((fl, st.lineno, st.end_lineno or st.lineno))
         return ContextSlice(text=wrap("\n\n".join(parts), f"code slice {file}"), ranges=ranges, facts=facts)
 
     def tools(self) -> ToolRegistry:

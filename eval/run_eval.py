@@ -120,8 +120,25 @@ def run_llm_baseline(out: Path, router, t0) -> dict:
     return {"seconds": round(time.time() - t0, 1), "stats": {"llm_usage": {"analysis": model.usage}}, "loc": loc}
 
 
+def meta_from_logs(name: str) -> dict:
+    """Seconds and token usage of a row recomputed from its audit log alone."""
+    p = RESULTS / name / "audit.jsonl"
+    if not p.exists():
+        return {}
+    recs = [json.loads(line) for line in p.read_text().splitlines() if line.strip()]
+    calls = [r for r in recs if r["kind"] == "llm_call"]
+    usage = {"prompt_tokens": 0, "completion_tokens": sum(r.get("completion_tokens") or 0 for r in calls),
+             "calls": len(calls)}
+    loc = sum((REPO / f).read_text().count("\n") + 1 for f in RepoFS(REPO).iter_files("*.py"))
+    return {"seconds": round(recs[-1]["ts"] - recs[0]["ts"], 1) if recs else 0,
+            "stats": {"llm_usage": {"analysis": usage}}, "loc": loc, "derived_from_logs": True}
+
+
 def table(results: dict, labels, all_files) -> tuple[str, dict]:
     metrics = {}
+    for d in sorted(RESULTS.iterdir()) if RESULTS.exists() else []:
+        if d.is_dir() and d.name in ROWS and d.name not in results and (d / "findings.json").exists():
+            results[d.name] = meta_from_logs(d.name)
     for name, meta in results.items():
         p = RESULTS / name / "findings.json"
         if not p.exists():
