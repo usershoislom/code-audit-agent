@@ -161,45 +161,40 @@
    ]
   }
  },
- "CAA-33645f88": {
+ "CAA-312491aa": {
   "ranges": [
    [
-    "authz/notes.py",
-    49,
-    55
-   ],
-   [
-    "authz/notes.py",
-    33,
-    37
-   ],
-   [
-    "authz/notes.py",
-    40,
+    "authz/invoices.py",
+    42,
     46
    ],
    [
-    "authz/notes.py",
+    "authz/invoices.py",
+    33,
+    39
+   ],
+   [
+    "authz/invoices.py",
     1,
     1
    ],
    [
-    "authz/notes.py",
+    "authz/invoices.py",
     2,
     2
    ],
    [
-    "authz/notes.py",
+    "authz/invoices.py",
     4,
     4
    ],
    [
-    "authz/notes.py",
+    "authz/invoices.py",
     6,
     6
    ],
    [
-    "authz/notes.py",
+    "authz/invoices.py",
     7,
     7
    ]
@@ -207,43 +202,30 @@
   "facts": {
    "routes_in_file": [
     {
-     "file": "authz/notes.py",
-     "func": "list_notes",
+     "file": "authz/invoices.py",
+     "func": "invoice_pdf",
      "line": 35,
-     "path": "/notes",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": true,
-     "lookup_by_id": false,
-     "ownership_check": false
-    },
-    {
-     "file": "authz/notes.py",
-     "func": "view_note",
-     "line": 42,
-     "path": "/notes/<int:note_id>",
+     "path": "/api/invoices/<int:invoice_id>/pdf",
      "methods": [
       "GET"
      ],
      "params": [
-      "note_id"
+      "invoice_id"
      ],
      "auth": true,
      "lookup_by_id": true,
      "ownership_check": true
     },
     {
-     "file": "authz/notes.py",
-     "func": "delete_note",
-     "line": 51,
-     "path": "/notes/<int:note_id>/delete",
+     "file": "authz/invoices.py",
+     "func": "invoice_json",
+     "line": 44,
+     "path": "/api/invoices/<int:invoice_id>",
      "methods": [
-      "POST"
+      "GET"
      ],
      "params": [
-      "note_id"
+      "invoice_id"
      ],
      "auth": true,
      "lookup_by_id": true,
@@ -252,7 +234,7 @@
    ]
   }
  },
- "CAA-e81fdd15": {
+ "CAA-33645f88": {
   "ranges": [
    [
     "authz/notes.py",
@@ -396,62 +378,6 @@
    }
   }
  },
- "CAA-b523c835": {
-  "ranges": [
-   [
-    "cmdi/archive.py",
-    11,
-    15
-   ],
-   [
-    "cmdi/archive.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/archive.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/archive.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/archive.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/archive.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/archive.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/archive.py",
-     "func": "backup",
-     "line": 12,
-     "path": "/backup",
-     "methods": [
-      "POST"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-b203c778": {
   "ranges": [
    [
@@ -575,62 +501,6 @@
      "no recognised sink at this line"
     ]
    }
-  }
- },
- "CAA-641375f9": {
-  "ranges": [
-   [
-    "cmdi/archive_fixed.py",
-    11,
-    15
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/archive_fixed.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/archive_fixed.py",
-     "func": "backup",
-     "line": 12,
-     "path": "/backup",
-     "methods": [
-      "POST"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-33c18287": {
@@ -765,62 +635,62 @@
     24
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     1,
     1
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     2,
     2
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     3,
     3
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     4,
     4
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     6,
     6
    ],
    [
-    "cmdi/convert_fixed.py",
+    "cmdi/convert.py",
     8,
     8
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     1,
     1
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     2,
     2
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     3,
     3
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     4,
     4
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     6,
     6
    ],
    [
-    "cmdi/convert.py",
+    "cmdi/convert_fixed.py",
     8,
     8
    ]
@@ -879,62 +749,6 @@
    }
   }
  },
- "CAA-a77753d7": {
-  "ranges": [
-   [
-    "cmdi/convert.py",
-    16,
-    18
-   ],
-   [
-    "cmdi/convert.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/convert.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/convert.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/convert.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/convert.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/convert.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/convert.py",
-     "func": "convert",
-     "line": 17,
-     "path": "/convert",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-50a74a04": {
   "ranges": [
    [
@@ -988,7 +802,7 @@
    }
   }
  },
- "CAA-9a968212": {
+ "CAA-a766b3b4": {
   "ranges": [
    [
     "cmdi/convert_fixed.py",
@@ -996,13 +810,8 @@
     13
    ],
    [
-    "cmdi/convert.py",
-    17,
-    18
-   ],
-   [
     "cmdi/convert_fixed.py",
-    17,
+    16,
     24
    ],
    [
@@ -1034,6 +843,42 @@
     "cmdi/convert_fixed.py",
     8,
     8
+   ]
+  ],
+  "facts": {
+   "routes_in_file": [
+    {
+     "file": "cmdi/convert_fixed.py",
+     "func": "convert",
+     "line": 17,
+     "path": "/convert",
+     "methods": [
+      "GET"
+     ],
+     "params": [],
+     "auth": false,
+     "lookup_by_id": false,
+     "ownership_check": false
+    }
+   ]
+  }
+ },
+ "CAA-9a968212": {
+  "ranges": [
+   [
+    "cmdi/convert_fixed.py",
+    11,
+    13
+   ],
+   [
+    "cmdi/convert.py",
+    17,
+    18
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    17,
+    24
    ],
    [
     "cmdi/convert.py",
@@ -1062,6 +907,36 @@
    ],
    [
     "cmdi/convert.py",
+    8,
+    8
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    1,
+    1
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    2,
+    2
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    3,
+    3
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    4,
+    4
+   ],
+   [
+    "cmdi/convert_fixed.py",
+    6,
+    6
+   ],
+   [
+    "cmdi/convert_fixed.py",
     8,
     8
    ]
@@ -1084,118 +959,6 @@
      "parameter 'src' of convert_image() has no tainted caller"
     ]
    }
-  }
- },
- "CAA-45e2ee0d": {
-  "ranges": [
-   [
-    "cmdi/convert_fixed.py",
-    16,
-    24
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/convert_fixed.py",
-     "func": "convert",
-     "line": 17,
-     "path": "/convert",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
- "CAA-0dd7660a": {
-  "ranges": [
-   [
-    "cmdi/convert_fixed.py",
-    16,
-    24
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/convert_fixed.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/convert_fixed.py",
-     "func": "convert",
-     "line": 17,
-     "path": "/convert",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-33eb8487": {
@@ -1599,67 +1362,6 @@
    }
   }
  },
- "CAA-5b8e563d": {
-  "ranges": [
-   [
-    "cmdi/trap_constant_shell.py",
-    13,
-    16
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    8,
-    8
-   ],
-   [
-    "cmdi/trap_constant_shell.py",
-    10,
-    10
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/trap_constant_shell.py",
-     "func": "disk",
-     "line": 14,
-     "path": "/diag/disk",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-b755d6b4": {
   "ranges": [
    [
@@ -1772,118 +1474,6 @@
      "no recognised sink at this line"
     ]
    }
-  }
- },
- "CAA-1bf083d2": {
-  "ranges": [
-   [
-    "cmdi/trap_digit_guard.py",
-    11,
-    17
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/trap_digit_guard.py",
-     "func": "kill_job",
-     "line": 12,
-     "path": "/jobs/kill",
-     "methods": [
-      "POST"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
- "CAA-c487cfac": {
-  "ranges": [
-   [
-    "cmdi/trap_digit_guard.py",
-    11,
-    17
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    1,
-    1
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    2,
-    2
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    3,
-    3
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    4,
-    4
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    6,
-    6
-   ],
-   [
-    "cmdi/trap_digit_guard.py",
-    8,
-    8
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "cmdi/trap_digit_guard.py",
-     "func": "kill_job",
-     "line": 12,
-     "path": "/jobs/kill",
-     "methods": [
-      "POST"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-aaf0c737": {
@@ -2325,59 +1915,6 @@
    }
   }
  },
- "CAA-20ce532d": {
-  "ranges": [
-   [
-    "path/avatar.py",
-    10,
-    12
-   ],
-   [
-    "path/avatar.py",
-    1,
-    1
-   ],
-   [
-    "path/avatar.py",
-    3,
-    3
-   ],
-   [
-    "path/avatar.py",
-    4,
-    4
-   ],
-   [
-    "path/avatar.py",
-    6,
-    6
-   ],
-   [
-    "path/avatar.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/avatar.py",
-     "func": "avatar",
-     "line": 11,
-     "path": "/avatar/<path:filename>",
-     "methods": [
-      "GET"
-     ],
-     "params": [
-      "filename"
-     ],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-9380f86c": {
   "ranges": [
    [
@@ -2452,57 +1989,6 @@
    }
   }
  },
- "CAA-1afe4263": {
-  "ranges": [
-   [
-    "path/denylist.py",
-    10,
-    16
-   ],
-   [
-    "path/denylist.py",
-    1,
-    1
-   ],
-   [
-    "path/denylist.py",
-    3,
-    3
-   ],
-   [
-    "path/denylist.py",
-    4,
-    4
-   ],
-   [
-    "path/denylist.py",
-    6,
-    6
-   ],
-   [
-    "path/denylist.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/denylist.py",
-     "func": "docs",
-     "line": 11,
-     "path": "/docs",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-4e616929": {
   "ranges": [
    [
@@ -2568,108 +2054,6 @@
     "entry": "download",
     "notes": []
    }
-  }
- },
- "CAA-e4363cb9": {
-  "ranges": [
-   [
-    "path/download.py",
-    10,
-    14
-   ],
-   [
-    "path/download.py",
-    1,
-    1
-   ],
-   [
-    "path/download.py",
-    3,
-    3
-   ],
-   [
-    "path/download.py",
-    4,
-    4
-   ],
-   [
-    "path/download.py",
-    6,
-    6
-   ],
-   [
-    "path/download.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/download.py",
-     "func": "download",
-     "line": 11,
-     "path": "/download",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
- "CAA-c1bc20ab": {
-  "ranges": [
-   [
-    "path/prefix_unnormalised.py",
-    10,
-    17
-   ],
-   [
-    "path/prefix_unnormalised.py",
-    1,
-    1
-   ],
-   [
-    "path/prefix_unnormalised.py",
-    3,
-    3
-   ],
-   [
-    "path/prefix_unnormalised.py",
-    4,
-    4
-   ],
-   [
-    "path/prefix_unnormalised.py",
-    6,
-    6
-   ],
-   [
-    "path/prefix_unnormalised.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/prefix_unnormalised.py",
-     "func": "export",
-     "line": 11,
-     "path": "/export",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-e0caae90": {
@@ -2812,57 +2196,6 @@
    }
   }
  },
- "CAA-eb33afac": {
-  "ranges": [
-   [
-    "path/trap_basename.py",
-    10,
-    14
-   ],
-   [
-    "path/trap_basename.py",
-    1,
-    1
-   ],
-   [
-    "path/trap_basename.py",
-    3,
-    3
-   ],
-   [
-    "path/trap_basename.py",
-    4,
-    4
-   ],
-   [
-    "path/trap_basename.py",
-    6,
-    6
-   ],
-   [
-    "path/trap_basename.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/trap_basename.py",
-     "func": "thumbs",
-     "line": 11,
-     "path": "/thumbs",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-fdd661f4": {
   "ranges": [
    [
@@ -2912,59 +2245,6 @@
     "entry": null,
     "notes": []
    }
-  }
- },
- "CAA-366c7008": {
-  "ranges": [
-   [
-    "path/trap_secure_filename.py",
-    10,
-    14
-   ],
-   [
-    "path/trap_secure_filename.py",
-    1,
-    1
-   ],
-   [
-    "path/trap_secure_filename.py",
-    3,
-    3
-   ],
-   [
-    "path/trap_secure_filename.py",
-    4,
-    4
-   ],
-   [
-    "path/trap_secure_filename.py",
-    6,
-    6
-   ],
-   [
-    "path/trap_secure_filename.py",
-    7,
-    7
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "path/trap_secure_filename.py",
-     "func": "report_file",
-     "line": 11,
-     "path": "/reports/<name>",
-     "methods": [
-      "GET"
-     ],
-     "params": [
-      "name"
-     ],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-7ad21d87": {
@@ -3037,47 +2317,6 @@
    ]
   ],
   "facts": {}
- },
- "CAA-f1d51ac6": {
-  "ranges": [
-   [
-    "sqli/injected_comment.py",
-    12,
-    18
-   ],
-   [
-    "sqli/injected_comment.py",
-    1,
-    1
-   ],
-   [
-    "sqli/injected_comment.py",
-    3,
-    3
-   ],
-   [
-    "sqli/injected_comment.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/injected_comment.py",
-     "func": "staff_lookup",
-     "line": 13,
-     "path": "/staff/lookup",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
  },
  "CAA-7c0b6c3a": {
   "ranges": [
@@ -3161,47 +2400,6 @@
    }
   }
  },
- "CAA-03fc9de8": {
-  "ranges": [
-   [
-    "sqli/orders_concat.py",
-    12,
-    18
-   ],
-   [
-    "sqli/orders_concat.py",
-    1,
-    1
-   ],
-   [
-    "sqli/orders_concat.py",
-    3,
-    3
-   ],
-   [
-    "sqli/orders_concat.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/orders_concat.py",
-     "func": "list_orders",
-     "line": 13,
-     "path": "/orders",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-394c76d5": {
   "ranges": [
    [
@@ -3269,47 +2467,6 @@
    }
   }
  },
- "CAA-529deed0": {
-  "ranges": [
-   [
-    "sqli/orders_concat_fixed.py",
-    12,
-    18
-   ],
-   [
-    "sqli/orders_concat_fixed.py",
-    1,
-    1
-   ],
-   [
-    "sqli/orders_concat_fixed.py",
-    3,
-    3
-   ],
-   [
-    "sqli/orders_concat_fixed.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/orders_concat_fixed.py",
-     "func": "list_orders",
-     "line": 13,
-     "path": "/orders",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-8b6f3dd1": {
   "ranges": [
    [
@@ -3328,6 +2485,11 @@
     11
    ],
    [
+    "sqli/repo_layer.py",
+    1,
+    1
+   ],
+   [
     "sqli/product_routes.py",
     1,
     1
@@ -3341,11 +2503,6 @@
     "sqli/product_routes.py",
     5,
     5
-   ],
-   [
-    "sqli/repo_layer.py",
-    1,
-    1
    ]
   ],
   "facts": {
@@ -3400,47 +2557,6 @@
     "entry": "product_search",
     "notes": []
    }
-  }
- },
- "CAA-f616d787": {
-  "ranges": [
-   [
-    "sqli/report_percent.py",
-    12,
-    16
-   ],
-   [
-    "sqli/report_percent.py",
-    1,
-    1
-   ],
-   [
-    "sqli/report_percent.py",
-    3,
-    3
-   ],
-   [
-    "sqli/report_percent.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/report_percent.py",
-     "func": "report",
-     "line": 13,
-     "path": "/reports",
-     "methods": [
-      "POST"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-0067bc10": {
@@ -3508,52 +2624,6 @@
     "entry": "report",
     "notes": []
    }
-  }
- },
- "CAA-eeb6892d": {
-  "ranges": [
-   [
-    "sqli/trap_column_map.py",
-    14,
-    20
-   ],
-   [
-    "sqli/trap_column_map.py",
-    1,
-    1
-   ],
-   [
-    "sqli/trap_column_map.py",
-    3,
-    3
-   ],
-   [
-    "sqli/trap_column_map.py",
-    5,
-    5
-   ],
-   [
-    "sqli/trap_column_map.py",
-    11,
-    11
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/trap_column_map.py",
-     "func": "payments",
-     "line": 15,
-     "path": "/payments",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-eadf9f15": {
@@ -3628,52 +2698,6 @@
    }
   }
  },
- "CAA-2c652a02": {
-  "ranges": [
-   [
-    "sqli/trap_constant_table.py",
-    14,
-    18
-   ],
-   [
-    "sqli/trap_constant_table.py",
-    1,
-    1
-   ],
-   [
-    "sqli/trap_constant_table.py",
-    3,
-    3
-   ],
-   [
-    "sqli/trap_constant_table.py",
-    5,
-    5
-   ],
-   [
-    "sqli/trap_constant_table.py",
-    11,
-    11
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/trap_constant_table.py",
-     "func": "audit_count",
-     "line": 15,
-     "path": "/audit/count",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-285152cd": {
   "ranges": [
    [
@@ -3720,47 +2744,6 @@
    }
   }
  },
- "CAA-4910ef02": {
-  "ranges": [
-   [
-    "sqli/trap_int_cast.py",
-    12,
-    18
-   ],
-   [
-    "sqli/trap_int_cast.py",
-    1,
-    1
-   ],
-   [
-    "sqli/trap_int_cast.py",
-    3,
-    3
-   ],
-   [
-    "sqli/trap_int_cast.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/trap_int_cast.py",
-     "func": "invoice_page",
-     "line": 13,
-     "path": "/invoices/page",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
-  }
- },
  "CAA-8cf9acce": {
   "ranges": [
    [
@@ -3800,52 +2783,6 @@
     "entry": null,
     "notes": []
    }
-  }
- },
- "CAA-17b22d9a": {
-  "ranges": [
-   [
-    "sqli/trap_sort_allowlist.py",
-    14,
-    21
-   ],
-   [
-    "sqli/trap_sort_allowlist.py",
-    1,
-    1
-   ],
-   [
-    "sqli/trap_sort_allowlist.py",
-    3,
-    3
-   ],
-   [
-    "sqli/trap_sort_allowlist.py",
-    5,
-    5
-   ],
-   [
-    "sqli/trap_sort_allowlist.py",
-    11,
-    11
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/trap_sort_allowlist.py",
-     "func": "customers",
-     "line": 15,
-     "path": "/customers",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-1f877485": {
@@ -3949,47 +2886,6 @@
     "entry": "search_users",
     "notes": []
    }
-  }
- },
- "CAA-3222ecae": {
-  "ranges": [
-   [
-    "sqli/user_lookup_fixed.py",
-    12,
-    17
-   ],
-   [
-    "sqli/user_lookup_fixed.py",
-    1,
-    1
-   ],
-   [
-    "sqli/user_lookup_fixed.py",
-    3,
-    3
-   ],
-   [
-    "sqli/user_lookup_fixed.py",
-    5,
-    5
-   ]
-  ],
-  "facts": {
-   "routes_in_file": [
-    {
-     "file": "sqli/user_lookup_fixed.py",
-     "func": "search_users",
-     "line": 13,
-     "path": "/users/search",
-     "methods": [
-      "GET"
-     ],
-     "params": [],
-     "auth": false,
-     "lookup_by_id": false,
-     "ownership_check": false
-    }
-   ]
   }
  },
  "CAA-23755123": {

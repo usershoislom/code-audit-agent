@@ -269,6 +269,31 @@
     "refs": []
    },
    {
+    "level": 1,
+    "by": "route-policy",
+    "detail": "two hints: handler lacks the check AND a sibling of the same resource has it",
+    "refs": [
+     {
+      "file": "authz/invoices.py",
+      "line": 42,
+      "http_exchange": null,
+      "note": "route"
+     },
+     {
+      "file": "authz/invoices.py",
+      "line": 45,
+      "http_exchange": null,
+      "note": "get_db().execute('SELECT id, amount, customer FROM invoices WHERE id = ?', (invoice_id,))"
+     },
+     {
+      "file": "authz/invoices.py",
+      "line": 37,
+      "http_exchange": null,
+      "note": "ownership comparison followed by deny"
+     }
+    ]
+   },
+   {
     "level": 2,
     "by": "route-map",
     "detail": "object loaded by client id without owner filter or ownership comparison",
@@ -284,6 +309,12 @@
       "line": 45,
       "http_exchange": null,
       "note": "get_db().execute('SELECT id, amount, customer FROM invoices WHERE id = ?', (invoice_id,))"
+     },
+     {
+      "file": "authz/invoices.py",
+      "line": 37,
+      "http_exchange": null,
+      "note": "ownership comparison followed by deny"
      }
     ]
    },
@@ -408,15 +439,130 @@
        }
       ],
       "sources": [
-       "authz-routes"
+       "authz-routes",
+       "llm-entrypoints"
       ],
       "rules": [
-       "caa.authz.idor-no-ownership"
+       "caa.authz.idor-no-ownership",
+       "caa.llm.entrypoint"
       ]
      }
     }
    ],
    "message": ""
+  }
+ },
+ {
+  "id": "CAA-312491aa",
+  "title": "Missing authorization",
+  "cwe": "CWE-862",
+  "group": "B",
+  "owasp": "A01:2021 Broken Access Control",
+  "asvs": "V4.1.3",
+  "location": {
+   "file": "authz/invoices.py",
+   "start_line": 44,
+   "end_line": null,
+   "function": "invoice_json"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachability not proven (evidence L0)",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "authz/invoices.py",
+      "line": 44,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "refuted",
+  "not_verified": [],
+  "refutation": {
+   "file": "authz/invoices.py",
+   "line": 43,
+   "http_exchange": null,
+   "note": "@login_required"
+  },
+  "fix": null,
+  "llm_verdict": {
+   "verdict": "insufficient_data",
+   "claims": [],
+   "dropped_claims": [],
+   "dataflow": [],
+   "protection": null,
+   "protection_rejected": null,
+   "severity": null,
+   "explanation": "",
+   "injection_suspected": false,
+   "tool_calls": 0
+  },
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-862",
+     "group": "B",
+     "location": {
+      "file": "authz/invoices.py",
+      "start_line": 44,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    },
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-862",
+     "group": "B",
+     "location": {
+      "file": "authz/invoices.py",
+      "start_line": 45,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": "",
+   "refuted_by": "auth-present"
   }
  },
  {
@@ -482,6 +628,31 @@
     "refs": []
    },
    {
+    "level": 1,
+    "by": "route-policy",
+    "detail": "two hints: handler lacks the check AND a sibling of the same resource has it",
+    "refs": [
+     {
+      "file": "authz/notes.py",
+      "line": 49,
+      "http_exchange": null,
+      "note": "route"
+     },
+     {
+      "file": "authz/notes.py",
+      "line": 53,
+      "http_exchange": null,
+      "note": "db.execute('DELETE FROM notes WHERE id = ?', (note_id,))"
+     },
+     {
+      "file": "authz/notes.py",
+      "line": 44,
+      "http_exchange": null,
+      "note": "ownership comparison followed by deny"
+     }
+    ]
+   },
+   {
     "level": 2,
     "by": "route-map",
     "detail": "object loaded by client id without owner filter or ownership comparison",
@@ -497,6 +668,12 @@
       "line": 53,
       "http_exchange": null,
       "note": "db.execute('DELETE FROM notes WHERE id = ?', (note_id,))"
+     },
+     {
+      "file": "authz/notes.py",
+      "line": 44,
+      "http_exchange": null,
+      "note": "ownership comparison followed by deny"
      }
     ]
    },
@@ -646,96 +823,6 @@
   }
  },
  {
-  "id": "CAA-e81fdd15",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "authz/notes.py",
-   "start_line": 51,
-   "end_line": null,
-   "function": "delete_note"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachability not proven (evidence L0)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "authz/notes.py",
-      "line": 51,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "refuted",
-  "not_verified": [],
-  "refutation": {
-   "file": "authz/notes.py",
-   "line": 50,
-   "http_exchange": null,
-   "note": "@login_required"
-  },
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "authz/notes.py",
-      "start_line": 51,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "refuted_by": "auth-present"
-  }
- },
- {
   "id": "CAA-d8fa872f",
   "title": "OS command injection",
   "cwe": "CWE-78",
@@ -787,7 +874,7 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": null,
+   "severity": "critical",
    "explanation": "",
    "injection_suspected": false,
    "tool_calls": 1
@@ -822,160 +909,6 @@
    ],
    "message": "Consider possible security implications associated with the subprocess module.",
    "refuted_by": "no-sink"
-  }
- },
- {
-  "id": "CAA-b523c835",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "cmdi/archive.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "backup"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/archive.py",
-     "line": 11,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/backup\", methods=[\"POST\"])"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/archive.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "cmdi/archive.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/archive.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "cmdi/archive.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "cmdi/archive.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The endpoint /backup is defined in cmdi/archive.py:11 and is accessible via POST requests.",
-     "cmdi/archive.py:11"
-    ],
-    [
-     "The backup function at cmdi/archive.py:12 performs a sensitive operation (system backup via os.system) without any authorization or authentication checks.",
-     "cmdi/archive.py:12"
-    ]
-   ],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "high",
-   "explanation": "The `/backup` route in `cmdi/archive.py` is exposed to the public without any authentication or authorization mechanisms. Any user can trigger the `backup()` function, which executes a system command (`os.system`). This is a clear case of Missing Authorization (CWE-862). Additionally, the function is vulnerable to command injection, but the reported issue is specifically about the lack of authorization.",
-   "injection_suspected": false,
-   "tool_calls": 3
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/archive.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "llm_severity": "high"
   }
  },
  {
@@ -1082,7 +1015,6 @@
   "level": 3,
   "status": "open",
   "not_verified": [
-   "1 model claim(s) discarded: cited lines were never read",
    "no dynamic (L4) confirmation was performed",
    "scope: first-party code only; framework and driver behaviour assumed as documented"
   ],
@@ -1091,9 +1023,7 @@
   "llm_verdict": {
    "verdict": "insufficient_data",
    "claims": [],
-   "dropped_claims": [
-    "cmdi/archive.py:13-14: User-controlled input from 'name' in request.form is concatenated into a shell command executed by os.system()"
-   ],
+   "dropped_claims": [],
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
@@ -1191,7 +1121,7 @@
    "protection": null,
    "protection_rejected": "cmdi/archive_fixed.py:14 is outside the data path (sink function / call chain)",
    "severity": null,
-   "explanation": "The user-provided input `name` is passed through `shlex.quote()` before being concatenated into the shell command string. `shlex.quote()` properly escapes the string for use in a POSIX shell, preventing an attacker from injecting additional shell commands. While path traversal might still be possible (CWE-22), the specific vulnerability reported is OS command injection (CWE-78), which is neutralized here.",
+   "explanation": "The user-controlled input `name` is passed through `shlex.quote()` before being concatenated into the command string executed by `os.system()`. `shlex.quote()` ensures that the input is treated as a single shell word, preventing an attacker from breaking out of the argument context to execute arbitrary commands. While this might still be vulnerable to path traversal (e.g., if `name` contains `../`), it is not vulnerable to OS command injection.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -1225,130 +1155,6 @@
    ],
    "message": "Consider possible security implications associated with the subprocess module.",
    "refuted_by": "no-sink"
-  }
- },
- {
-  "id": "CAA-641375f9",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "cmdi/archive_fixed.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "backup"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/archive_fixed.py",
-     "line": 11,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/backup\", methods=[\"POST\"])"
-   }
-  ],
-  "explanation": "Missing Authorization for Backup Functionality",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/archive_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "cmdi/archive_fixed.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/archive_fixed.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 2
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/archive_fixed.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "Missing Authorization for Backup Functionality",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "Missing Authorization for Backup Functionality"
   }
  },
  {
@@ -1395,7 +1201,9 @@
   ],
   "level": 1,
   "status": "refuted",
-  "not_verified": [],
+  "not_verified": [
+   "model's refutation rejected: no protection_ref given"
+  ],
   "refutation": {
    "file": "cmdi/archive_fixed.py",
    "line": 14,
@@ -1404,16 +1212,16 @@
   },
   "fix": null,
   "llm_verdict": {
-   "verdict": "not_vulnerable",
+   "verdict": "insufficient_data",
    "claims": [],
    "dropped_claims": [],
    "dataflow": [],
-   "protection": "cmdi/archive_fixed.py:14",
-   "protection_rejected": null,
+   "protection": null,
+   "protection_rejected": "no protection_ref given",
    "severity": null,
-   "explanation": "The user input `name` is passed through `shlex.quote()`, which escapes the string for use in a POSIX shell. This prevents an attacker from breaking out of the intended command string to execute arbitrary commands. While the resulting filename might be unusual or allow for path traversal (which is a separate issue), it does not allow for OS command injection.",
+   "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -1727,150 +1535,6 @@
   }
  },
  {
-  "id": "CAA-a77753d7",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "cmdi/convert.py",
-   "start_line": 18,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/convert.py",
-     "line": 16,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/convert\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "cmdi/convert.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/convert.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "cmdi/convert.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The application takes a filename from the user via the 'file' query parameter in the '/convert' route and uses it to access a file in '/srv/uploads/' without any authentication or ownership check.",
-     "cmdi/convert.py:18"
-    ]
-   ],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "high",
-   "explanation": "The endpoint '/convert' allows any user to specify a filename via the 'file' parameter, which is then used to construct a path to a file in '/srv/uploads/' (cmdi/convert.py:12). Since there is no authentication or authorization check to ensure the user owns the requested file, this is an Insecure Direct Object Reference (IDOR). Additionally, the code is critically vulnerable to Command Injection because the user-supplied input is interpolated directly into a shell command executed via subprocess.check_output(cmd, shell=True).",
-   "injection_suspected": false,
-   "tool_calls": 2
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert.py",
-      "start_line": 18,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "llm_severity": "high"
-  }
- },
- {
   "id": "CAA-50a74a04",
   "title": "OS command injection",
   "cwe": "CWE-78",
@@ -1925,7 +1589,7 @@
    "protection": null,
    "protection_rejected": "cmdi/convert_fixed.py:20 is outside the data path (sink function / call chain)",
    "severity": null,
-   "explanation": "The input 'src' is strictly validated using a regular expression (re.fullmatch) that only allows alphanumeric characters, underscores, and hyphens, followed by a specific extension (.png or .jpg). The input 'fmt' is validated against a strict whitelist of allowed extensions ('png', 'jpg', 'webp'). These checks prevent any shell metacharacters from reaching the subprocess.check_output call.",
+   "explanation": "The input 'src' is strictly validated against a regular expression that only allows alphanumeric characters, underscores, and hyphens, followed by a specific extension (png or jpg), preventing any shell metacharacters from being injected. The input 'fmt' is validated against a strict whitelist of allowed extensions. These checks effectively neutralize the risk of OS command injection in the subsequent subprocess call.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -1959,6 +1623,94 @@
    ],
    "message": "Consider possible security implications associated with the subprocess module.",
    "refuted_by": "no-sink"
+  }
+ },
+ {
+  "id": "CAA-a766b3b4",
+  "title": "Business logic flaw",
+  "cwe": "CWE-840",
+  "group": "C",
+  "owasp": "A04:2021 Insecure Design",
+  "asvs": "V11.1.4",
+  "location": {
+   "file": "cmdi/convert_fixed.py",
+   "start_line": 12,
+   "end_line": null,
+   "function": "convert_image"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "low",
+  "severity_rationale": "impact: Price/quantity/coupon rules can be abused (negative quantities, client-supplied prices, replay). | reachability not proven (evidence L0)",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "cmdi/convert_fixed.py",
+      "line": 12,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "needs_human",
+  "not_verified": [
+   "model's refutation rejected: no protection_ref given",
+   "business-logic hypothesis: requires human confirmation",
+   "scope: first-party code only; framework and driver behaviour assumed as documented"
+  ],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": {
+   "verdict": "insufficient_data",
+   "claims": [],
+   "dropped_claims": [],
+   "dataflow": [],
+   "protection": null,
+   "protection_rejected": "no protection_ref given",
+   "severity": null,
+   "explanation": "",
+   "injection_suspected": false,
+   "tool_calls": 0
+  },
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-840",
+     "group": "C",
+     "location": {
+      "file": "cmdi/convert_fixed.py",
+      "start_line": 12,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": ""
   }
  },
  {
@@ -2014,16 +1766,16 @@
   },
   "fix": null,
   "llm_verdict": {
-   "verdict": "insufficient_data",
+   "verdict": "not_vulnerable",
    "claims": [],
    "dropped_claims": [],
    "dataflow": [],
-   "protection": null,
+   "protection": "cmdi/convert_fixed.py:20",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "",
+   "explanation": "The candidate identifies a potential OS command injection in `cmdi/convert_fixed.py:13` because `subprocess.check_output` is called with `shell=True` and a formatted string. However, the only caller of `convert_image` within `cmdi/convert_fixed.py` is the `convert()` function (line 24), which performs strict validation on both inputs. The `src` parameter is validated using `re.fullmatch(r'[A-Za-z0-9_-]{1,64}[.](?:png|jpg)', src)` at line 20, which restricts the input to a safe set of characters and a specific format, preventing shell metacharacters. The `fmt` parameter is validated against a strict whitelist `('png', 'jpg', 'webp')` at line 22. These checks effectively neutralize the risk of command injection. While `cmdi/convert.py` contains a similar vulnerable pattern, the candidate specifically points to `cmdi/convert_fixed.py`, which is the fixed version of the code.",
    "injection_suspected": false,
-   "tool_calls": 0
+   "tool_calls": 2
   },
   "extra": {
    "rules": [
@@ -2058,294 +1810,6 @@
    ],
    "message": "Command executed through a shell with a non-constant command string.",
    "refuted_by": "taint-sanitizer"
-  }
- },
- {
-  "id": "CAA-45e2ee0d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "cmdi/convert_fixed.py",
-   "start_line": 17,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/convert_fixed.py",
-     "line": 16,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/convert\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 17,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 6
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert_fixed.py",
-      "start_line": 17,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-0dd7660a",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "cmdi/convert_fixed.py",
-   "start_line": 18,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/convert_fixed.py",
-     "line": 16,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/convert\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 16,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 17,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The application takes a filename from the user via the 'file' request argument.",
-     "cmdi/convert_fixed.py:18"
-    ],
-    [
-     "The filename is used to access a file in the '/srv/uploads/' directory.",
-     "cmdi/convert_fixed.py:12"
-    ],
-    [
-     "There is no authentication or ownership check performed before accessing the file, as confirmed by the route map (auth: false, ownership_check: false).",
-     "cmdi/convert_fixed.py:17"
-    ]
-   ],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "medium",
-   "explanation": "The application allows any user to specify a filename to be processed from the '/srv/uploads/' directory. While there is a regex check to prevent path traversal (CWE-22) and command injection, there is no authorization check to ensure that the user requesting the conversion has the right to access the specified file. This is a classic Insecure Direct Object Reference (IDOR) vulnerability (CWE-639), as any user can access any file in the uploads directory that matches the filename pattern.",
-   "injection_suspected": false,
-   "tool_calls": 5
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert_fixed.py",
-      "start_line": 18,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "llm_severity": "medium"
   }
  },
  {
@@ -2400,7 +1864,7 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": "critical",
+   "severity": null,
    "explanation": "",
    "injection_suspected": false,
    "tool_calls": 1
@@ -2570,11 +2034,11 @@
    "verdict": "vulnerable",
    "claims": [
     [
-     "The 'host' variable is taken directly from user-supplied request arguments at cmdi/ping.py:13.",
+     "The `host` variable is taken directly from user-supplied request arguments at cmdi/ping.py:13.",
      "cmdi/ping.py:13"
     ],
     [
-     "The 'host' variable is interpolated into a command string and executed via subprocess.run with shell=True at cmdi/ping.py:14, allowing for OS command injection.",
+     "The `host` variable is interpolated into a command string and executed via `subprocess.run` with `shell=True` at cmdi/ping.py:14, allowing for OS command injection.",
      "cmdi/ping.py:14"
     ]
    ],
@@ -2658,7 +2122,9 @@
   ],
   "level": 0,
   "status": "refuted",
-  "not_verified": [],
+  "not_verified": [
+   "model's refutation rejected: cmdi/ping_fixed.py:14 is outside the data path (sink function / call chain)"
+  ],
   "refutation": {
    "file": "cmdi/ping_fixed.py",
    "line": 4,
@@ -2672,9 +2138,9 @@
    "dropped_claims": [],
    "dataflow": [],
    "protection": null,
-   "protection_rejected": null,
+   "protection_rejected": "cmdi/ping_fixed.py:14 is outside the data path (sink function / call chain)",
    "severity": null,
-   "explanation": "",
+   "explanation": "The code uses `subprocess.run` with a list of arguments and the default `shell=False`. In this mode, the arguments are passed directly to the operating system's execution API without involving a shell, which prevents shell command injection. Any shell metacharacters provided in the `host` parameter will be treated as literal arguments to the `ping` command rather than shell commands.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -2757,25 +2223,13 @@
   "fix": null,
   "llm_verdict": {
    "verdict": "not_vulnerable",
-   "claims": [
-    [
-     "The user-controlled 'host' variable is passed as an element of a list to subprocess.run()",
-     "cmdi/ping_fixed.py:14"
-    ],
-    [
-     "By default, subprocess.run() uses shell=False when a list is provided, preventing shell command injection.",
-     "cmdi/ping_fixed.py:14"
-    ]
-   ],
+   "claims": [],
    "dropped_claims": [],
-   "dataflow": [
-    "cmdi/ping_fixed.py:13",
-    "cmdi/ping_fixed.py:14"
-   ],
+   "dataflow": [],
    "protection": "cmdi/ping_fixed.py:14",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The code uses subprocess.run with a list of arguments and the default shell=False. In this mode, the arguments are passed directly to the operating system's process creation API without being interpreted by a shell, which neutralizes OS command injection. The Bandit warning refers to the use of a relative path for the executable, which is a separate security concern from command injection.",
+   "explanation": "",
    "injection_suspected": false,
    "tool_calls": 0
   },
@@ -2850,7 +2304,9 @@
   ],
   "level": 0,
   "status": "refuted",
-  "not_verified": [],
+  "not_verified": [
+   "model's refutation rejected: cmdi/trap_argv_list.py:14 is outside the data path (sink function / call chain)"
+  ],
   "refutation": {
    "file": "cmdi/trap_argv_list.py",
    "line": 4,
@@ -2864,9 +2320,9 @@
    "dropped_claims": [],
    "dataflow": [],
    "protection": null,
-   "protection_rejected": null,
+   "protection_rejected": "cmdi/trap_argv_list.py:14 is outside the data path (sink function / call chain)",
    "severity": null,
-   "explanation": "",
+   "explanation": "The application uses `subprocess.run` with a list of arguments and the default `shell=False`. In this mode, the arguments are passed directly to the operating system's execution API without involving a shell, which prevents OS command injection (CWE-78). Additionally, the use of `--` in the argument list prevents the user-supplied `domain` from being interpreted as a command-line flag for `nslookup` (argument injection).",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -2955,7 +2411,7 @@
    "protection": "cmdi/trap_argv_list.py:14",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The code uses `subprocess.run` with a list of arguments and the default `shell=False`. This prevents shell injection because the arguments are passed directly to the executable without being interpreted by a shell. Additionally, the use of `--` as an argument to `nslookup` prevents the user-controlled `domain` variable from being interpreted as a command-line option (argument injection). The Bandit warning mentioned in the report ('Starting a process with a partial executable path') refers to the risk of PATH hijacking, not OS command injection (CWE-78).",
+   "explanation": "",
    "injection_suspected": false,
    "tool_calls": 0
   },
@@ -3046,7 +2502,7 @@
    "protection": "cmdi/trap_constant_shell.py:10",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The subprocess.run call uses shell=True, but the command string is constructed using a hardcoded constant LOG_DIR ('/var/log/app') and contains no user-controlled input. Therefore, no command injection is possible.",
+   "explanation": "The subprocess.run call at line 15 uses shell=True, but the command string is constructed using a hardcoded constant LOG_DIR defined at line 10. There is no user-controlled input passed to the command, making command injection impossible.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -3080,169 +2536,6 @@
    ],
    "message": "Consider possible security implications associated with the subprocess module.",
    "refuted_by": "no-sink"
-  }
- },
- {
-  "id": "CAA-5b8e563d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "cmdi/trap_constant_shell.py",
-   "start_line": 14,
-   "end_line": null,
-   "function": "disk"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/trap_constant_shell.py",
-     "line": 13,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/diag/disk\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The endpoint '/diag/disk' is defined at cmdi/trap_constant_shell.py:13.",
-     "cmdi/trap_constant_shell.py:13"
-    ],
-    [
-     "The function 'disk' at cmdi/trap_constant_shell.py:14 lacks any authentication or authorization checks.",
-     "cmdi/trap_constant_shell.py:14"
-    ],
-    [
-     "The route map explicitly indicates that authorization is disabled for this endpoint ('auth': false).",
-     "cmdi/trap_constant_shell.py:14"
-    ]
-   ],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_constant_shell.py",
-      "start_line": 14,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -3298,9 +2591,9 @@
    "protection": "cmdi/trap_constant_shell.py:10",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The variable LOG_DIR used in the subprocess call is a hardcoded constant defined as '/var/log/app' at line 10. It is not influenced by any user-controlled input, making command injection impossible.",
+   "explanation": "The subprocess call uses shell=True, but the command string is constructed using LOG_DIR, which is defined as a constant string literal ('/var/log/app') at cmdi/trap_constant_shell.py:10. There is no user-controllable input used in the command construction, making command injection impossible.",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 2
   },
   "extra": {
    "rules": [
@@ -3389,7 +2682,7 @@
    "protection": null,
    "protection_rejected": "cmdi/trap_digit_guard.py:14 is outside the data path (sink function / call chain)",
    "severity": null,
-   "explanation": "The input 'pid' is retrieved from the request form and then validated using '.isdigit()' at line 14. This ensures that the string contains only numeric digits before it is concatenated into the shell command executed by 'os.system' at line 16, preventing any shell metacharacters from being injected.",
+   "explanation": "The user input 'pid' is validated using '.isdigit()' at line 14. This ensures that only numeric characters are passed to the 'os.system' call at line 16, preventing the injection of shell metacharacters.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -3423,254 +2716,6 @@
    ],
    "message": "Consider possible security implications associated with the subprocess module.",
    "refuted_by": "no-sink"
-  }
- },
- {
-  "id": "CAA-1bf083d2",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "cmdi/trap_digit_guard.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "kill_job"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/trap_digit_guard.py",
-     "line": 11,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/jobs/kill\", methods=[\"POST\"])"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_digit_guard.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-c487cfac",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "cmdi/trap_digit_guard.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "kill_job"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "cmdi/trap_digit_guard.py",
-     "line": 11,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/jobs/kill\", methods=[\"POST\"])"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_digit_guard.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -3970,10 +3015,10 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": "high",
+   "severity": null,
    "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -4021,7 +3066,8 @@
    "function": null
   },
   "sources": [
-   "bandit"
+   "bandit",
+   "llm"
   ],
   "dataflow": [],
   "explanation": "Possible hardcoded password: 'Wint3r!Mailer#2024'",
@@ -4066,6 +3112,19 @@
       "note": ""
      }
     ]
+   },
+   {
+    "level": 1,
+    "by": "llm-triage",
+    "detail": "model agrees, with verified citations",
+    "refs": [
+     {
+      "file": "config/settings.py",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
    }
   ],
   "level": 3,
@@ -4077,14 +3136,19 @@
   "refutation": null,
   "fix": null,
   "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
+   "verdict": "vulnerable",
+   "claims": [
+    [
+     "The variable smtp_password is assigned a hard-coded string value in config/settings.py:8.",
+     "config/settings.py:8"
+    ]
+   ],
    "dropped_claims": [],
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": null,
-   "explanation": "The variable `smtp_password` is hard-coded in `config/settings.py:8`. I searched the entire codebase for usages of `smtp_password` using `search(pattern='smtp_password', glob='**')`, and it only appears in the definition in `config/settings.py` and in a fixed version in `config/settings_fixed.py`. Since I cannot find any code that actually uses this credential, I cannot confirm that the vulnerability is reachable. However, I also cannot provide a `protection_ref` to mark it as `not_vulnerable` as per the rules. Therefore, I must conclude there is insufficient data to determine reachability.",
+   "severity": "medium",
+   "explanation": "A hard-coded password 'Wint3r!Mailer#2024' is present in the source code at config/settings.py:8. Hard-coding credentials in source code is a security vulnerability (CWE-798) as it exposes secrets to anyone with access to the codebase. Although search results did not show the variable being used in other files, the presence of the secret in the source code itself constitutes the vulnerability. The existence of a 'config/settings_fixed.py' file further suggests that this is a known issue that should have been remediated.",
    "injection_suspected": false,
    "tool_calls": 6
   },
@@ -4116,7 +3180,8 @@
      }
     }
    ],
-   "message": "Possible hardcoded password: 'Wint3r!Mailer#2024'"
+   "message": "Possible hardcoded password: 'Wint3r!Mailer#2024'",
+   "llm_severity": "medium"
   }
  },
  {
@@ -4308,7 +3373,7 @@
    "verdict": "vulnerable",
    "claims": [
     [
-     "The Flask application in config/settings.py is configured to run in debug mode when executed as the main module.",
+     "Flask debug mode is explicitly enabled in the application entry point.",
      "config/settings.py:16"
     ]
    ],
@@ -4317,9 +3382,9 @@
    "protection": null,
    "protection_rejected": null,
    "severity": "high",
-   "explanation": "The application explicitly enables Flask's debug mode (`debug=True`) in the `app.run()` call within the `if __name__ == '__main__':` block. When a Flask application is run in debug mode, it enables the Werkzeug interactive debugger. This debugger allows an attacker to execute arbitrary Python code on the server if they can trigger an exception (e.g., by requesting a non-existent page to cause a 404 error), leading to Remote Code Execution (RCE).",
+   "explanation": "The application calls `app.run(debug=True)` when executed as the main module. In Flask, enabling debug mode activates the interactive debugger, which allows arbitrary code execution on the server if an unhandled exception occurs. This is a critical security risk (CWE-489) as it exposes a remote shell to any attacker who can trigger an error.",
    "injection_suspected": false,
-   "tool_calls": 5
+   "tool_calls": 1
   },
   "extra": {
    "rules": [
@@ -4409,9 +3474,9 @@
    "protection": "config/settings_fixed.py:17",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The use of MD5 in `cache_key` is explicitly marked with `usedforsecurity=False`, and the function name indicates it is used for generating cache keys, not for security-sensitive operations (like password hashing or integrity checks). MD5 is acceptable for non-cryptographic purposes such as cache keys. Furthermore, search results indicate the function is not called elsewhere in the codebase, making it unreachable or used only for its intended non-security purpose.",
+   "explanation": "The code uses MD5 to generate a cache key, which is a non-security use case. The developer has explicitly passed `usedforsecurity=False` to `hashlib.md5()`, which is the standard Python mechanism to indicate that the hash is not being used for cryptographic security purposes (e.g., password hashing or digital signatures) and to avoid triggering security warnings or FIPS restrictions. Since it is used for a cache key, the risk is limited to hash collisions, which does not constitute a cryptographic vulnerability in this context.",
    "injection_suspected": false,
-   "tool_calls": 2
+   "tool_calls": 3
   },
   "extra": {
    "rules": [
@@ -4462,7 +3527,7 @@
    "llm-entrypoints"
   ],
   "dataflow": [],
-  "explanation": "Client-controlled price and quantity in checkout",
+  "explanation": "",
   "severity": "low",
   "severity_rationale": "impact: Price/quantity/coupon rules can be abused (negative quantities, client-supplied prices, replay). | reachability not proven (evidence L0)",
   "evidence": [
@@ -4516,7 +3581,7 @@
       "end_line": null,
       "function": null
      },
-     "message": "Client-controlled price and quantity in checkout",
+     "message": "",
      "snippet": "",
      "extra": {
       "rationale": "",
@@ -4529,7 +3594,7 @@
      }
     }
    ],
-   "message": "Client-controlled price and quantity in checkout"
+   "message": ""
   }
  },
  {
@@ -4546,8 +3611,7 @@
    "function": "avatar"
   },
   "sources": [
-   "semgrep",
-   "llm"
+   "semgrep"
   ],
   "dataflow": [
    {
@@ -4625,31 +3689,6 @@
       "note": ""
      }
     ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "path/avatar.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "path/avatar.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "path/avatar.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
    }
   ],
   "level": 3,
@@ -4661,27 +3700,14 @@
   "refutation": null,
   "fix": null,
   "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The application takes user input 'filename' from the URL path via the '<path:filename>' converter, which allows slashes and directory traversal sequences like '..'.",
-     "path/avatar.py:10"
-    ],
-    [
-     "The input 'filename' is concatenated directly into a file path without any sanitization or validation (e.g., secure_filename is imported but not used).",
-     "path/avatar.py:12"
-    ],
-    [
-     "The resulting absolute path is passed to 'send_file', which serves the file at that path. Because the path is constructed using string concatenation with user-controlled input, an attacker can use '..' sequences to traverse outside the intended '/srv/files/avatars/' directory.",
-     "path/avatar.py:12"
-    ]
-   ],
+   "verdict": "insufficient_data",
+   "claims": [],
    "dropped_claims": [],
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
    "severity": "high",
-   "explanation": "The code is vulnerable to path traversal because it uses string concatenation to build a file path from user-supplied input and then passes that path to `send_file`. In Flask, `send_file` does not provide the same path traversal protections as `send_from_directory`. An attacker can provide a `filename` such as `../../etc/passwd` to read arbitrary files on the server.",
+   "explanation": "",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -4713,132 +3739,7 @@
      }
     }
    ],
-   "message": "File path built from a non-constant value is opened or served.",
-   "llm_severity": "high"
-  }
- },
- {
-  "id": "CAA-20ce532d",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/avatar.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "avatar"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/avatar.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/avatar/<path:filename>\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/avatar.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/avatar.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/avatar.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "high",
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/avatar.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
+   "message": "File path built from a non-constant value is opened or served."
   }
  },
  {
@@ -4988,130 +3889,6 @@
   }
  },
  {
-  "id": "CAA-1afe4263",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/denylist.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "docs"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/denylist.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/docs\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/denylist.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/denylist.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/denylist.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/denylist.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-4e616929",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -5257,256 +4034,6 @@
   }
  },
  {
-  "id": "CAA-e4363cb9",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/download.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "download"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/download.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/download\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/download.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/download.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/download.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/download.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-c1bc20ab",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/prefix_unnormalised.py",
-   "start_line": 14,
-   "end_line": null,
-   "function": "export"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/prefix_unnormalised.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/export\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/prefix_unnormalised.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/prefix_unnormalised.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/prefix_unnormalised.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 0
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint",
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/prefix_unnormalised.py",
-      "start_line": 14,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint",
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-e0caae90",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -5635,7 +4162,7 @@
    "severity": null,
    "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -5721,7 +4248,7 @@
    "protection": "path/trap_allowlist.py:14",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The variable 'kind' is validated against a strict allowlist 'TEMPLATES' (containing only 'invoice', 'receipt', and 'letter') at line 14. If 'kind' is not in this set, the request is aborted with a 404. This prevents any path traversal characters from reaching the 'open' call at line 16.",
+   "explanation": "The input 'kind' is validated against a strict allowlist (TEMPLATES = {'invoice', 'receipt', 'letter'}) at line 14. If 'kind' is not one of these three predefined safe strings, the request is aborted with a 404 error. This prevents any path traversal characters from reaching the file opening operation at line 16.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -5755,133 +4282,6 @@
    ],
    "message": "File path built from a non-constant value is opened or served.",
    "refuted_by": "taint-sanitizer"
-  }
- },
- {
-  "id": "CAA-eb33afac",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/trap_basename.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "thumbs"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/trap_basename.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/thumbs\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/trap_basename.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/trap_basename.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/trap_basename.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "1 model claim(s) discarded: cited lines were never read",
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [
-    "path/trap_basename.py:12-13: The `thumbs` function allows a user to specify a filename via the `img` request parameter, which is then used to read a "
-   ],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "medium",
-   "explanation": "The application takes a user-supplied filename from the `img` query parameter and uses it to open a file in the `thumbs` directory. While `os.path.basename()` is used to prevent path traversal (CWE-22) by stripping directory components, there is no authorization check to ensure that the requesting user is permitted to access the specific file requested. This is a classic Insecure Direct Object Reference (IDOR) vulnerability (CWE-639), as any file within the `thumbs` directory can be read by any user who can guess or obtain the filename.",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/trap_basename.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -5974,170 +4374,6 @@
   }
  },
  {
-  "id": "CAA-366c7008",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.2.1",
-  "location": {
-   "file": "path/trap_secure_filename.py",
-   "start_line": 11,
-   "end_line": null,
-   "function": "report_file"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "path/trap_secure_filename.py",
-     "line": 10,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/reports/<name>\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "object loaded by client id without owner filter or ownership comparison",
-    "refs": [
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 10,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     },
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The function `report_file` accepts a user-controlled `name` parameter from the URL path.",
-     "path/trap_secure_filename.py:11"
-    ],
-    [
-     "The `name` parameter is used to open and read a file from the `/srv/files/reports` directory.",
-     "path/trap_secure_filename.py:13"
-    ],
-    [
-     "There is no authentication or ownership check performed to ensure the requester is authorized to access the specific report file, as indicated by the route map (`auth: false`, `ownership_check: false`).",
-     "path/trap_secure_filename.py:11"
-    ]
-   ],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "medium",
-   "explanation": "The application suffers from an Insecure Direct Object Reference (IDOR) vulnerability. While `secure_filename` is used to prevent path traversal (CWE-22), there is no authorization check to verify if the user has permission to access the requested report file. Any user can access any file within the reports directory by providing the filename in the URL.",
-   "injection_suspected": false,
-   "tool_calls": 2
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/trap_secure_filename.py",
-      "start_line": 11,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "llm_severity": "medium"
-  }
- },
- {
   "id": "CAA-7ad21d87",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -6190,7 +4426,7 @@
    "protection": "path/trap_secure_filename.py:12",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The input 'name' is passed through `werkzeug.utils.secure_filename()`, which strips directory separators and prevents path traversal by ensuring the resulting filename is safe to be used in a path.",
+   "explanation": "The input 'name' is passed through 'secure_filename()' from 'werkzeug.utils' before being used in 'os.path.join()'. 'secure_filename' is specifically designed to prevent path traversal by stripping directory separators and '..' sequences, ensuring the resulting filename is safe to be used in a path.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -6286,8 +4522,14 @@
       "note": ""
      },
      {
-      "file": "authz/admin.py",
-      "line": 27,
+      "file": "authz/notes.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     },
+     {
+      "file": "authz/notes.py",
+      "line": 36,
       "http_exchange": null,
       "note": ""
      }
@@ -6306,12 +4548,16 @@
    "verdict": "vulnerable",
    "claims": [
     [
-     "The application uses flask version 2.2.2, which is affected by CVE-2023-30861.",
+     "The application uses Flask version 2.2.2, which is affected by CVE-2023-30861.",
      "requirements.txt:1"
     ],
     [
-     "The application uses session cookies to control access to sensitive routes, meaning responses vary based on the session cookie.",
-     "authz/admin.py:27"
+     "The application uses Flask sessions to manage user identity and access control, making the vulnerability reachable.",
+     "authz/notes.py:4"
+    ],
+    [
+     "The application uses session data to filter sensitive information (e.g., user notes), which could be leaked if the response is cached by a proxy.",
+     "authz/notes.py:36"
     ]
    ],
    "dropped_claims": [],
@@ -6319,9 +4565,9 @@
    "protection": null,
    "protection_rejected": null,
    "severity": "medium",
-   "explanation": "The application uses Flask 2.2.2, which is vulnerable to CVE-2023-30861. This vulnerability occurs because Flask fails to send the 'Vary: Cookie' header when a response depends on the session cookie. In authz/admin.py, the 'admin_required' decorator (line 24) checks the session cookie (line 27) to determine if a user is an administrator. If a caching proxy is used, it may cache the response for an authenticated administrator and serve it to an unauthenticated user, leading to unauthorized access to sensitive data (e.g., the user list in admin_users at line 35).",
+   "explanation": "The application uses Flask 2.2.2, which is vulnerable to CVE-2023-30861. This vulnerability occurs because Flask does not send the 'Vary: Cookie' header, potentially allowing a caching proxy to serve a session-specific response to a different user. The application extensively uses Flask sessions for authentication and authorization (e.g., in authz/notes.py), meaning that sensitive user-specific data (like the list of notes in /notes) could be cached and leaked to other users if deployed behind such a proxy.",
    "injection_suspected": false,
-   "tool_calls": 4
+   "tool_calls": 5
   },
   "extra": {
    "rules": [
@@ -6410,24 +4656,29 @@
    }
   ],
   "level": 0,
-  "status": "needs_human",
+  "status": "refuted",
   "not_verified": [
    "package is pinned but never imported by first-party code (unused or transitive)",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
+   "refuted by model citing a protecting line; not proven by deterministic analysis"
   ],
-  "refutation": null,
+  "refutation": {
+   "file": "requirements.txt",
+   "line": 2,
+   "http_exchange": null,
+   "note": ""
+  },
   "fix": null,
   "llm_verdict": {
-   "verdict": "insufficient_data",
+   "verdict": "not_vulnerable",
    "claims": [],
    "dropped_claims": [],
    "dataflow": [],
-   "protection": null,
+   "protection": "requirements.txt:2",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The dependency pyyaml==5.3 is listed in requirements.txt:2, which is affected by CVE-2020-14343. However, I have searched the codebase for any usage of the 'yaml' library (using search for 'yaml.', 'yaml', and 'import') and found no instances of the library being imported or used in any of the Python files. While this suggests the vulnerability is not reachable, the rules require a 'protection_ref' (an executable line that neutralizes the issue) to return a 'not_vulnerable' verdict. Since the library is not used at all, there is no such line of code to cite as a protection. Therefore, I must return insufficient_data.",
+   "explanation": "The dependency pyyaml==5.3 is listed in requirements.txt, but a search for 'yaml' across all files in the repository (including all .py files) reveals that the library is never imported or used in the codebase. Since the library is not used, the vulnerability (CVE-2020-14343) is not reachable.",
    "injection_suspected": false,
-   "tool_calls": 6
+   "tool_calls": 3
   },
   "extra": {
    "rules": [
@@ -6474,131 +4725,8 @@
      "5.4"
     ],
     "db": "snapshot 2026-10-01"
-   }
-  }
- },
- {
-  "id": "CAA-f1d51ac6",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/injected_comment.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "staff_lookup"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/injected_comment.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/staff/lookup\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/injected_comment.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
    },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/injected_comment.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/injected_comment.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 3
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/injected_comment.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
+   "refuted_by": "llm-triage"
   }
  },
  {
@@ -6806,7 +4934,7 @@
    "protection_rejected": null,
    "severity": null,
    "explanation": "",
-   "injection_suspected": false,
+   "injection_suspected": true,
    "tool_calls": 0
   },
   "extra": {
@@ -6840,153 +4968,8 @@
      }
     }
    ],
-   "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-03fc9de8",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/orders_concat.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "list_orders"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/orders_concat.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/orders\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/orders_concat.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/orders_concat.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/orders_concat.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "sqli/orders_concat.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "1 model claim(s) discarded: cited lines were never read",
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The route '/orders' is accessible without any authentication or authorization checks.",
-     "sqli/orders_concat.py:12"
-    ]
-   ],
-   "dropped_claims": [
-    "sqli/orders_concat.py:13-18: The function 'list_orders' retrieves and returns order data from the database without verifying the identity or permissi"
-   ],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/orders_concat.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
+   "message": "SQL query text built from a non-constant string is passed to execute().",
+   "llm_injection_suspected": true
   }
  },
  {
@@ -7158,130 +5141,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-529deed0",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/orders_concat_fixed.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "list_orders"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/orders_concat_fixed.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/orders\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/orders_concat_fixed.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/orders_concat_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/orders_concat_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/orders_concat_fixed.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -7472,154 +5331,6 @@
   }
  },
  {
-  "id": "CAA-f616d787",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/report_percent.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "report"
-  },
-  "sources": [
-   "llm-entrypoints",
-   "llm"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/report_percent.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/reports\", methods=[\"POST\"])"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/report_percent.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/report_percent.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/report_percent.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 1,
-    "by": "llm-triage",
-    "detail": "model agrees, with verified citations",
-    "refs": [
-     {
-      "file": "sqli/report_percent.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "2 model claim(s) discarded: cited lines were never read",
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "vulnerable",
-   "claims": [
-    [
-     "The provided route map explicitly indicates that this endpoint has no authorization ('auth': false).",
-     "sqli/report_percent.py:13"
-    ]
-   ],
-   "dropped_claims": [
-    "sqli/report_percent.py:12-13: The route '/reports' in sqli/report_percent.py is accessible via POST requests without any authentication or authorizati",
-    "sqli/report_percent.py:15-16: The function 'report' accesses sensitive sales data from the database based on a user-provided region."
-   ],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "medium",
-   "explanation": "The endpoint '/reports' allows any user to query the total sales amount for any given region. There are no authorization checks (e.g., decorators or internal logic) to ensure that the requester has the necessary permissions to access this business data. The route map confirms that authorization is disabled for this endpoint.",
-   "injection_suspected": false,
-   "tool_calls": 5
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/report_percent.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "",
-   "llm_severity": "medium"
-  }
- },
- {
   "id": "CAA-0067bc10",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -7791,130 +5502,6 @@
   }
  },
  {
-  "id": "CAA-eeb6892d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/trap_column_map.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "payments"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/trap_column_map.py",
-     "line": 14,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/payments\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_column_map.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/trap_column_map.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/trap_column_map.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "high",
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_column_map.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-eadf9f15",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -8051,7 +5638,7 @@
    "protection": "sqli/trap_column_map.py:17",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The user-provided 'sort' parameter is used as a key to look up a value in the `SORT_COLUMNS` dictionary. If the key is not present in the dictionary, it defaults to 'created_at'. The values in `SORT_COLUMNS` are hardcoded constants ('name', 'created_at', 'amount'). Thus, the variable `column` used in the SQL query is always one of these predefined safe strings, effectively implementing a whitelist that prevents SQL injection.",
+   "explanation": "The user input 'key' is used as a key to look up a value in the 'SORT_COLUMNS' dictionary. The resulting 'column' variable can only be one of the predefined values ('name', 'created_at', 'amount') or the default 'created_at'. Since all possible values for 'column' are hardcoded constants, no user-controlled input reaches the SQL query in a way that allows for injection.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -8088,133 +5675,6 @@
    ],
    "message": "SQL query text built from a non-constant string is passed to execute().",
    "refuted_by": "llm-triage"
-  }
- },
- {
-  "id": "CAA-2c652a02",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/trap_constant_table.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "audit_count"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/trap_constant_table.py",
-     "line": 14,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/audit/count\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_constant_table.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/trap_constant_table.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/trap_constant_table.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "1 model claim(s) discarded: cited lines were never read",
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [
-    "sqli/trap_constant_table.py:14-15: The endpoint /audit/count is accessible without any authentication or authorization checks."
-   ],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_constant_table.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -8277,9 +5737,9 @@
    "protection": "sqli/trap_constant_table.py:11",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The variable `TABLE` used in the SQL query is a hardcoded constant string defined at line 11 (`TABLE = 'audit_events'`). There is no user-controlled input used in the query construction, so no SQL injection is possible.",
+   "explanation": "The variable `TABLE` used in the SQL query at line 17 is defined as a hardcoded constant string 'audit_events' at line 11. It is not influenced by any user-controlled input, thus no SQL injection is possible.",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 2
   },
   "extra": {
    "rules": [
@@ -8314,130 +5774,6 @@
    ],
    "message": "SQL query text built from a non-constant string is passed to execute().",
    "refuted_by": "taint-no-source"
-  }
- },
- {
-  "id": "CAA-4910ef02",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/trap_int_cast.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "invoice_page"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/trap_int_cast.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/invoices/page\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_int_cast.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/trap_int_cast.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/trap_int_cast.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_int_cast.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -8540,130 +5876,6 @@
   }
  },
  {
-  "id": "CAA-17b22d9a",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/trap_sort_allowlist.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "customers"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/trap_sort_allowlist.py",
-     "line": 14,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/customers\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_sort_allowlist.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/trap_sort_allowlist.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/trap_sort_allowlist.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 1
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_sort_allowlist.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-1f877485",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -8723,7 +5935,7 @@
    "protection": "sqli/trap_sort_allowlist.py:17",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The input 'direction' is validated against a strict allowlist ('asc', 'desc') at line 17. If the input is not one of these two constant strings, the request is aborted. This prevents any arbitrary SQL from being injected into the query at line 20.",
+   "explanation": "The user-controlled input 'direction' is validated against a strict allowlist ('asc', 'desc') at line 17 before being interpolated into the SQL query at line 20. This prevents any arbitrary SQL injection.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -8866,7 +6078,6 @@
   "level": 3,
   "status": "open",
   "not_verified": [
-   "1 model claim(s) discarded: cited lines were never read",
    "no dynamic (L4) confirmation was performed",
    "scope: first-party code only; framework and driver behaviour assumed as documented"
   ],
@@ -8875,9 +6086,7 @@
   "llm_verdict": {
    "verdict": "insufficient_data",
    "claims": [],
-   "dropped_claims": [
-    "sqli/user_lookup.py:14,16: User-controlled input from the 'name' query parameter is directly interpolated into a SQL query string using an f-string"
-   ],
+   "dropped_claims": [],
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
@@ -8918,130 +6127,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-3222ecae",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "A01:2021 Broken Access Control",
-  "asvs": "V4.1.3",
-  "location": {
-   "file": "sqli/user_lookup_fixed.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "search_users"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [
-   {
-    "kind": "source",
-    "ref": {
-     "file": "sqli/user_lookup_fixed.py",
-     "line": 12,
-     "http_exchange": null,
-     "note": "route"
-    },
-    "code": "@app.route(\"/users/search\")"
-   }
-  ],
-  "explanation": "",
-  "severity": "high",
-  "severity_rationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/user_lookup_fixed.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   },
-   {
-    "level": 2,
-    "by": "route-map",
-    "detail": "no authentication decorator or inline check",
-    "refs": [
-     {
-      "file": "sqli/user_lookup_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   },
-   {
-    "level": 3,
-    "by": "defender",
-    "detail": "no global hook, no ownership check in handler, callees or decorators",
-    "refs": [
-     {
-      "file": "sqli/user_lookup_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": "route"
-     }
-    ]
-   }
-  ],
-  "level": 3,
-  "status": "open",
-  "not_verified": [
-   "no dynamic (L4) confirmation was performed",
-   "scope: first-party code only; framework and driver behaviour assumed as documented"
-  ],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
-   "dropped_claims": [],
-   "dataflow": [],
-   "protection": null,
-   "protection_rejected": null,
-   "severity": "medium",
-   "explanation": "",
-   "injection_suspected": false,
-   "tool_calls": 3
-  },
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/user_lookup_fixed.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -9240,10 +6325,10 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": "high",
+   "severity": null,
    "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -9390,7 +6475,7 @@
    "protection": "ssrf/fetch_fixed.py:14",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The application validates that the URL scheme is 'https' and that the hostname is present in a predefined whitelist of allowed hosts (ssrf/fetch_fixed.py:7). Additionally, it disables redirects in the requests.get call (ssrf/fetch_fixed.py:16) to prevent redirect-based SSRF bypasses.",
+   "explanation": "The application validates that the URL scheme is 'https' and that the hostname is present in a predefined whitelist of allowed hosts (ALLOWED_HOSTS). Additionally, it disables redirects in the requests.get call to prevent redirect-based SSRF bypasses.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -9479,9 +6564,9 @@
    "protection": "tests/test_fixtures.py:1",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The hard-coded credential is located in a test fixture file (`tests/test_fixtures.py`) and uses a dummy email address (`alice@example.test`) and a placeholder password (`example-password-123`). It is not used in production code and does not provide access to any real system.",
+   "explanation": "The hard-coded credential is located in a test fixture file (`tests/test_fixtures.py`) and is used for a test account (`alice@example.test`). Searches for the variable `TEST_USER` and the specific email address confirm that these are only used within the test suite and are not referenced in any production code. Hard-coded credentials in test fixtures for non-production environments are not considered security vulnerabilities.",
    "injection_suspected": false,
-   "tool_calls": 2
+   "tool_calls": 5
   },
   "extra": {
    "rules": [
@@ -9624,10 +6709,10 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": null,
+   "severity": "high",
    "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 0
+   "tool_calls": 1
   },
   "extra": {
    "rules": [
@@ -9706,14 +6791,14 @@
   },
   "fix": null,
   "llm_verdict": {
-   "verdict": "not_vulnerable",
+   "verdict": "insufficient_data",
    "claims": [],
    "dropped_claims": [],
    "dataflow": [],
-   "protection": "xss/comment_fixed.py:10",
+   "protection": null,
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The user-controlled input 'body' is passed through 'markupsafe.escape()' before being concatenated into the HTML response. 'markupsafe.escape' is a standard security function that escapes HTML special characters, preventing Cross-Site Scripting (XSS).",
+   "explanation": "",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -9858,10 +6943,10 @@
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": "high",
+   "severity": null,
    "explanation": "",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -9947,7 +7032,7 @@
    "protection": "xss/greet_fixed.py:10",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The user-controlled input 'name' is passed through 'markupsafe.escape()' before being interpolated into the HTML response string. This function escapes HTML special characters, preventing cross-site scripting.",
+   "explanation": "The user input 'name' is passed through the 'escape' function from the 'markupsafe' library before being embedded in the HTML response, which prevents cross-site scripting by encoding HTML special characters.",
    "injection_suspected": false,
    "tool_calls": 1
   },
@@ -9997,7 +7082,8 @@
    "function": "search"
   },
   "sources": [
-   "semgrep"
+   "semgrep",
+   "llm"
   ],
   "dataflow": [
    {
@@ -10075,6 +7161,25 @@
       "note": ""
      }
     ]
+   },
+   {
+    "level": 1,
+    "by": "llm-triage",
+    "detail": "model agrees, with verified citations",
+    "refs": [
+     {
+      "file": "xss/search_page.py",
+      "line": 9,
+      "http_exchange": null,
+      "note": ""
+     },
+     {
+      "file": "xss/search_page.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
    }
   ],
   "level": 3,
@@ -10086,16 +7191,25 @@
   "refutation": null,
   "fix": null,
   "llm_verdict": {
-   "verdict": "insufficient_data",
-   "claims": [],
+   "verdict": "vulnerable",
+   "claims": [
+    [
+     "The user-controlled input 'q' is retrieved from request arguments.",
+     "xss/search_page.py:9"
+    ],
+    [
+     "The input 'q' is concatenated directly into a template string passed to 'render_template_string', leading to both Server-Side Template Injection (SSTI) and Cross-Site Scripting (XSS).",
+     "xss/search_page.py:10"
+    ]
+   ],
    "dropped_claims": [],
    "dataflow": [],
    "protection": null,
    "protection_rejected": null,
-   "severity": null,
-   "explanation": "",
+   "severity": "high",
+   "explanation": "The application takes user input from the 'q' query parameter and concatenates it directly into the template string used by `render_template_string`. This allows an attacker to inject both Jinja2 template expressions (SSTI) and arbitrary HTML/JavaScript (XSS). While `markupsafe.escape` is imported on line 2, it is not used to sanitize the input before it is incorporated into the template.",
    "injection_suspected": false,
-   "tool_calls": 0
+   "tool_calls": 1
   },
   "extra": {
    "rules": [
@@ -10125,7 +7239,8 @@
      }
     }
    ],
-   "message": "HTML built by string formatting is returned from a request handler without escaping."
+   "message": "HTML built by string formatting is returned from a request handler without escaping.",
+   "llm_severity": "high"
   }
  },
  {
@@ -10181,9 +7296,9 @@
    "protection": "xss/search_page_fixed.py:10",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The code uses `render_template_string` with a static template string and passes the user-controlled input `q` as a keyword argument. In Flask, `render_template_string` utilizes Jinja2, which enables auto-escaping by default for variables rendered within `{{ }}` blocks. Since the user input is not concatenated directly into the template string but is passed as a context variable, it will be properly HTML-escaped before being returned to the user.",
+   "explanation": "The code uses `render_template_string` with a static template string `'<p>Results for {{ q }}</p>'` and passes the user input `q` as a keyword argument. In Flask, `render_template_string` utilizes the Jinja2 templating engine, which enables auto-escaping by default. This ensures that any HTML characters in the variable `q` are properly escaped before being rendered in the response, preventing Cross-Site Scripting (XSS). The semgrep finding likely misidentified the Jinja2 template syntax as unsafe string formatting.",
    "injection_suspected": false,
-   "tool_calls": 1
+   "tool_calls": 0
   },
   "extra": {
    "rules": [
@@ -10359,7 +7474,7 @@
    "protection": "xss/trap_server_value.py:11",
    "protection_rejected": null,
    "severity": null,
-   "explanation": "The reported XSS vulnerability is not reachable because the data being formatted into the HTML response is provided by `platform.python_version()`, which is a system property and not user-controllable. Since no untrusted input reaches the sink, there is no XSS vulnerability.",
+   "explanation": "The reported XSS vulnerability is a false positive. While the code uses string formatting to build an HTML response, the value being interpolated is `platform.python_version()`, which is a trusted system value provided by the Python standard library and cannot be controlled by a user. Since there is no user-controlled input reaching the sink, no XSS is possible.",
    "injection_suspected": false,
    "tool_calls": 1
   },

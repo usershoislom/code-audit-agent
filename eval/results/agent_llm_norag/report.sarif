@@ -55,6 +55,21 @@
        }
       },
       {
+       "id": "caa/CWE-840",
+       "name": "Businesslogicflaw",
+       "shortDescription": {
+        "text": "Business logic flaw"
+       },
+       "properties": {
+        "tags": [
+         "CWE-840",
+         "security",
+         "A04:2021 Insecure Design"
+        ],
+        "asvs": "V11.1.4"
+       }
+      },
+      {
        "id": "caa/CWE-798",
        "name": "Hard-codedcredential",
        "shortDescription": {
@@ -97,21 +112,6 @@
          "A05:2021 Security Misconfiguration"
         ],
         "asvs": "V14.3.2"
-       }
-      },
-      {
-       "id": "caa/CWE-840",
-       "name": "Businesslogicflaw",
-       "shortDescription": {
-        "text": "Business logic flaw"
-       },
-       "properties": {
-        "tags": [
-         "CWE-840",
-         "security",
-         "A04:2021 Insecure Design"
-        ],
-        "asvs": "V11.1.4"
        }
       },
       {
@@ -345,6 +345,11 @@
         "detail": "independent sources agree on place and CWE: authz-routes, llm-entrypoints"
        },
        {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
         "level": "L2",
         "by": "route-map",
         "detail": "object loaded by client id without owner filter or ownership comparison"
@@ -398,6 +403,52 @@
      ]
     },
     {
+     "ruleId": "caa/CWE-862",
+     "level": "none",
+     "message": {
+      "text": "Missing authorization: "
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "authz/invoices.py"
+        },
+        "region": {
+         "startLine": 44
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-312491aa"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachability not proven (evidence L0)",
+      "group": "B",
+      "notVerified": [],
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "llm-entrypoints",
+        "detail": "pattern match: caa.llm.entrypoint"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by auth-present at authz/invoices.py:43"
+      }
+     ]
+    },
+    {
      "ruleId": "caa/CWE-639",
      "level": "error",
      "message": {
@@ -442,6 +493,11 @@
         "level": "L1",
         "by": "agreement",
         "detail": "independent sources agree on place and CWE: authz-routes, llm-entrypoints"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
        },
        {
         "level": "L2",
@@ -497,52 +553,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "none",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "authz/notes.py"
-        },
-        "region": {
-         "startLine": 51
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-e81fdd15"
-     },
-     "properties": {
-      "confidence": "L0",
-      "status": "refuted",
-      "severity": "medium",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachability not proven (evidence L0)",
-      "group": "B",
-      "notVerified": [],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       }
-      ]
-     },
-     "suppressions": [
-      {
-       "kind": "external",
-       "justification": "refuted by auth-present at authz/notes.py:50"
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-78",
      "level": "none",
      "message": {
@@ -590,90 +600,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/archive.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-b523c835"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/archive.py"
-             },
-             "region": {
-              "startLine": 11
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/backup\", methods=[\"POST\"])"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-78",
      "level": "error",
      "message": {
@@ -702,7 +628,6 @@
       "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
       "group": "A",
       "notVerified": [
-       "1 model claim(s) discarded: cited lines were never read",
        "no dynamic (L4) confirmation was performed",
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
@@ -824,84 +749,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: Missing Authorization for Backup Functionality"
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/archive_fixed.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-641375f9"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/archive_fixed.py"
-             },
-             "region": {
-              "startLine": 11
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/backup\", methods=[\"POST\"])"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-78",
      "level": "none",
      "message": {
@@ -929,7 +776,9 @@
       "severity": "medium",
       "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L1)",
       "group": "A",
-      "notVerified": [],
+      "notVerified": [
+       "model's refutation rejected: no protection_ref given"
+      ],
       "sources": [
        "semgrep",
        "bandit"
@@ -1132,90 +981,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/convert.py"
-        },
-        "region": {
-         "startLine": 18
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-a77753d7"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/convert.py"
-             },
-             "region": {
-              "startLine": 16
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/convert\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-78",
      "level": "none",
      "message": {
@@ -1263,6 +1028,50 @@
        "justification": "refuted by no-sink at cmdi/convert_fixed.py:4"
       }
      ]
+    },
+    {
+     "ruleId": "caa/CWE-840",
+     "level": "note",
+     "message": {
+      "text": "Business logic flaw: "
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert_fixed.py"
+        },
+        "region": {
+         "startLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-a766b3b4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "needs_human",
+      "severity": "low",
+      "severityRationale": "impact: Price/quantity/coupon rules can be abused (negative quantities, client-supplied prices, replay). | reachability not proven (evidence L0)",
+      "group": "C",
+      "notVerified": [
+       "model's refutation rejected: no protection_ref given",
+       "business-logic hypothesis: requires human confirmation",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "llm-entrypoints",
+        "detail": "pattern match: caa.llm.entrypoint"
+       }
+      ]
+     }
     },
     {
      "ruleId": "caa/CWE-78",
@@ -1314,168 +1123,6 @@
       {
        "kind": "external",
        "justification": "refuted by taint-sanitizer at cmdi/convert_fixed.py:20"
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/convert_fixed.py"
-        },
-        "region": {
-         "startLine": 17
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-45e2ee0d"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/convert_fixed.py"
-             },
-             "region": {
-              "startLine": 16
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/convert\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/convert_fixed.py"
-        },
-        "region": {
-         "startLine": 18
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-0dd7660a"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/convert_fixed.py"
-             },
-             "region": {
-              "startLine": 16
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/convert\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
       }
      ]
     },
@@ -1660,7 +1307,9 @@
       "severity": "medium",
       "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
       "group": "A",
-      "notVerified": [],
+      "notVerified": [
+       "model's refutation rejected: cmdi/ping_fixed.py:14 is outside the data path (sink function / call chain)"
+      ],
       "sources": [
        "bandit"
       ],
@@ -1754,7 +1403,9 @@
       "severity": "medium",
       "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
       "group": "A",
-      "notVerified": [],
+      "notVerified": [
+       "model's refutation rejected: cmdi/trap_argv_list.py:14 is outside the data path (sink function / call chain)"
+      ],
       "sources": [
        "bandit"
       ],
@@ -1868,90 +1519,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/trap_constant_shell.py"
-        },
-        "region": {
-         "startLine": 14
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-5b8e563d"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/trap_constant_shell.py"
-             },
-             "region": {
-              "startLine": 13
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/diag/disk\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-78",
      "level": "none",
      "message": {
@@ -2044,162 +1611,6 @@
       {
        "kind": "external",
        "justification": "refuted by no-sink at cmdi/trap_digit_guard.py:4"
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/trap_digit_guard.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-1bf083d2"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/trap_digit_guard.py"
-             },
-             "region": {
-              "startLine": 11
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/jobs/kill\", methods=[\"POST\"])"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "cmdi/trap_digit_guard.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-c487cfac"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "cmdi/trap_digit_guard.py"
-             },
-             "region": {
-              "startLine": 11
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/jobs/kill\", methods=[\"POST\"])"
-            }
-           }
-          }
-         ]
-        }
-       ]
       }
      ]
     },
@@ -2403,7 +1814,8 @@
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
       "sources": [
-       "bandit"
+       "bandit",
+       "llm"
       ],
       "evidence": [
        {
@@ -2420,6 +1832,11 @@
         "level": "L3",
         "by": "defender",
         "detail": "not a placeholder, not test code, not read from the environment"
+       },
+       {
+        "level": "L1",
+        "by": "llm-triage",
+        "detail": "model agrees, with verified citations"
        }
       ]
      }
@@ -2590,7 +2007,7 @@
      "ruleId": "caa/CWE-840",
      "level": "note",
      "message": {
-      "text": "Business logic flaw: Client-controlled price and quantity in checkout"
+      "text": "Business logic flaw: "
      },
      "locations": [
       {
@@ -2662,8 +2079,7 @@
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
       "sources": [
-       "semgrep",
-       "llm"
+       "semgrep"
       ],
       "evidence": [
        {
@@ -2680,11 +2096,6 @@
         "level": "L3",
         "by": "defender",
         "detail": "refutation failed: entry avatar() is a route, no sanitizer on the path, no global input filter, not test code"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
        }
       ]
      },
@@ -2720,84 +2131,6 @@
             },
             "message": {
              "text": "sink: return send_file(BASE_DIR + \"/avatars/\" + filename)"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/avatar.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-20ce532d"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/avatar.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/avatar/<path:filename>\")"
             }
            }
           }
@@ -2903,84 +2236,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/denylist.py"
-        },
-        "region": {
-         "startLine": 15
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-1afe4263"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/denylist.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/docs\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-22",
      "level": "error",
      "message": {
@@ -3065,162 +2320,6 @@
             },
             "message": {
              "text": "sink: with open(os.path.join(BASE_DIR, name), \"rb\") as fh:"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/download.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-e4363cb9"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/download.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/download\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/prefix_unnormalised.py"
-        },
-        "region": {
-         "startLine": 14
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-c1bc20ab"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/prefix_unnormalised.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/export\")"
             }
            }
           }
@@ -3388,85 +2487,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/trap_basename.py"
-        },
-        "region": {
-         "startLine": 12
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-eb33afac"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "1 model claim(s) discarded: cited lines were never read",
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/trap_basename.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/thumbs\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-22",
      "level": "none",
      "message": {
@@ -3510,90 +2530,6 @@
       {
        "kind": "external",
        "justification": "refuted by taint-sanitizer at path/trap_basename.py:12"
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-639",
-     "level": "error",
-     "message": {
-      "text": "Insecure direct object reference: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "path/trap_secure_filename.py"
-        },
-        "region": {
-         "startLine": 11
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-366c7008"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "object loaded by client id without owner filter or ownership comparison"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "path/trap_secure_filename.py"
-             },
-             "region": {
-              "startLine": 10
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/reports/<name>\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
       }
      ]
     },
@@ -3701,7 +2637,7 @@
     },
     {
      "ruleId": "caa/CWE-1395",
-     "level": "note",
+     "level": "none",
      "message": {
       "text": "Vulnerable dependency: pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML."
      },
@@ -3723,13 +2659,13 @@
      },
      "properties": {
       "confidence": "L0",
-      "status": "needs_human",
+      "status": "refuted",
       "severity": "low",
       "severityRationale": "impact: A known CVE in a pinned dependency; real impact depends on whether the affected feature is used. | reachability not proven (evidence L0)",
       "group": "E",
       "notVerified": [
        "package is pinned but never imported by first-party code (unused or transitive)",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
       ],
       "sources": [
        "deps-snapshot"
@@ -3741,83 +2677,11 @@
         "detail": "pattern match: deps.CVE-2020-14343"
        }
       ]
-     }
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
      },
-     "locations": [
+     "suppressions": [
       {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/injected_comment.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-f1d51ac6"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/injected_comment.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/staff/lookup\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
+       "kind": "external",
+       "justification": "refuted by llm-triage at requirements.txt:2"
       }
      ]
     },
@@ -3969,91 +2833,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/orders_concat.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-03fc9de8"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "1 model claim(s) discarded: cited lines were never read",
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/orders_concat.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/orders\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-89",
      "level": "error",
      "message": {
@@ -4159,84 +2938,6 @@
             },
             "message": {
              "text": "sink: cur.execute(query)"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/orders_concat_fixed.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-529deed0"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/orders_concat_fixed.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/orders\")"
             }
            }
           }
@@ -4377,91 +3078,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/report_percent.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-f616d787"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "2 model claim(s) discarded: cited lines were never read",
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints",
-       "llm"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       },
-       {
-        "level": "L1",
-        "by": "llm-triage",
-        "detail": "model agrees, with verified citations"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/report_percent.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/reports\", methods=[\"POST\"])"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-89",
      "level": "error",
      "message": {
@@ -4567,84 +3183,6 @@
             },
             "message": {
              "text": "sink: return {\"total\": get_db().execute(sql).fetchone()[0]}"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/trap_column_map.py"
-        },
-        "region": {
-         "startLine": 15
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-eeb6892d"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/trap_column_map.py"
-             },
-             "region": {
-              "startLine": 14
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/payments\")"
             }
            }
           }
@@ -4775,85 +3313,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/trap_constant_table.py"
-        },
-        "region": {
-         "startLine": 15
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-2c652a02"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "1 model claim(s) discarded: cited lines were never read",
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/trap_constant_table.py"
-             },
-             "region": {
-              "startLine": 14
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/audit/count\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-89",
      "level": "none",
      "message": {
@@ -4907,84 +3366,6 @@
      ]
     },
     {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/trap_int_cast.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-4910ef02"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/trap_int_cast.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/invoices/page\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
      "ruleId": "caa/CWE-89",
      "level": "none",
      "message": {
@@ -5034,84 +3415,6 @@
       {
        "kind": "external",
        "justification": "refuted by taint-sanitizer at sqli/trap_int_cast.py:14"
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/trap_sort_allowlist.py"
-        },
-        "region": {
-         "startLine": 15
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-17b22d9a"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/trap_sort_allowlist.py"
-             },
-             "region": {
-              "startLine": 14
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/customers\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
       }
      ]
     },
@@ -5197,7 +3500,6 @@
       "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
       "group": "A",
       "notVerified": [
-       "1 model claim(s) discarded: cited lines were never read",
        "no dynamic (L4) confirmation was performed",
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
@@ -5260,84 +3562,6 @@
             },
             "message": {
              "text": "sink: cur.execute(f\"SELECT id, email FROM users WHERE name = '{name}'\")"
-            }
-           }
-          }
-         ]
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "ruleId": "caa/CWE-862",
-     "level": "error",
-     "message": {
-      "text": "Missing authorization: "
-     },
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "sqli/user_lookup_fixed.py"
-        },
-        "region": {
-         "startLine": 13
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "caaId": "CAA-3222ecae"
-     },
-     "properties": {
-      "confidence": "L3",
-      "status": "open",
-      "severity": "high",
-      "severityRationale": "impact: A sensitive action can be called without the authentication/role check its sibling endpoints have. | reachable from an HTTP route (evidence L3)",
-      "group": "B",
-      "notVerified": [
-       "no dynamic (L4) confirmation was performed",
-       "scope: first-party code only; framework and driver behaviour assumed as documented"
-      ],
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "evidence": [
-       {
-        "level": "L0",
-        "by": "llm-entrypoints",
-        "detail": "pattern match: caa.llm.entrypoint"
-       },
-       {
-        "level": "L2",
-        "by": "route-map",
-        "detail": "no authentication decorator or inline check"
-       },
-       {
-        "level": "L3",
-        "by": "defender",
-        "detail": "no global hook, no ownership check in handler, callees or decorators"
-       }
-      ]
-     },
-     "codeFlows": [
-      {
-       "threadFlows": [
-        {
-         "locations": [
-          {
-           "location": {
-            "physicalLocation": {
-             "artifactLocation": {
-              "uri": "sqli/user_lookup_fixed.py"
-             },
-             "region": {
-              "startLine": 12
-             }
-            },
-            "message": {
-             "text": "source: @app.route(\"/users/search\")"
             }
            }
           }
@@ -5945,7 +4169,8 @@
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
       "sources": [
-       "semgrep"
+       "semgrep",
+       "llm"
       ],
       "evidence": [
        {
@@ -5962,6 +4187,11 @@
         "level": "L3",
         "by": "defender",
         "detail": "refutation failed: entry search() is a route, no sanitizer on the path, no global input filter, not test code"
+       },
+       {
+        "level": "L1",
+        "by": "llm-triage",
+        "detail": "model agrees, with verified citations"
        }
       ]
      },

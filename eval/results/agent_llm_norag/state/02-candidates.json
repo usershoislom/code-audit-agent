@@ -253,10 +253,108 @@
        }
       ],
       "sources": [
-       "authz-routes"
+       "authz-routes",
+       "llm-entrypoints"
       ],
       "rules": [
-       "caa.authz.idor-no-ownership"
+       "caa.authz.idor-no-ownership",
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": ""
+  }
+ },
+ {
+  "id": "CAA-312491aa",
+  "title": "Missing authorization",
+  "cwe": "CWE-862",
+  "group": "B",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "authz/invoices.py",
+   "start_line": 44,
+   "end_line": null,
+   "function": "invoice_json"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "authz/invoices.py",
+      "line": 44,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-862",
+     "group": "B",
+     "location": {
+      "file": "authz/invoices.py",
+      "start_line": 44,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    },
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-862",
+     "group": "B",
+     "location": {
+      "file": "authz/invoices.py",
+      "start_line": 45,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
       ]
      }
     }
@@ -418,79 +516,6 @@
   }
  },
  {
-  "id": "CAA-e81fdd15",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "authz/notes.py",
-   "start_line": 51,
-   "end_line": null,
-   "function": "delete_note"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "authz/notes.py",
-      "line": 51,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "authz/notes.py",
-      "start_line": 51,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-d8fa872f",
   "title": "OS command injection",
   "cwe": "CWE-78",
@@ -560,79 +585,6 @@
     }
    ],
    "message": "Consider possible security implications associated with the subprocess module."
-  }
- },
- {
-  "id": "CAA-b523c835",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/archive.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "backup"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/archive.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/archive.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -781,79 +733,6 @@
     }
    ],
    "message": "Consider possible security implications associated with the subprocess module."
-  }
- },
- {
-  "id": "CAA-641375f9",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/archive_fixed.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "backup"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "Missing Authorization for Backup Functionality",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/archive_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/archive_fixed.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "Missing Authorization for Backup Functionality",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": "Missing Authorization for Backup Functionality"
   }
  },
  {
@@ -1081,79 +960,6 @@
   }
  },
  {
-  "id": "CAA-a77753d7",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/convert.py",
-   "start_line": 18,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert.py",
-      "start_line": 18,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-50a74a04",
   "title": "OS command injection",
   "cwe": "CWE-78",
@@ -1223,6 +1029,79 @@
     }
    ],
    "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-a766b3b4",
+  "title": "Business logic flaw",
+  "cwe": "CWE-840",
+  "group": "C",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cmdi/convert_fixed.py",
+   "start_line": 12,
+   "end_line": null,
+   "function": "convert_image"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "cmdi/convert_fixed.py",
+      "line": 12,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-840",
+     "group": "C",
+     "location": {
+      "file": "cmdi/convert_fixed.py",
+      "start_line": 12,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": ""
   }
  },
  {
@@ -1299,152 +1178,6 @@
     }
    ],
    "message": "Command executed through a shell with a non-constant command string."
-  }
- },
- {
-  "id": "CAA-45e2ee0d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/convert_fixed.py",
-   "start_line": 17,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 17,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert_fixed.py",
-      "start_line": 17,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-0dd7660a",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/convert_fixed.py",
-   "start_line": 18,
-   "end_line": null,
-   "function": "convert"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 18,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/convert_fixed.py",
-      "start_line": 18,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -1960,79 +1693,6 @@
   }
  },
  {
-  "id": "CAA-5b8e563d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/trap_constant_shell.py",
-   "start_line": 14,
-   "end_line": null,
-   "function": "disk"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_constant_shell.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_constant_shell.py",
-      "start_line": 14,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-b755d6b4",
   "title": "OS command injection",
   "cwe": "CWE-78",
@@ -2174,152 +1834,6 @@
     }
    ],
    "message": "Consider possible security implications associated with the subprocess module."
-  }
- },
- {
-  "id": "CAA-1bf083d2",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/trap_digit_guard.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "kill_job"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_digit_guard.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-c487cfac",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/trap_digit_guard.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "kill_job"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/trap_digit_guard.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "cmdi/trap_digit_guard.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -2860,7 +2374,7 @@
    "llm-entrypoints"
   ],
   "dataflow": [],
-  "explanation": "Client-controlled price and quantity in checkout",
+  "explanation": "",
   "severity": "medium",
   "severity_rationale": "",
   "evidence": [
@@ -2900,7 +2414,7 @@
       "end_line": null,
       "function": null
      },
-     "message": "Client-controlled price and quantity in checkout",
+     "message": "",
      "snippet": "",
      "extra": {
       "rationale": "",
@@ -2913,7 +2427,7 @@
      }
     }
    ],
-   "message": "Client-controlled price and quantity in checkout"
+   "message": ""
   }
  },
  {
@@ -2989,79 +2503,6 @@
   }
  },
  {
-  "id": "CAA-20ce532d",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/avatar.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "avatar"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/avatar.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/avatar.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-9380f86c",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -3134,79 +2575,6 @@
   }
  },
  {
-  "id": "CAA-1afe4263",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/denylist.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "docs"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/denylist.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/denylist.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-4e616929",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -3276,154 +2644,6 @@
     }
    ],
    "message": "File path built from a non-constant value is opened or served."
-  }
- },
- {
-  "id": "CAA-e4363cb9",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/download.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "download"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/download.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/download.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-c1bc20ab",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/prefix_unnormalised.py",
-   "start_line": 14,
-   "end_line": null,
-   "function": "export"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/prefix_unnormalised.py",
-      "line": 14,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint",
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/prefix_unnormalised.py",
-      "start_line": 14,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint",
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -3571,79 +2791,6 @@
   }
  },
  {
-  "id": "CAA-eb33afac",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/trap_basename.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "thumbs"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/trap_basename.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/trap_basename.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-fdd661f4",
   "title": "Path traversal",
   "cwe": "CWE-22",
@@ -3713,79 +2860,6 @@
     }
    ],
    "message": "File path built from a non-constant value is opened or served."
-  }
- },
- {
-  "id": "CAA-366c7008",
-  "title": "Insecure direct object reference",
-  "cwe": "CWE-639",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "path/trap_secure_filename.py",
-   "start_line": 11,
-   "end_line": null,
-   "function": "report_file"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "path/trap_secure_filename.py",
-      "line": 11,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-639",
-     "group": "B",
-     "location": {
-      "file": "path/trap_secure_filename.py",
-      "start_line": 11,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -4022,79 +3096,6 @@
   }
  },
  {
-  "id": "CAA-f1d51ac6",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/injected_comment.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "staff_lookup"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/injected_comment.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/injected_comment.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-7c0b6c3a",
   "title": "Prompt-injection text aimed at AI reviewers",
   "cwe": "CWE-1427",
@@ -4243,79 +3244,6 @@
   }
  },
  {
-  "id": "CAA-03fc9de8",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/orders_concat.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "list_orders"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/orders_concat.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/orders_concat.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-394c76d5",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -4389,79 +3317,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-529deed0",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/orders_concat_fixed.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "list_orders"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/orders_concat_fixed.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/orders_concat_fixed.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -4541,79 +3396,6 @@
   }
  },
  {
-  "id": "CAA-f616d787",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/report_percent.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "report"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/report_percent.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/report_percent.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-0067bc10",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -4687,79 +3469,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-eeb6892d",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/trap_column_map.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "payments"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_column_map.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_column_map.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -4839,79 +3548,6 @@
   }
  },
  {
-  "id": "CAA-2c652a02",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/trap_constant_table.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "audit_count"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_constant_table.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_constant_table.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-285152cd",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -4988,79 +3624,6 @@
   }
  },
  {
-  "id": "CAA-4910ef02",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/trap_int_cast.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "invoice_page"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_int_cast.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_int_cast.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
-  }
- },
- {
   "id": "CAA-8cf9acce",
   "title": "SQL injection",
   "cwe": "CWE-89",
@@ -5134,79 +3697,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-17b22d9a",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/trap_sort_allowlist.py",
-   "start_line": 15,
-   "end_line": null,
-   "function": "customers"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/trap_sort_allowlist.py",
-      "line": 15,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/trap_sort_allowlist.py",
-      "start_line": 15,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -5359,79 +3849,6 @@
     }
    ],
    "message": "SQL query text built from a non-constant string is passed to execute()."
-  }
- },
- {
-  "id": "CAA-3222ecae",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "sqli/user_lookup_fixed.py",
-   "start_line": 13,
-   "end_line": null,
-   "function": "search_users"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "sqli/user_lookup_fixed.py",
-      "line": 13,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "sqli/user_lookup_fixed.py",
-      "start_line": 13,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
