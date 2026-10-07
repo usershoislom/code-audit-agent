@@ -12,13 +12,14 @@ providers:
   gemma_remote:
     # The user's Gemma deployment. Not loopback => treated as EXTERNAL: allowed only
     # for our own stand (--own-stand). Tunnel it to 127.0.0.1 (ssh -L) to use it as `local`.
-    model: auto                       # single-model server: id taken from /v1/models
+    model: gemma-4-31b-it             # vLLM; max_model_len 32768 on this deployment
     base_url: https://ai-llm.inference.gpu.uz/v1
     api_key_env: GEMMA_API_KEY
-    structured_output: json_object
+    structured_output: json_schema    # vLLM guided decoding
+    max_tokens: 8192                  # reasoning model: thinking tokens count against this budget
   groq:
     # Free hosted provider: own stand / offline judge only.
-    model: llama-3.3-70b-versatile
+    model: openai/gpt-oss-120b
     base_url: https://api.groq.com/openai/v1
     api_key_env: GROQ_API_KEY
     structured_output: json_object

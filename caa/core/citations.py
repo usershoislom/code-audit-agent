@@ -5,6 +5,7 @@ validation rejects citations outside the recorded ranges.
 """
 from __future__ import annotations
 
+import threading
 from collections import defaultdict
 
 from caa.core.models import Ref
@@ -15,21 +16,24 @@ class ReadLedger:
         self._ranges: dict[str, list[tuple[int, int]]] = defaultdict(list)
         self._lines: dict[tuple[str, int], str] = {}
         self._http: dict[str, str] = {}
+        self._lock = threading.Lock()
 
     # --- recording -------------------------------------------------------
     def record_lines(self, file: str, start: int, lines: list[str]) -> None:
         if not lines:
             return
-        self._ranges[file].append((start, start + len(lines) - 1))
-        for i, text in enumerate(lines):
-            self._lines[(file, start + i)] = text
+        with self._lock:
+            self._ranges[file].append((start, start + len(lines) - 1))
+            for i, text in enumerate(lines):
+                self._lines[(file, start + i)] = text
 
     def record_http(self, exchange_id: str, summary: str) -> None:
         self._http[exchange_id] = summary
 
     # --- checking --------------------------------------------------------
     def was_read(self, file: str, line: int) -> bool:
-        return any(a <= line <= b for a, b in self._ranges.get(file, []))
+        with self._lock:
+            return any(a <= line <= b for a, b in self._ranges.get(file, []))
 
     def line_text(self, file: str, line: int) -> str | None:
         return self._lines.get((file, line))

@@ -92,8 +92,12 @@ class OpenAICompatibleModel:
                 self.usage["prompt_tokens"] += resp.usage.prompt_tokens or 0
                 self.usage["completion_tokens"] += resp.usage.completion_tokens or 0
             self.usage["calls"] += 1
+            reasoning = (resp.choices[0].message.model_extra or {}).get("reasoning") or ""
             self.audit.write("llm_call", purpose=purpose, provider=self.config.name, model=self.config.model,
-                             attempt=attempt, seconds=round(time.time() - t0, 2), output=text[:4000])
+                             attempt=attempt, seconds=round(time.time() - t0, 2),
+                             finish_reason=resp.choices[0].finish_reason,
+                             completion_tokens=resp.usage.completion_tokens if resp.usage else None,
+                             reasoning_chars=len(reasoning), output=text[:4000])
             parsed = parse_json_reply(text, schema)
             if parsed is not None:
                 return parsed

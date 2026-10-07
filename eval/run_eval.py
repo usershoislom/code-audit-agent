@@ -21,6 +21,7 @@ import json
 import shutil
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import yaml
@@ -72,6 +73,14 @@ def run_row(name: str, spec: dict, router, sandbox) -> dict:
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True)
     t0 = time.time()
+    if router is not None:      # model calls of this row are logged in this row's audit log
+        row_audit = AuditLog(out / "audit.jsonl")
+        router.audit = row_audit
+        for m in router.models.values():
+            m._audit = row_audit
+            if getattr(m, "_m", None) is not None:
+                m._m.audit = row_audit
+                m._m.usage = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0}
     if spec.get("llm_baseline"):
         return run_llm_baseline(out, router, t0)
     kb = KnowledgeBase()
@@ -97,10 +106,12 @@ def run_llm_baseline(out: Path, router, t0) -> dict:
     fs = RepoFS(REPO, ledger)
     findings, loc = [], 0
     audit = AuditLog(out / "audit.jsonl")
-    for rel in fs.iter_files("*.py") + fs.iter_files("*requirements*.txt"):
-        code = fs.read_file(rel, 1, None)
-        loc += code.count("\n") + 1
-        hyps = file_baseline(model, ledger, rel, code)
+    files = fs.iter_files("*.py") + fs.iter_files("*requirements*.txt")
+    codes = {rel: fs.read_file(rel, 1, None) for rel in files}
+    loc = sum(c.count("\n") + 1 for c in codes.values())
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(lambda rel: (rel, file_baseline(model, ledger, rel, codes[rel])), files))
+    for rel, hyps in results:
         audit.write("file_baseline", file=rel, hypotheses=[h.model_dump() for h in hyps])
         for h in hyps:
             findings.append({"location": {"file": h.file, "start_line": h.line}, "cwe": h.cwe.upper(),

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -29,6 +30,7 @@ class PipelineOptions:
     use_dynamic: bool = False         # L4 (sandbox) - trusted code only
     use_patch: bool = True
     triage_budget: int = 6
+    llm_concurrency: int = 8
     max_candidates: int = 200
     target_trust: str = "third_party"  # third_party | own_stand
     stages_to_save: bool = True
@@ -98,15 +100,19 @@ class Orchestrator:
             model = self._model()
             tools = eng.tools()
 
+            def one(f):
+                ctx = contexts[f.id]
+                card = self.kb.get(f.cwe) if o.use_rag else None
+                return f.id, triage(model, tools, eng.ledger, _describe(f), ctx.text,
+                                    self.kb.render(card) if card else "(knowledge base disabled)",
+                                    ctx.ranges, budget=o.triage_budget)
+
             def stage_triage():
-                for f in findings:
-                    if f.group == Group.AGENT_SAFETY:
-                        continue
-                    ctx = contexts[f.id]
-                    card = self.kb.get(f.cwe) if o.use_rag else None
-                    triages[f.id] = triage(model, tools, eng.ledger, _describe(f), ctx.text,
-                                           self.kb.render(card) if card else "(knowledge base disabled)",
-                                           ctx.ranges, budget=o.triage_budget)
+                # independent candidates -> concurrent model calls; results are keyed, order-independent
+                todo = [f for f in findings if f.group != Group.AGENT_SAFETY]
+                with ThreadPoolExecutor(max_workers=o.llm_concurrency) as pool:
+                    for fid, t in pool.map(one, todo):
+                        triages[fid] = t
             self._timed("triage", stage_triage)
         self._save(4, "triage", {k: v.to_dict() for k, v in triages.items()})
         # 5. verification ladder

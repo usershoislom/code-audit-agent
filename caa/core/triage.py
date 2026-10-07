@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from caa.core.citations import ReadLedger
 from caa.core.llm.provider import ChatModel
@@ -149,6 +149,13 @@ def _validate_verdict(act: TriageAction, ledger: ReadLedger, slice_ranges, res: 
 
 class Hypothesis(BaseModel):
     cwe: str = Field(description="e.g. CWE-639")
+
+    @field_validator("cwe", mode="before")
+    @classmethod
+    def _norm_cwe(cls, v):
+        s = str(v).strip().upper()
+        return s if s.startswith("CWE-") else f"CWE-{s.removeprefix('CWE').strip(':- ')}"
+
     file: str
     line: int
     title: str = Field("", max_length=200)
