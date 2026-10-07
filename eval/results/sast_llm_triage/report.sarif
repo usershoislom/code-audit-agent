@@ -1,0 +1,2545 @@
+{
+ "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+ "version": "2.1.0",
+ "runs": [
+  {
+   "tool": {
+    "driver": {
+     "name": "code-audit-agent",
+     "version": "0.1.0",
+     "informationUri": "https://github.com/usershoislom/code-audit-agent",
+     "rules": [
+      {
+       "id": "caa/CWE-78",
+       "name": "OScommandinjection",
+       "shortDescription": {
+        "text": "OS command injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-78",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.8"
+       }
+      },
+      {
+       "id": "caa/CWE-798",
+       "name": "Hard-codedcredential",
+       "shortDescription": {
+        "text": "Hard-coded credential"
+       },
+       "properties": {
+        "tags": [
+         "CWE-798",
+         "security",
+         "A07:2021 Identification and Authentication Failures"
+        ],
+        "asvs": "V2.10.4"
+       }
+      },
+      {
+       "id": "caa/CWE-327",
+       "name": "Weakcryptographichash",
+       "shortDescription": {
+        "text": "Weak cryptographic hash"
+       },
+       "properties": {
+        "tags": [
+         "CWE-327",
+         "security",
+         "A02:2021 Cryptographic Failures"
+        ],
+        "asvs": "V6.2.5"
+       }
+      },
+      {
+       "id": "caa/CWE-489",
+       "name": "Debugmodeenabled",
+       "shortDescription": {
+        "text": "Debug mode enabled"
+       },
+       "properties": {
+        "tags": [
+         "CWE-489",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.3.2"
+       }
+      },
+      {
+       "id": "caa/CWE-22",
+       "name": "Pathtraversal",
+       "shortDescription": {
+        "text": "Path traversal"
+       },
+       "properties": {
+        "tags": [
+         "CWE-22",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V12.3.1"
+       }
+      },
+      {
+       "id": "caa/CWE-89",
+       "name": "SQLinjection",
+       "shortDescription": {
+        "text": "SQL injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-89",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.4"
+       }
+      },
+      {
+       "id": "caa/CWE-918",
+       "name": "Server-siderequestforgery",
+       "shortDescription": {
+        "text": "Server-side request forgery"
+       },
+       "properties": {
+        "tags": [
+         "CWE-918",
+         "security",
+         "A10:2021 Server-Side Request Forgery"
+        ],
+        "asvs": "V12.6.1"
+       }
+      },
+      {
+       "id": "caa/CWE-79",
+       "name": "Cross-sitescripting",
+       "shortDescription": {
+        "text": "Cross-site scripting"
+       },
+       "properties": {
+        "tags": [
+         "CWE-79",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.3"
+       }
+      }
+     ]
+    }
+   },
+   "results": [
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d8fa872f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b203c778"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-433bad03"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "model's refutation rejected: cmdi/archive_fixed.py:14 is outside the data path (sink function / call chain)",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/archive_fixed.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-33c18287"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-68fcdaa6"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-bc2556a7"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-50a74a04"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "model's refutation rejected: no protection_ref given",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/convert_fixed.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9a968212"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-33eb8487"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1abe4edd"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit",
+       "llm"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L1",
+        "by": "llm-triage",
+        "detail": "model agrees, with verified citations"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping_fixed.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-dafb7904"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "model's refutation rejected: cmdi/ping_fixed.py:14 is outside the data path (sink function / call chain)",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/ping_fixed.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-a1e66f44"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_argv_list.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-762151de"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_argv_list.py"
+        },
+        "region": {
+         "startLine": 14,
+         "endLine": 14
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-78baf4e9"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_constant_shell.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ebef619f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at cmdi/trap_constant_shell.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: subprocess call with shell=True identified, security issue."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_constant_shell.py"
+        },
+        "region": {
+         "startLine": 15,
+         "endLine": 15
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b755d6b4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B602.subprocess_popen_with_shell_equals_true"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at cmdi/trap_constant_shell.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_digit_guard.py"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-c30ec4be"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "model's refutation rejected: cmdi/trap_digit_guard.py:14 is outside the data path (sink function / call chain)",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cmdi/trap_digit_guard.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-aaf0c737"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "warning",
+     "message": {
+      "text": "Hard-coded credential: Credential-like value hard-coded in source."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8cc39187"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.secrets.hardcoded-credential"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "warning",
+     "message": {
+      "text": "Hard-coded credential: Possible hardcoded password: 'Wint****[18]'"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6dc56888"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B105.hardcoded_password_string"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-327",
+     "level": "warning",
+     "message": {
+      "text": "Weak cryptographic hash: Weak hash algorithm used (MD5/SHA1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 12,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-4db4bc61"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.crypto.weak-hash"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-489",
+     "level": "warning",
+     "message": {
+      "text": "Debug mode enabled: Flask debug mode enabled (interactive debugger exposes code execution)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-85a78868"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit",
+       "llm"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.config.flask-debug"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L1",
+        "by": "llm-triage",
+        "detail": "model agrees, with verified citations"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-327",
+     "level": "warning",
+     "message": {
+      "text": "Weak cryptographic hash: Weak hash algorithm used (MD5/SHA1)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "config/settings_fixed.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-f67a114b"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.crypto.weak-hash"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/avatar.py"
+        },
+        "region": {
+         "startLine": 12,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-3dcf722d"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/denylist.py"
+        },
+        "region": {
+         "startLine": 15,
+         "endLine": 15
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9380f86c"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/download.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-4e616929"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/prefix_unnormalised.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-e0caae90"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_allowlist.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d3738621"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at path/trap_allowlist.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_basename.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-fdd661f4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at path/trap_basename.py:12"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "none",
+     "message": {
+      "text": "Path traversal: File path built from a non-constant value is opened or served."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "path/trap_secure_filename.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7ad21d87"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.path.user-path-open"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at path/trap_secure_filename.py:12"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/injected_comment.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8438defd"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/orders_concat.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-394c76d5"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "1 model claim(s) discarded: cited lines were never read",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/repo_layer.py"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8b6f3dd1"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/report_percent.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-0067bc10"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_column_map.py"
+        },
+        "region": {
+         "startLine": 19,
+         "endLine": 19
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-eadf9f15"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at sqli/trap_column_map.py:17"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_constant_table.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-285152cd"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at sqli/trap_constant_table.py:11"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_int_cast.py"
+        },
+        "region": {
+         "startLine": 17,
+         "endLine": 17
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8cf9acce"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at sqli/trap_int_cast.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "none",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/trap_sort_allowlist.py"
+        },
+        "region": {
+         "startLine": 20,
+         "endLine": 20
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1f877485"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at sqli/trap_sort_allowlist.py:17"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "sqli/user_lookup.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-875d5129"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-918",
+     "level": "warning",
+     "message": {
+      "text": "Server-side request forgery: Outbound request to a non-constant URL inside a request handler."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "ssrf/fetch.py"
+        },
+        "region": {
+         "startLine": 13,
+         "endLine": 13
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ca849552"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "llm"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.ssrf.user-url-fetch"
+       },
+       {
+        "level": "L1",
+        "by": "llm-triage",
+        "detail": "model agrees, with verified citations"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-918",
+     "level": "none",
+     "message": {
+      "text": "Server-side request forgery: Outbound request to a non-constant URL inside a request handler."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "ssrf/fetch_fixed.py"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7f1bf1df"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.ssrf.user-url-fetch"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at ssrf/fetch_fixed.py:14"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "none",
+     "message": {
+      "text": "Hard-coded credential: Possible hardcoded password: 'exam****[20]'"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "tests/test_fixtures.py"
+        },
+        "region": {
+         "startLine": 1,
+         "endLine": 1
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8f85ee5e"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B105.hardcoded_password_string"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at tests/test_fixtures.py:1"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/comment.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-85569570"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/comment_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-328f3ef0"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at xss/comment_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/greet.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8537ace4"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/greet_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-323ae7ca"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at xss/greet_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/search_page.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d1f7588b"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/search_page_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-016e3741"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at xss/search_page_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/trap_int_count.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-06467464"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at xss/trap_int_count.py:9"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML built by string formatting is returned from a request handler without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "xss/trap_server_value.py"
+        },
+        "region": {
+         "startLine": 11,
+         "endLine": 11
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-603ab841"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "refuted by model citing a protecting line; not proven by deterministic analysis"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.raw-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by llm-triage at xss/trap_server_value.py:11"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
