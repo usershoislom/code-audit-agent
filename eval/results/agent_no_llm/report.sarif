@@ -55,6 +55,21 @@
        }
       },
       {
+       "id": "caa/CWE-89",
+       "name": "SQLinjection",
+       "shortDescription": {
+        "text": "SQL injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-89",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.4"
+       }
+      },
+      {
        "id": "caa/CWE-798",
        "name": "Hard-codedcredential",
        "shortDescription": {
@@ -100,18 +115,48 @@
        }
       },
       {
-       "id": "caa/CWE-22",
-       "name": "Pathtraversal",
+       "id": "caa/CWE-79",
+       "name": "Cross-sitescripting",
        "shortDescription": {
-        "text": "Path traversal"
+        "text": "Cross-site scripting"
        },
        "properties": {
         "tags": [
-         "CWE-22",
+         "CWE-79",
          "security",
-         "A01:2021 Broken Access Control"
+         "A03:2021 Injection"
         ],
-        "asvs": "V12.3.1"
+        "asvs": "V5.3.3"
+       }
+      },
+      {
+       "id": "caa/CWE-1188",
+       "name": "ALLOWED_HOSTSacceptsanyhostheader",
+       "shortDescription": {
+        "text": "ALLOWED_HOSTS accepts any host header"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1188",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.1.3"
+       }
+      },
+      {
+       "id": "caa/CWE-942",
+       "name": "PermissiveCORS",
+       "shortDescription": {
+        "text": "Permissive CORS"
+       },
+       "properties": {
+        "tags": [
+         "CWE-942",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.5.3"
        }
       },
       {
@@ -130,6 +175,96 @@
        }
       },
       {
+       "id": "caa/CWE-22",
+       "name": "Pathtraversal",
+       "shortDescription": {
+        "text": "Path traversal"
+       },
+       "properties": {
+        "tags": [
+         "CWE-22",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V12.3.1"
+       }
+      },
+      {
+       "id": "caa/CWE-400",
+       "name": "Useofnet/httpservefunctionthathasnosupportforsetti",
+       "shortDescription": {
+        "text": "Use of net/http serve function that has no support for setti"
+       },
+       "properties": {
+        "tags": [
+         "CWE-400",
+         "security",
+         "A04:2021 Insecure Design"
+        ],
+        "asvs": "V12.1.1"
+       }
+      },
+      {
+       "id": "caa/CWE-611",
+       "name": "XMLparsercreatedwithoutdisablingDOCTYPE/externalenti",
+       "shortDescription": {
+        "text": "XML parser created without disabling DOCTYPE / external enti"
+       },
+       "properties": {
+        "tags": [
+         "CWE-611",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V5.5.2"
+       }
+      },
+      {
+       "id": "caa/CWE-94",
+       "name": "Requestdataisevaluatedascode.",
+       "shortDescription": {
+        "text": "Request data is evaluated as code."
+       },
+       "properties": {
+        "tags": [
+         "CWE-94",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.2.4"
+       }
+      },
+      {
+       "id": "caa/CWE-1357",
+       "name": "package.jsonwithoutalockfile:everyinstallmaypulldiff",
+       "shortDescription": {
+        "text": "package.json without a lockfile: every install may pull diff"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1357",
+         "security",
+         "A06:2021 Vulnerable and Outdated Components"
+        ],
+        "asvs": "V14.2.4"
+       }
+      },
+      {
+       "id": "caa/CWE-601",
+       "name": "Requestdatadecidestheredirecttarget.",
+       "shortDescription": {
+        "text": "Request data decides the redirect target."
+       },
+       "properties": {
+        "tags": [
+         "CWE-601",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V5.1.5"
+       }
+      },
+      {
        "id": "caa/CWE-1427",
        "name": "Prompt-injectiontextaimedatAIreviewers",
        "shortDescription": {
@@ -142,21 +277,6 @@
          "LLM01:2025 Prompt Injection"
         ],
         "asvs": ""
-       }
-      },
-      {
-       "id": "caa/CWE-89",
-       "name": "SQLinjection",
-       "shortDescription": {
-        "text": "SQL injection"
-       },
-       "properties": {
-        "tags": [
-         "CWE-89",
-         "security",
-         "A03:2021 Injection"
-        ],
-        "asvs": "V5.3.4"
        }
       },
       {
@@ -175,18 +295,48 @@
        }
       },
       {
-       "id": "caa/CWE-79",
-       "name": "Cross-sitescripting",
+       "id": "caa/CWE-353",
+       "name": "Script/stylesheetfromanotheroriginloadedwithoutSubreso",
        "shortDescription": {
-        "text": "Cross-site scripting"
+        "text": "Script/stylesheet from another origin loaded without Subreso"
        },
        "properties": {
         "tags": [
-         "CWE-79",
+         "CWE-353",
          "security",
-         "A03:2021 Injection"
+         "A08:2021 Software and Data Integrity Failures"
         ],
-        "asvs": "V5.3.3"
+        "asvs": "V14.2.3"
+       }
+      },
+      {
+       "id": "caa/CWE-1022",
+       "name": "Linkopensanewtabwithoutrel=\"noopener\"(reversetabnabb",
+       "shortDescription": {
+        "text": "Link opens a new tab without rel=\"noopener\" (reverse tabnabb"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1022",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.5.2"
+       }
+      },
+      {
+       "id": "caa/CWE-352",
+       "name": "POSTforminaDjango/JinjatemplatewithoutaCSRFtoken.",
+       "shortDescription": {
+        "text": "POST form in a Django/Jinja template without a CSRF token."
+       },
+       "properties": {
+        "tags": [
+         "CWE-352",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V4.2.2"
        }
       }
      ]
@@ -197,7 +347,7 @@
      "ruleId": "caa/CWE-862",
      "level": "error",
      "message": {
-      "text": "Missing authorization: GET /admin/export has no authentication while 2 comparable route(s) require it"
+      "text": "Missing authorization: GET /admin/export has no authentication while 2 route(s) of the same resource require it"
      },
      "locations": [
       {
@@ -483,6 +633,349 @@
       {
        "physicalLocation": {
         "artifactLocation": {
+         "uri": "cli_tool/grep_logs.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-bbb7d647"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cli_tool/grep_logs.py:2"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b0df4337"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "entry point is a command-line argument: exploitable only if another program or user passes untrusted values to this command",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source parser.parse_args() reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry main() is a CLI command, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cli_tool/grep_logs.py"
+             },
+             "region": {
+              "startLine": 9
+             }
+            },
+            "message": {
+             "text": "source: args = parser.parse_args()"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cli_tool/grep_logs.py"
+             },
+             "region": {
+              "startLine": 10
+             }
+            },
+            "message": {
+             "text": "sink: out = subprocess.run(f\"grep {args.pattern} {args.file}\", shell=True, capture_output=True, text=True)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs_fixed.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-dc0c73b2"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by no-sink at cli_tool/grep_logs_fixed.py:2"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-05bfc924"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-no-source at cli_tool/grep_logs_fixed.py:10"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/report.py"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-31d6d1a4"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "entry point is a command-line argument: exploitable only if another program or user passes untrusted values to this command",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source sys.argv[1] reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry main() is a CLI command, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cli_tool/report.py"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: customer = sys.argv[1]"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "cli_tool/report.py"
+             },
+             "region": {
+              "startLine": 8
+             }
+            },
+            "message": {
+             "text": "sink: rows = conn.execute(\"SELECT total FROM invoices WHERE customer = '%s'\" % customer).fetchall()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "none",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
          "uri": "cmdi/archive.py"
         },
         "region": {
@@ -575,7 +1068,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry backup() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry backup() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -822,7 +1315,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry convert() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry convert() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -1099,7 +1592,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry ping() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry ping() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -1851,6 +2344,2596 @@
      ]
     },
     {
+     "ruleId": "caa/CWE-639",
+     "level": "error",
+     "message": {
+      "text": "Insecure direct object reference: GET,POST /notes/<int:pk>/ loads an object by a client-supplied id without an ownership check; sibling note_edit() does check ownership"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/notes/views.py"
+        },
+        "region": {
+         "startLine": 25
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-7a89741e"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
+      "group": "B",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "authz-routes",
+        "detail": "pattern match: caa.authz.idor-no-ownership"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
+        "level": "L2",
+        "by": "route-map",
+        "detail": "object loaded by client id without owner filter or ownership comparison"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "no global hook, no ownership check in handler, callees or decorators"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 23
+             }
+            },
+            "message": {
+             "text": "source: @login_required"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 25
+             }
+            },
+            "message": {
+             "text": "sink:     note = Note.objects.get(pk=pk)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/notes/views.py"
+        },
+        "region": {
+         "startLine": 32,
+         "endLine": 32
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6c90af1b"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.GET.get('q', '') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry note_search() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 31
+             }
+            },
+            "message": {
+             "text": "source: q = request.GET.get(\"q\", \"\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 32
+             }
+            },
+            "message": {
+             "text": "sink: rows = Note.objects.raw(f\"SELECT id, title FROM notes_note WHERE title LIKE '%{q}%'\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/notes/views.py"
+        },
+        "region": {
+         "startLine": 47,
+         "endLine": 47
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-5cbd1e42"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source request.GET.get('name', 'guest') reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry greet() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 46
+             }
+            },
+            "message": {
+             "text": "source: name = request.GET.get(\"name\", \"guest\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "django_app/notes/views.py"
+             },
+             "region": {
+              "startLine": 47
+             }
+            },
+            "message": {
+             "text": "sink: return HttpResponse(f\"<h1>Hello {name}</h1>\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "error",
+     "message": {
+      "text": "Hard-coded credential: Credential-like value hard-coded in source."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/settings.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-63e88b21"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Anyone with the code (or a leaked artifact) holds the credential. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "whether the credential is live/rotated was not checked",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit",
+       "secrets"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit,secrets",
+        "detail": "pattern match: caa.python.secrets.hardcoded-credential"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, secrets, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "literal credential at the cited line (django-insec...)"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not a placeholder, not test code, not read from the environment"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-489",
+     "level": "warning",
+     "message": {
+      "text": "Debug mode enabled: Django DEBUG = True: detailed error pages leak code and settings"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/settings.py"
+        },
+        "region": {
+         "startLine": 3
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6d550a02"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Werkzeug debugger allows code execution if reachable. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "hygiene"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "hygiene",
+        "detail": "pattern match: caa.hygiene.django-debug"
+       },
+       {
+        "level": "L2",
+        "by": "hygiene",
+        "detail": "fact verified: the cited line states it"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not an example or test file"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1188",
+     "level": "note",
+     "message": {
+      "text": "ALLOWED_HOSTS accepts any host header: ALLOWED_HOSTS accepts any host header"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/settings.py"
+        },
+        "region": {
+         "startLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-efb65407"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: Defaults like ALLOWED_HOSTS=['*'] enable host-header attacks and cache poisoning. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "hygiene"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "hygiene",
+        "detail": "pattern match: caa.hygiene.django-hosts"
+       },
+       {
+        "level": "L2",
+        "by": "hygiene",
+        "detail": "fact verified: the cited line states it"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not an example or test file"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-942",
+     "level": "error",
+     "message": {
+      "text": "Permissive CORS: CORS allows any origin together with credentials: any site can read authenticated responses"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-ae7d546e"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Any origin can read responses (critical only together with credentials). | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "hygiene"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "hygiene",
+        "detail": "pattern match: caa.hygiene.cors-credentials"
+       },
+       {
+        "level": "L2",
+        "by": "hygiene",
+        "detail": "fact verified: the cited line states it"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not an example or test file"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 21,
+         "endLine": 21
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-3f0420fa"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source route parameter <item_id> reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry read_item() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 20
+             }
+            },
+            "message": {
+             "text": "source: def read_item(item_id: str):"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 21
+             }
+            },
+            "message": {
+             "text": "sink: row = get_db().execute(f\"SELECT id, name FROM items WHERE id = '{item_id}'\").fetchone()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 27,
+         "endLine": 27
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-71731d51"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       },
+       {
+        "level": "L2",
+        "by": "taint",
+        "detail": "source route parameter <name> reaches sink with no sanitizer"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "refutation failed: entry greet() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 26
+             }
+            },
+            "message": {
+             "text": "source: def greet(name: str = \"guest\"):"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 27
+             }
+            },
+            "message": {
+             "text": "sink: return HTMLResponse(f\"<h1>Hello {name}</h1>\")"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-639",
+     "level": "error",
+     "message": {
+      "text": "Insecure direct object reference: GET /orders/{order_id} loads an object by a client-supplied id without an ownership check; sibling order_invoice() does check ownership"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 40
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-220e3fcd"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: A logged-in user reads or changes another user's object by changing an identifier. | reachable from an HTTP route (evidence L3)",
+      "group": "B",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "authz-routes",
+        "detail": "pattern match: caa.authz.idor-no-ownership"
+       },
+       {
+        "level": "L1",
+        "by": "route-policy",
+        "detail": "two hints: handler lacks the check AND a sibling of the same resource has it"
+       },
+       {
+        "level": "L2",
+        "by": "route-map",
+        "detail": "object loaded by client id without owner filter or ownership comparison"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "no global hook, no ownership check in handler, callees or decorators"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 38
+             }
+            },
+            "message": {
+             "text": "source: @app.get(\"/orders/{order_id}\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "fastapi_app/main.py"
+             },
+             "region": {
+              "startLine": 40
+             }
+            },
+            "message": {
+             "text": "sink:     row = get_db().execute(\"SELECT id, total, address FROM orders WHERE id = ?\", (order_id,)).fetchone()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "none",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main_fixed.py"
+        },
+        "region": {
+         "startLine": 28,
+         "endLine": 28
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-174d715f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "refuted",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       }
+      ]
+     },
+     "suppressions": [
+      {
+       "kind": "external",
+       "justification": "refuted by taint-sanitizer at fastapi_app/main_fixed.py:28"
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-1395",
+     "level": "warning",
+     "message": {
+      "text": "Vulnerable dependency: stdlib 1.22.99: 65 known vulnerabilities (e.g. CVE-2025-22870: HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net)"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/go.mod"
+        },
+        "region": {
+         "startLine": 1
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-dcca0bb2"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: A known CVE in a pinned dependency; real impact depends on whether the affected feature is used. | reachability not proven (evidence L2)",
+      "group": "E",
+      "notVerified": [
+       "whether the affected stdlib package is used was not analysed (run govulncheck)",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "osv-scanner"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "osv-scanner",
+        "detail": "pattern match: deps.stdlib"
+       },
+       {
+        "level": "L2",
+        "by": "toolchain-fact",
+        "detail": "module declares Go 1.22.99; the standard library is always linked"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-2ab6d323"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.go.sqli.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 15
+             }
+            },
+            "message": {
+             "text": "source: name := r.URL.Query().Get(\"name\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 15
+             }
+            },
+            "message": {
+             "text": "propagation: name := r.URL.Query().Get(\"name\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: rows, err := db.Query(fmt.Sprintf(\"SELECT email FROM users WHERE name = '%s'\", name))"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Request data reaches a shell command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 24,
+         "endLine": 24
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8dfb2540"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,gosec",
+        "detail": "pattern match: caa.go.cmdi.taint"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: gosec, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 23
+             }
+            },
+            "message": {
+             "text": "source: host := r.FormValue(\"host\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 23
+             }
+            },
+            "message": {
+             "text": "propagation: host := r.FormValue(\"host\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 24
+             }
+            },
+            "message": {
+             "text": "sink: out, _ := exec.Command(\"sh\", \"-c\", \"ping -c 1 \"+host).Output()"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 30,
+         "endLine": 30
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6daca4e3"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,gosec",
+        "detail": "pattern match: caa.go.path.taint"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: gosec, semgrep"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 29
+             }
+            },
+            "message": {
+             "text": "source: name := r.URL.Query().Get(\"file\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 29
+             }
+            },
+            "message": {
+             "text": "propagation: name := r.URL.Query().Get(\"file\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 30
+             }
+            },
+            "message": {
+             "text": "sink: data, _ := os.ReadFile(filepath.Join(\"/srv/files\", name))"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written into an HTML response without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 36,
+         "endLine": 36
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-66a95c6c"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.go.xss.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 35
+             }
+            },
+            "message": {
+             "text": "source: name := r.URL.Query().Get(\"name\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 35
+             }
+            },
+            "message": {
+             "text": "propagation: name := r.URL.Query().Get(\"name\")"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "gosvc/handlers.go"
+             },
+             "region": {
+              "startLine": 36
+             }
+            },
+            "message": {
+             "text": "sink: fmt.Fprintf(w, \"<h1>Hello %s</h1>\", name)"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-400",
+     "level": "note",
+     "message": {
+      "text": "Use of net/http serve function that has no support for setti: Use of net/http serve function that has no support for setting timeouts"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 44,
+         "endLine": 44
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9bd0d292"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: Unbounded reads/decompression or missing timeouts let a client exhaust memory or connections. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [
+       "pattern match only: the rule has no data-flow trace for this language/class",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G114"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Subprocess launched with variable"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers_fixed.go"
+        },
+        "region": {
+         "startLine": 22,
+         "endLine": 22
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b90c5897"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [
+       "pattern match only: the rule has no data-flow trace for this language/class",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G204"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: Potential file inclusion via variable"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers_fixed.go"
+        },
+        "region": {
+         "startLine": 28,
+         "endLine": 28
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-56b47560"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [
+       "pattern match only: the rule has no data-flow trace for this language/class",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G304"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/FileController.java"
+        },
+        "region": {
+         "startLine": 11,
+         "endLine": 11
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-999aed93"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.path.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/FileController.java"
+             },
+             "region": {
+              "startLine": 11
+             }
+            },
+            "message": {
+             "text": "source: return new String(Files.readAllBytes(Paths.get(\"/srv/files/\" + name)));"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/FileController.java"
+             },
+             "region": {
+              "startLine": 11
+             }
+            },
+            "message": {
+             "text": "sink: return new String(Files.readAllBytes(Paths.get(\"/srv/files/\" + name)));"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Request data reaches a process command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/FileController.java"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-16d66813"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.cmdi.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/FileController.java"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "source: Process p = Runtime.getRuntime().exec(\"ping -c 1 \" + host);"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/FileController.java"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: Process p = Runtime.getRuntime().exec(\"ping -c 1 \" + host);"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written to the response without HTML encoding."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/SearchServlet.java"
+        },
+        "region": {
+         "startLine": 9,
+         "endLine": 9
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-2d11d26c"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.xss.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/SearchServlet.java"
+             },
+             "region": {
+              "startLine": 8
+             }
+            },
+            "message": {
+             "text": "source: String q = request.getParameter(\"q\");"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/SearchServlet.java"
+             },
+             "region": {
+              "startLine": 8
+             }
+            },
+            "message": {
+             "text": "propagation: String q = request.getParameter(\"q\");"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/SearchServlet.java"
+             },
+             "region": {
+              "startLine": 9
+             }
+            },
+            "message": {
+             "text": "sink: response.getWriter().println(\"<p>Results for \" + q + \"</p>\");"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/UserServlet.java"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-40848555"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.sqli.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/UserServlet.java"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "source: String name = request.getParameter(\"name\");"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/UserServlet.java"
+             },
+             "region": {
+              "startLine": 13
+             }
+            },
+            "message": {
+             "text": "propagation: String name = request.getParameter(\"name\");"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "java/src/UserServlet.java"
+             },
+             "region": {
+              "startLine": 16
+             }
+            },
+            "message": {
+             "text": "sink: ResultSet rs = st.executeQuery(\"SELECT email FROM users WHERE name = '\" + name + \"'\");"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-611",
+     "level": "warning",
+     "message": {
+      "text": "XML parser created without disabling DOCTYPE / external enti: XML parser created without disabling DOCTYPE / external entities."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/XmlImport.java"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-69db5bb2"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: XML parser resolves external entities: file read, SSRF. | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [
+       "pattern match only: the rule has no data-flow trace for this language/class",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.xxe.documentbuilder"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-94",
+     "level": "error",
+     "message": {
+      "text": "Request data is evaluated as code.: Request data is evaluated as code."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/calc.js"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1e0cb09f"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text is executed as code (eval, Function(), exec, vm.runInContext). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.code-injection.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/calc.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: const result = eval(req.body.expr);"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/calc.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "sink: const result = eval(req.body.expr);"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "error",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/files.ts"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-40a6ab67"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: '../' sequences or absolute paths let a client read or overwrite files outside the intended directory. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.path.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/files.ts"
+             },
+             "region": {
+              "startLine": 8
+             }
+            },
+            "message": {
+             "text": "source: res.sendFile(path.join(BASE, req.params.name));"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/files.ts"
+             },
+             "region": {
+              "startLine": 8
+             }
+            },
+            "message": {
+             "text": "sink: res.sendFile(path.join(BASE, req.params.name));"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written into an HTML response without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/greet.js"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-260accae"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.xss.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/greet.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: res.send(\"<h1>Hello \" + req.query.name + \"</h1>\");"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/greet.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "sink: res.send(\"<h1>Hello \" + req.query.name + \"</h1>\");"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-1357",
+     "level": "note",
+     "message": {
+      "text": "package.json without a lockfile: every install may pull diff: package.json without a lockfile: every install may pull different dependency versions"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/package.json"
+        },
+        "region": {
+         "startLine": 1
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d8d0faac"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: Builds silently pick up new (possibly vulnerable or hijacked) versions. | reachable from an HTTP route (evidence L3)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "hygiene"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "hygiene",
+        "detail": "pattern match: caa.hygiene.no-lockfile"
+       },
+       {
+        "level": "L2",
+        "by": "hygiene",
+        "detail": "fact verified: the cited line states it"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "not an example or test file"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "error",
+     "message": {
+      "text": "OS command injection: Request data reaches a shell command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/ping.js"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-96ed0a1d"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Shell metacharacters in user input run arbitrary commands with the service's privileges. | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.cmdi.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/ping.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: const host = req.query.host;"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/ping.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "propagation: const host = req.query.host;"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/ping.js"
+             },
+             "region": {
+              "startLine": 7
+             }
+            },
+            "message": {
+             "text": "sink: exec(\"ping -c 1 \" + host, (err, out) => res.type(\"text/plain\").send(out));"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-601",
+     "level": "warning",
+     "message": {
+      "text": "Request data decides the redirect target.: Request data decides the redirect target."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/redirect.ts"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-c5e9afc1"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Users are redirected to an attacker site from a trusted domain (phishing, token theft). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.open-redirect.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/redirect.ts"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: res.redirect(req.query.next as string);"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/redirect.ts"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "sink: res.redirect(req.query.next as string);"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "error",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/users.js"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d101b85a"
+     },
+     "properties": {
+      "confidence": "L3",
+      "status": "open",
+      "severity": "high",
+      "severityRationale": "impact: Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass). | reachable from an HTTP route (evidence L3)",
+      "group": "A",
+      "notVerified": [
+       "trace comes from Semgrep's intra-file taint: flows through other files are not followed",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.sqli.taint"
+       },
+       {
+        "level": "L2",
+        "by": "semgrep-taint",
+        "detail": "request input reaches the sink; no sanitizer recognised on the path"
+       },
+       {
+        "level": "L3",
+        "by": "defender",
+        "detail": "source is an HTTP request input of a framework handler, not test code; no sanitizer in the rule's sanitizer list on the path"
+       }
+      ]
+     },
+     "codeFlows": [
+      {
+       "threadFlows": [
+        {
+         "locations": [
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/users.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "source: const name = req.query.name;"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/users.js"
+             },
+             "region": {
+              "startLine": 6
+             }
+            },
+            "message": {
+             "text": "propagation: const name = req.query.name;"
+            }
+           }
+          },
+          {
+           "location": {
+            "physicalLocation": {
+             "artifactLocation": {
+              "uri": "js/users.js"
+             },
+             "region": {
+              "startLine": 7
+             }
+            },
+            "message": {
+             "text": "sink: db.query(\"SELECT id, email FROM users WHERE name = '\" + name + \"'\", (err, rows) => res.json(rows));"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
      "ruleId": "caa/CWE-22",
      "level": "error",
      "message": {
@@ -1899,7 +4982,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry avatar() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry avatar() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -1994,7 +5077,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry docs() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry docs() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2088,7 +5171,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry download() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry download() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2183,7 +5266,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry export() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry export() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2388,7 +5471,7 @@
      "ruleId": "caa/CWE-1395",
      "level": "warning",
      "message": {
-      "text": "Vulnerable dependency: flask==2.2.2 affected by CVE-2023-30861: Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie)."
+      "text": "Vulnerable dependency: flask 2.2.2: 2 known vulnerabilities (e.g. CVE-2023-30861: Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header)"
      },
      "locations": [
       {
@@ -2397,8 +5480,7 @@
          "uri": "requirements.txt"
         },
         "region": {
-         "startLine": 1,
-         "endLine": 1
+         "startLine": 1
         }
        }
       }
@@ -2417,13 +5499,13 @@
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
       "sources": [
-       "deps-snapshot"
+       "osv-scanner"
       ],
       "evidence": [
        {
         "level": "L0",
-        "by": "deps-snapshot",
-        "detail": "pattern match: deps.CVE-2023-30861"
+        "by": "osv-scanner",
+        "detail": "pattern match: deps.flask"
        },
        {
         "level": "L2",
@@ -2437,7 +5519,7 @@
      "ruleId": "caa/CWE-1395",
      "level": "note",
      "message": {
-      "text": "Vulnerable dependency: pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML."
+      "text": "Vulnerable dependency: pyyaml 5.3: 2 known vulnerabilities (e.g. CVE-2020-1747: Improper Input Validation in PyYAML)"
      },
      "locations": [
       {
@@ -2446,8 +5528,7 @@
          "uri": "requirements.txt"
         },
         "region": {
-         "startLine": 2,
-         "endLine": 2
+         "startLine": 2
         }
        }
       }
@@ -2466,13 +5547,61 @@
        "scope: first-party code only; framework and driver behaviour assumed as documented"
       ],
       "sources": [
-       "deps-snapshot"
+       "osv-scanner"
       ],
       "evidence": [
        {
         "level": "L0",
-        "by": "deps-snapshot",
-        "detail": "pattern match: deps.CVE-2020-14343"
+        "by": "osv-scanner",
+        "detail": "pattern match: deps.pyyaml"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1395",
+     "level": "warning",
+     "message": {
+      "text": "Vulnerable dependency: requests 2.32.3: 2 known vulnerabilities (e.g. CVE-2024-47081: Requests vulnerable to .netrc credentials leak via malicious URLs)"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "requirements.txt"
+        },
+        "region": {
+         "startLine": 3
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6093c7dc"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: A known CVE in a pinned dependency; real impact depends on whether the affected feature is used. | reachability not proven (evidence L2)",
+      "group": "E",
+      "notVerified": [
+       "whether the affected API is actually called was not analysed; no exploit is run",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "osv-scanner"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "osv-scanner",
+        "detail": "pattern match: deps.requests"
+       },
+       {
+        "level": "L2",
+        "by": "import-fact",
+        "detail": "vulnerable version pinned and package imported (2 import(s))"
        }
       ]
      }
@@ -2579,7 +5708,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry staff_lookup() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry staff_lookup() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2679,7 +5808,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry list_orders() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry list_orders() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2794,7 +5923,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry product_search() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry product_search() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -2924,7 +6053,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry report() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry report() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3039,7 +6168,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry payments() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry payments() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3313,7 +6442,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry search_users() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry search_users() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3407,7 +6536,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry preview() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3501,7 +6630,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry preview() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3545,6 +6674,195 @@
        ]
       }
      ]
+    },
+    {
+     "ruleId": "caa/CWE-353",
+     "level": "note",
+     "message": {
+      "text": "Script/stylesheet from another origin loaded without Subreso: Script/stylesheet from another origin loaded without Subresource Integrity."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-82d32880"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: If the CDN is compromised, the script runs with full access to the page. | reachability not proven (evidence L2)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.sri-missing"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "configuration value read"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1022",
+     "level": "note",
+     "message": {
+      "text": "Link opens a new tab without rel=\"noopener\" (reverse tabnabb: Link opens a new tab without rel=\"noopener\" (reverse tabnabbing in old browsers)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-25f0b6f7"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: The opened page can navigate the original tab (reverse tabnabbing) in older browsers. | reachability not proven (evidence L2)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.target-blank"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "configuration value read"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "note",
+     "message": {
+      "text": "Cross-site scripting: Template output with escaping turned off."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-96c1fe60"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "low",
+      "severityRationale": "impact: Script injected into a page runs in other users' browsers (session theft, actions on their behalf). | reachability not proven (evidence L0)",
+      "group": "A",
+      "notVerified": [
+       "pattern match only: the rule has no data-flow trace for this language/class",
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.template-unescaped"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-352",
+     "level": "warning",
+     "message": {
+      "text": "POST form in a Django/Jinja template without a CSRF token.: POST form in a Django/Jinja template without a CSRF token."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 9,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b325b146"
+     },
+     "properties": {
+      "confidence": "L2",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "impact: Another site can make a logged-in user's browser submit this form. | reachability not proven (evidence L2)",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.form-no-csrf"
+       },
+       {
+        "level": "L2",
+        "by": "line-check",
+        "detail": "configuration value read"
+       }
+      ]
+     }
     },
     {
      "ruleId": "caa/CWE-798",
@@ -3642,7 +6960,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry preview() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry preview() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3783,7 +7101,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry hello() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry hello() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },
@@ -3924,7 +7242,7 @@
        {
         "level": "L3",
         "by": "defender",
-        "detail": "refutation failed: entry search() is a route, no sanitizer on the path, no global input filter, not test code"
+        "detail": "refutation failed: entry search() is an HTTP route, no sanitizer on the path, no global input filter, not test code"
        }
       ]
      },

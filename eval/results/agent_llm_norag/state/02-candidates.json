@@ -17,7 +17,7 @@
    "llm-entrypoints"
   ],
   "dataflow": [],
-  "explanation": "GET /admin/export has no authentication while 2 comparable route(s) require it",
+  "explanation": "GET /admin/export has no authentication while 2 route(s) of the same resource require it",
   "severity": "medium",
   "severity_rationale": "",
   "evidence": [
@@ -58,7 +58,7 @@
       "end_line": 49,
       "function": "admin_export"
      },
-     "message": "GET /admin/export has no authentication while 2 comparable route(s) require it",
+     "message": "GET /admin/export has no authentication while 2 route(s) of the same resource require it",
      "snippet": "",
      "extra": {
       "route": {
@@ -66,6 +66,7 @@
        "func": "admin_export",
        "line": 47,
        "path": "/admin/export",
+       "framework": "flask",
        "methods": [
         "GET"
        ],
@@ -86,6 +87,7 @@
         "func": "admin_users",
         "line": 35,
         "path": "/admin/users",
+        "framework": "flask",
         "methods": [
          "GET"
         ],
@@ -99,6 +101,7 @@
         "func": "admin_disable",
         "line": 41,
         "path": "/admin/users/<int:uid>/disable",
+        "framework": "flask",
         "methods": [
          "POST"
         ],
@@ -121,7 +124,7 @@
      }
     }
    ],
-   "message": "GET /admin/export has no authentication while 2 comparable route(s) require it"
+   "message": "GET /admin/export has no authentication while 2 route(s) of the same resource require it"
   }
  },
  {
@@ -142,7 +145,7 @@
    "authz-routes"
   ],
   "dataflow": [],
-  "explanation": "",
+  "explanation": "Insecure Direct Object Reference in invoice_json",
   "severity": "medium",
   "severity_rationale": "",
   "evidence": [
@@ -182,10 +185,10 @@
       "end_line": null,
       "function": null
      },
-     "message": "",
+     "message": "Insecure Direct Object Reference in invoice_json",
      "snippet": "",
      "extra": {
-      "rationale": "",
+      "rationale": "The invoice_json handler retrieves an invoice by its ID but fails to verify that the authenticated user is the owner of that invoice. In contrast, the sibling handler invoice_pdf correctly implements an ownership check (line 37), making the omission in invoice_json a likely security flaw.",
       "sources": [
        "llm-entrypoints"
       ],
@@ -213,6 +216,7 @@
        "func": "invoice_json",
        "line": 44,
        "path": "/api/invoices/<int:invoice_id>",
+       "framework": "flask",
        "methods": [
         "GET"
        ],
@@ -241,6 +245,7 @@
         "func": "invoice_pdf",
         "line": 35,
         "path": "/api/invoices/<int:invoice_id>/pdf",
+        "framework": "flask",
         "methods": [
          "GET"
         ],
@@ -253,113 +258,15 @@
        }
       ],
       "sources": [
-       "authz-routes",
-       "llm-entrypoints"
+       "authz-routes"
       ],
       "rules": [
-       "caa.authz.idor-no-ownership",
-       "caa.llm.entrypoint"
+       "caa.authz.idor-no-ownership"
       ]
      }
     }
    ],
-   "message": ""
-  }
- },
- {
-  "id": "CAA-312491aa",
-  "title": "Missing authorization",
-  "cwe": "CWE-862",
-  "group": "B",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "authz/invoices.py",
-   "start_line": 44,
-   "end_line": null,
-   "function": "invoice_json"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "authz/invoices.py",
-      "line": 44,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "authz/invoices.py",
-      "start_line": 44,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    },
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-862",
-     "group": "B",
-     "location": {
-      "file": "authz/invoices.py",
-      "start_line": 45,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
+   "message": "Insecure Direct Object Reference in invoice_json"
   }
  },
  {
@@ -451,6 +358,7 @@
        "func": "delete_note",
        "line": 51,
        "path": "/notes/<int:note_id>/delete",
+       "framework": "flask",
        "methods": [
         "POST"
        ],
@@ -479,6 +387,7 @@
         "func": "list_notes",
         "line": 35,
         "path": "/notes",
+        "framework": "flask",
         "methods": [
          "GET"
         ],
@@ -492,6 +401,7 @@
         "func": "view_note",
         "line": 42,
         "path": "/notes/<int:note_id>",
+        "framework": "flask",
         "methods": [
          "GET"
         ],
@@ -513,6 +423,376 @@
     }
    ],
    "message": ""
+  }
+ },
+ {
+  "id": "CAA-bbb7d647",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cli_tool/grep_logs.py",
+   "start_line": 2,
+   "end_line": 2,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cli_tool/grep_logs.py",
+      "line": 2,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cli_tool/grep_logs.py",
+      "start_line": 2,
+      "end_line": 2,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "1 import argparse\n2 import subprocess\n3 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-b0df4337",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cli_tool/grep_logs.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "main"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Command executed through a shell with a non-constant command string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.cmdi.shell",
+    "refs": [
+     {
+      "file": "cli_tool/grep_logs.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.cmdi.shell",
+    "bandit.B602.subprocess_popen_with_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.cmdi.shell",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cli_tool/grep_logs.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "Command executed through a shell with a non-constant command string.",
+     "snippet": "    out = subprocess.run(f\"grep {args.pattern} {args.file}\", shell=True, capture_output=True, text=True)",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.cmdi.shell",
+       "bandit.B602.subprocess_popen_with_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Command executed through a shell with a non-constant command string."
+  }
+ },
+ {
+  "id": "CAA-dc0c73b2",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cli_tool/grep_logs_fixed.py",
+   "start_line": 2,
+   "end_line": 2,
+   "function": null
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Consider possible security implications associated with the subprocess module.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B404.blacklist",
+    "refs": [
+     {
+      "file": "cli_tool/grep_logs_fixed.py",
+      "line": 2,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B404.blacklist"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B404.blacklist",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cli_tool/grep_logs_fixed.py",
+      "start_line": 2,
+      "end_line": 2,
+      "function": null
+     },
+     "message": "Consider possible security implications associated with the subprocess module.",
+     "snippet": "1 import argparse\n2 import subprocess\n3 \n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B404.blacklist"
+      ]
+     }
+    }
+   ],
+   "message": "Consider possible security implications associated with the subprocess module."
+  }
+ },
+ {
+  "id": "CAA-05bfc924",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cli_tool/grep_logs_fixed.py",
+   "start_line": 10,
+   "end_line": 10,
+   "function": "main"
+  },
+  "sources": [
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "Starting a process with a partial executable path",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "bandit",
+    "detail": "pattern match: bandit.B607.start_process_with_partial_path",
+    "refs": [
+     {
+      "file": "cli_tool/grep_logs_fixed.py",
+      "line": 10,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "bandit.B607.start_process_with_partial_path",
+    "bandit.B603.subprocess_without_shell_equals_true"
+   ],
+   "candidates": [
+    {
+     "rule_id": "bandit.B607.start_process_with_partial_path",
+     "source": "bandit",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "cli_tool/grep_logs_fixed.py",
+      "start_line": 10,
+      "end_line": 10,
+      "function": null
+     },
+     "message": "Starting a process with a partial executable path",
+     "snippet": "9     args = parser.parse_args()\n10     out = subprocess.run([\"grep\", \"--\", args.pattern, args.file], capture_output=True, text=True)\n11     print(out.stdout)\n",
+     "extra": {
+      "sources": [
+       "bandit"
+      ],
+      "rules": [
+       "bandit.B607.start_process_with_partial_path",
+       "bandit.B603.subprocess_without_shell_equals_true"
+      ]
+     }
+    }
+   ],
+   "message": "Starting a process with a partial executable path"
+  }
+ },
+ {
+  "id": "CAA-31d6d1a4",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "cli_tool/report.py",
+   "start_line": 8,
+   "end_line": 8,
+   "function": "main"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "cli_tool/report.py",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "cli_tool/report.py",
+      "start_line": 8,
+      "end_line": 8,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    rows = conn.execute(\"SELECT total FROM invoices WHERE customer = '%s'\" % customer).fetchall()",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
   }
  },
  {
@@ -1029,79 +1309,6 @@
     }
    ],
    "message": "Consider possible security implications associated with the subprocess module."
-  }
- },
- {
-  "id": "CAA-a766b3b4",
-  "title": "Business logic flaw",
-  "cwe": "CWE-840",
-  "group": "C",
-  "owasp": "",
-  "asvs": "",
-  "location": {
-   "file": "cmdi/convert_fixed.py",
-   "start_line": 12,
-   "end_line": null,
-   "function": "convert_image"
-  },
-  "sources": [
-   "llm-entrypoints"
-  ],
-  "dataflow": [],
-  "explanation": "",
-  "severity": "medium",
-  "severity_rationale": "",
-  "evidence": [
-   {
-    "level": 0,
-    "by": "llm-entrypoints",
-    "detail": "pattern match: caa.llm.entrypoint",
-    "refs": [
-     {
-      "file": "cmdi/convert_fixed.py",
-      "line": 12,
-      "http_exchange": null,
-      "note": ""
-     }
-    ]
-   }
-  ],
-  "level": 0,
-  "status": "open",
-  "not_verified": [],
-  "refutation": null,
-  "fix": null,
-  "llm_verdict": null,
-  "extra": {
-   "rules": [
-    "caa.llm.entrypoint"
-   ],
-   "candidates": [
-    {
-     "rule_id": "caa.llm.entrypoint",
-     "source": "llm-entrypoints",
-     "cwe": "CWE-840",
-     "group": "C",
-     "location": {
-      "file": "cmdi/convert_fixed.py",
-      "start_line": 12,
-      "end_line": null,
-      "function": null
-     },
-     "message": "",
-     "snippet": "",
-     "extra": {
-      "rationale": "",
-      "sources": [
-       "llm-entrypoints"
-      ],
-      "rules": [
-       "caa.llm.entrypoint"
-      ]
-     }
-    }
-   ],
-   "message": ""
   }
  },
  {
@@ -2358,6 +2565,3349 @@
   }
  },
  {
+  "id": "CAA-7a89741e",
+  "title": "Insecure direct object reference",
+  "cwe": "CWE-639",
+  "group": "B",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 25,
+   "end_line": null,
+   "function": "note_detail"
+  },
+  "sources": [
+   "authz-routes",
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "GET,POST /notes/<int:pk>/ loads an object by a client-supplied id without an ownership check; sibling note_edit() does check ownership",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "authz-routes,llm-entrypoints",
+    "detail": "pattern match: caa.authz.idor-no-ownership",
+    "refs": [
+     {
+      "file": "django_app/notes/views.py",
+      "line": 25,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.authz.idor-no-ownership",
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.authz.idor-no-ownership",
+     "source": "authz-routes",
+     "cwe": "CWE-639",
+     "group": "B",
+     "location": {
+      "file": "django_app/notes/views.py",
+      "start_line": 25,
+      "end_line": null,
+      "function": "note_detail"
+     },
+     "message": "GET,POST /notes/<int:pk>/ loads an object by a client-supplied id without an ownership check; sibling note_edit() does check ownership",
+     "snippet": "",
+     "extra": {
+      "route": {
+       "file": "django_app/notes/views.py",
+       "func": "note_detail",
+       "line": 24,
+       "path": "/notes/<int:pk>/",
+       "framework": "django",
+       "methods": [
+        "GET",
+        "POST"
+       ],
+       "params": [
+        "pk"
+       ],
+       "auth": true,
+       "lookup_by_id": true,
+       "ownership_check": false
+      },
+      "lookup_ref": {
+       "file": "django_app/notes/views.py",
+       "line": 25,
+       "http_exchange": null,
+       "note": "Note.objects.get(pk=pk)"
+      },
+      "sibling_check": {
+       "file": "django_app/notes/views.py",
+       "line": 17,
+       "http_exchange": null,
+       "note": "owner-scoped query"
+      },
+      "siblings": [
+       {
+        "file": "django_app/notes/views.py",
+        "func": "note_list",
+        "line": 10,
+        "path": "/notes/",
+        "framework": "django",
+        "methods": [
+         "GET",
+         "POST"
+        ],
+        "params": [],
+        "auth": true,
+        "lookup_by_id": false,
+        "ownership_check": false
+       },
+       {
+        "file": "django_app/notes/views.py",
+        "func": "note_edit",
+        "line": 16,
+        "path": "/notes/<int:pk>/edit/",
+        "framework": "django",
+        "methods": [
+         "GET",
+         "POST"
+        ],
+        "params": [
+         "pk"
+        ],
+        "auth": true,
+        "lookup_by_id": true,
+        "ownership_check": true
+       },
+       {
+        "file": "django_app/notes/views.py",
+        "func": "note_search",
+        "line": 30,
+        "path": "/notes/search/",
+        "framework": "django",
+        "methods": [
+         "GET",
+         "POST"
+        ],
+        "params": [],
+        "auth": true,
+        "lookup_by_id": false,
+        "ownership_check": false
+       },
+       {
+        "file": "django_app/notes/views.py",
+        "func": "note_search_safe",
+        "line": 37,
+        "path": "/notes/search2/",
+        "framework": "django",
+        "methods": [
+         "GET",
+         "POST"
+        ],
+        "params": [],
+        "auth": true,
+        "lookup_by_id": false,
+        "ownership_check": false
+       }
+      ],
+      "sources": [
+       "authz-routes",
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.authz.idor-no-ownership",
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": "GET,POST /notes/<int:pk>/ loads an object by a client-supplied id without an ownership check; sibling note_edit() does check ownership"
+  }
+ },
+ {
+  "id": "CAA-6b9aa727",
+  "title": "Insecure direct object reference",
+  "cwe": "CWE-639",
+  "group": "B",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 32,
+   "end_line": null,
+   "function": "note_search"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "django_app/notes/views.py",
+      "line": 32,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-639",
+     "group": "B",
+     "location": {
+      "file": "django_app/notes/views.py",
+      "start_line": 32,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": ""
+  }
+ },
+ {
+  "id": "CAA-6c90af1b",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 32,
+   "end_line": 32,
+   "function": "note_search"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "django_app/notes/views.py",
+      "line": 32,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "django_app/notes/views.py",
+      "start_line": 32,
+      "end_line": 32,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    rows = Note.objects.raw(f\"SELECT id, title FROM notes_note WHERE title LIKE '%{q}%'\")",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-9ad5d1a3",
+  "title": "Insecure direct object reference",
+  "cwe": "CWE-639",
+  "group": "B",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 40,
+   "end_line": null,
+   "function": "note_search_safe"
+  },
+  "sources": [
+   "llm-entrypoints"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "django_app/notes/views.py",
+      "line": 40,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-639",
+     "group": "B",
+     "location": {
+      "file": "django_app/notes/views.py",
+      "start_line": 40,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    }
+   ],
+   "message": ""
+  }
+ },
+ {
+  "id": "CAA-5cbd1e42",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 47,
+   "end_line": 47,
+   "function": "greet"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.framework-html-response",
+    "refs": [
+     {
+      "file": "django_app/notes/views.py",
+      "line": 47,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.framework-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.framework-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "django_app/notes/views.py",
+      "start_line": 47,
+      "end_line": 47,
+      "function": null
+     },
+     "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+     "snippet": "    return HttpResponse(f\"<h1>Hello {name}</h1>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.framework-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+  }
+ },
+ {
+  "id": "CAA-63e88b21",
+  "title": "Hard-coded credential",
+  "cwe": "CWE-798",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 2,
+   "end_line": 2,
+   "function": null
+  },
+  "sources": [
+   "semgrep",
+   "bandit",
+   "secrets"
+  ],
+  "dataflow": [],
+  "explanation": "Credential-like value hard-coded in source.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit,secrets",
+    "detail": "pattern match: caa.python.secrets.hardcoded-credential",
+    "refs": [
+     {
+      "file": "django_app/settings.py",
+      "line": 2,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.secrets.hardcoded-credential",
+    "bandit.B105.hardcoded_password_string",
+    "secrets.generic-secret-assignment"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.secrets.hardcoded-credential",
+     "source": "semgrep",
+     "cwe": "CWE-798",
+     "group": "D",
+     "location": {
+      "file": "django_app/settings.py",
+      "start_line": 2,
+      "end_line": 2,
+      "function": null
+     },
+     "message": "Credential-like value hard-coded in source.",
+     "snippet": "SECRET_KEY = \"django-insecure-9f3k2j1h0g8f7d6s5a4\"",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit",
+       "secrets"
+      ],
+      "rules": [
+       "caa.python.secrets.hardcoded-credential",
+       "bandit.B105.hardcoded_password_string",
+       "secrets.generic-secret-assignment"
+      ]
+     }
+    }
+   ],
+   "message": "Credential-like value hard-coded in source."
+  }
+ },
+ {
+  "id": "CAA-6d550a02",
+  "title": "Debug mode enabled",
+  "cwe": "CWE-489",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 3,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "hygiene"
+  ],
+  "dataflow": [],
+  "explanation": "Django DEBUG = True: detailed error pages leak code and settings",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "hygiene",
+    "detail": "pattern match: caa.hygiene.django-debug",
+    "refs": [
+     {
+      "file": "django_app/settings.py",
+      "line": 3,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.hygiene.django-debug"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.hygiene.django-debug",
+     "source": "hygiene",
+     "cwe": "CWE-489",
+     "group": "D",
+     "location": {
+      "file": "django_app/settings.py",
+      "start_line": 3,
+      "end_line": null,
+      "function": null
+     },
+     "message": "Django DEBUG = True: detailed error pages leak code and settings",
+     "snippet": "",
+     "extra": {
+      "severity_hint": "medium",
+      "sources": [
+       "hygiene"
+      ],
+      "rules": [
+       "caa.hygiene.django-debug"
+      ]
+     }
+    }
+   ],
+   "message": "Django DEBUG = True: detailed error pages leak code and settings"
+  }
+ },
+ {
+  "id": "CAA-efb65407",
+  "title": "ALLOWED_HOSTS accepts any host header",
+  "cwe": "CWE-1188",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 4,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "hygiene"
+  ],
+  "dataflow": [],
+  "explanation": "ALLOWED_HOSTS accepts any host header",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "hygiene",
+    "detail": "pattern match: caa.hygiene.django-hosts",
+    "refs": [
+     {
+      "file": "django_app/settings.py",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.hygiene.django-hosts"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.hygiene.django-hosts",
+     "source": "hygiene",
+     "cwe": "CWE-1188",
+     "group": "D",
+     "location": {
+      "file": "django_app/settings.py",
+      "start_line": 4,
+      "end_line": null,
+      "function": null
+     },
+     "message": "ALLOWED_HOSTS accepts any host header",
+     "snippet": "",
+     "extra": {
+      "severity_hint": "low",
+      "sources": [
+       "hygiene"
+      ],
+      "rules": [
+       "caa.hygiene.django-hosts"
+      ]
+     }
+    }
+   ],
+   "message": "ALLOWED_HOSTS accepts any host header"
+  }
+ },
+ {
+  "id": "CAA-ae7d546e",
+  "title": "Permissive CORS",
+  "cwe": "CWE-942",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 8,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "hygiene"
+  ],
+  "dataflow": [],
+  "explanation": "CORS allows any origin together with credentials: any site can read authenticated responses",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "hygiene",
+    "detail": "pattern match: caa.hygiene.cors-credentials",
+    "refs": [
+     {
+      "file": "fastapi_app/main.py",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.hygiene.cors-credentials"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.hygiene.cors-credentials",
+     "source": "hygiene",
+     "cwe": "CWE-942",
+     "group": "D",
+     "location": {
+      "file": "fastapi_app/main.py",
+      "start_line": 8,
+      "end_line": null,
+      "function": null
+     },
+     "message": "CORS allows any origin together with credentials: any site can read authenticated responses",
+     "snippet": "",
+     "extra": {
+      "severity_hint": "high",
+      "sources": [
+       "hygiene"
+      ],
+      "rules": [
+       "caa.hygiene.cors-credentials"
+      ]
+     }
+    }
+   ],
+   "message": "CORS allows any origin together with credentials: any site can read authenticated responses"
+  }
+ },
+ {
+  "id": "CAA-3f0420fa",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 21,
+   "end_line": 21,
+   "function": "read_item"
+  },
+  "sources": [
+   "semgrep",
+   "bandit"
+  ],
+  "dataflow": [],
+  "explanation": "SQL query text built from a non-constant string is passed to execute().",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,bandit",
+    "detail": "pattern match: caa.python.sqli.string-built-query",
+    "refs": [
+     {
+      "file": "fastapi_app/main.py",
+      "line": 21,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.sqli.string-built-query",
+    "bandit.B608.hardcoded_sql_expressions"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.sqli.string-built-query",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "fastapi_app/main.py",
+      "start_line": 21,
+      "end_line": 21,
+      "function": null
+     },
+     "message": "SQL query text built from a non-constant string is passed to execute().",
+     "snippet": "    row = get_db().execute(f\"SELECT id, name FROM items WHERE id = '{item_id}'\").fetchone()",
+     "extra": {
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "rules": [
+       "caa.python.sqli.string-built-query",
+       "bandit.B608.hardcoded_sql_expressions"
+      ]
+     }
+    }
+   ],
+   "message": "SQL query text built from a non-constant string is passed to execute()."
+  }
+ },
+ {
+  "id": "CAA-71731d51",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 27,
+   "end_line": 27,
+   "function": "greet"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.framework-html-response",
+    "refs": [
+     {
+      "file": "fastapi_app/main.py",
+      "line": 27,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.framework-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.framework-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "fastapi_app/main.py",
+      "start_line": 27,
+      "end_line": 27,
+      "function": null
+     },
+     "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+     "snippet": "    return HTMLResponse(f\"<h1>Hello {name}</h1>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.framework-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+  }
+ },
+ {
+  "id": "CAA-95f6ec9b",
+  "title": "Insecure direct object reference",
+  "cwe": "CWE-639",
+  "group": "B",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 39,
+   "end_line": null,
+   "function": "read_order"
+  },
+  "sources": [
+   "llm-entrypoints",
+   "authz-routes"
+  ],
+  "dataflow": [],
+  "explanation": "",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "llm-entrypoints",
+    "detail": "pattern match: caa.llm.entrypoint",
+    "refs": [
+     {
+      "file": "fastapi_app/main.py",
+      "line": 39,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.llm.entrypoint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.llm.entrypoint",
+     "source": "llm-entrypoints",
+     "cwe": "CWE-639",
+     "group": "B",
+     "location": {
+      "file": "fastapi_app/main.py",
+      "start_line": 39,
+      "end_line": null,
+      "function": null
+     },
+     "message": "",
+     "snippet": "",
+     "extra": {
+      "rationale": "",
+      "sources": [
+       "llm-entrypoints"
+      ],
+      "rules": [
+       "caa.llm.entrypoint"
+      ]
+     }
+    },
+    {
+     "rule_id": "caa.authz.idor-no-ownership",
+     "source": "authz-routes",
+     "cwe": "CWE-639",
+     "group": "B",
+     "location": {
+      "file": "fastapi_app/main.py",
+      "start_line": 40,
+      "end_line": null,
+      "function": "read_order"
+     },
+     "message": "GET /orders/{order_id} loads an object by a client-supplied id without an ownership check; sibling order_invoice() does check ownership",
+     "snippet": "",
+     "extra": {
+      "route": {
+       "file": "fastapi_app/main.py",
+       "func": "read_order",
+       "line": 39,
+       "path": "/orders/{order_id}",
+       "framework": "fastapi",
+       "methods": [
+        "GET"
+       ],
+       "params": [
+        "order_id"
+       ],
+       "auth": true,
+       "lookup_by_id": true,
+       "ownership_check": false
+      },
+      "lookup_ref": {
+       "file": "fastapi_app/main.py",
+       "line": 40,
+       "http_exchange": null,
+       "note": "get_db().execute('SELECT id, total, address FROM orders WHERE id = ?', (order_id,))"
+      },
+      "sibling_check": {
+       "file": "fastapi_app/main.py",
+       "line": 33,
+       "http_exchange": null,
+       "note": "ownership comparison followed by deny"
+      },
+      "siblings": [
+       {
+        "file": "fastapi_app/main.py",
+        "func": "order_invoice",
+        "line": 31,
+        "path": "/orders/{order_id}/invoice",
+        "framework": "fastapi",
+        "methods": [
+         "GET"
+        ],
+        "params": [
+         "order_id"
+        ],
+        "auth": true,
+        "lookup_by_id": true,
+        "ownership_check": true
+       }
+      ],
+      "sources": [
+       "authz-routes"
+      ],
+      "rules": [
+       "caa.authz.idor-no-ownership"
+      ]
+     }
+    }
+   ],
+   "message": ""
+  }
+ },
+ {
+  "id": "CAA-174d715f",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "fastapi_app/main_fixed.py",
+   "start_line": 28,
+   "end_line": 28,
+   "function": "greet"
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.python.xss.framework-html-response",
+    "refs": [
+     {
+      "file": "fastapi_app/main_fixed.py",
+      "line": 28,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.python.xss.framework-html-response"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.python.xss.framework-html-response",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "fastapi_app/main_fixed.py",
+      "start_line": 28,
+      "end_line": 28,
+      "function": null
+     },
+     "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.",
+     "snippet": "    return HTMLResponse(f\"<h1>Hello {escape(name)}</h1>\")",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.python.xss.framework-html-response"
+      ]
+     }
+    }
+   ],
+   "message": "HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+  }
+ },
+ {
+  "id": "CAA-dcca0bb2",
+  "title": "Vulnerable dependency",
+  "cwe": "CWE-1395",
+  "group": "E",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/go.mod",
+   "start_line": 1,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "osv-scanner"
+  ],
+  "dataflow": [],
+  "explanation": "stdlib 1.22.99: 65 known vulnerabilities (e.g. CVE-2025-22870: HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net)",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "osv-scanner",
+    "detail": "pattern match: deps.stdlib",
+    "refs": [
+     {
+      "file": "gosvc/go.mod",
+      "line": 1,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "deps.stdlib"
+   ],
+   "candidates": [
+    {
+     "rule_id": "deps.stdlib",
+     "source": "osv-scanner",
+     "cwe": "CWE-1395",
+     "group": "E",
+     "location": {
+      "file": "gosvc/go.mod",
+      "start_line": 1,
+      "end_line": null,
+      "function": null
+     },
+     "message": "stdlib 1.22.99: 65 known vulnerabilities (e.g. CVE-2025-22870: HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net)",
+     "snippet": "stdlib 1.22.99",
+     "extra": {
+      "package": "stdlib",
+      "version": "1.22.99",
+      "vuln_id": "CVE-2025-22870",
+      "advisories": [
+       {
+        "ids": [
+         "GO-2025-3503"
+        ],
+        "cves": [
+         "CVE-2025-22870"
+        ],
+        "summary": "HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"
+       },
+       {
+        "ids": [
+         "GO-2025-3563"
+        ],
+        "cves": [
+         "CVE-2025-22871"
+        ],
+        "summary": "Request smuggling due to acceptance of invalid chunked data in net/http"
+       },
+       {
+        "ids": [
+         "GO-2025-3750"
+        ],
+        "cves": [
+         "CVE-2025-0913"
+        ],
+        "summary": "Inconsistent handling of O_CREATE|O_EXCL on Unix and Windows in os in syscall"
+       },
+       {
+        "ids": [
+         "GO-2025-3751"
+        ],
+        "cves": [
+         "CVE-2025-4673"
+        ],
+        "summary": "Sensitive headers not cleared on cross-origin redirect in net/http"
+       },
+       {
+        "ids": [
+         "GO-2025-3849"
+        ],
+        "cves": [
+         "CVE-2025-47907"
+        ],
+        "summary": "Incorrect results returned from Rows.Scan in database/sql"
+       },
+       {
+        "ids": [
+         "GO-2025-3956"
+        ],
+        "cves": [
+         "CVE-2025-47906"
+        ],
+        "summary": "Unexpected paths returned from LookPath in os/exec"
+       },
+       {
+        "ids": [
+         "GO-2025-4006"
+        ],
+        "cves": [
+         "CVE-2025-61725"
+        ],
+        "summary": "Excessive CPU consumption in ParseAddress in net/mail"
+       },
+       {
+        "ids": [
+         "GO-2025-4007"
+        ],
+        "cves": [
+         "CVE-2025-58187"
+        ],
+        "summary": "Quadratic complexity when checking name constraints in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2025-4008"
+        ],
+        "cves": [
+         "CVE-2025-58189"
+        ],
+        "summary": "ALPN negotiation error contains attacker controlled information in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2025-4009"
+        ],
+        "cves": [
+         "CVE-2025-61723"
+        ],
+        "summary": "Quadratic complexity when parsing some invalid inputs in encoding/pem"
+       },
+       {
+        "ids": [
+         "GO-2025-4010"
+        ],
+        "cves": [
+         "CVE-2025-47912"
+        ],
+        "summary": "Insufficient validation of bracketed IPv6 hostnames in net/url"
+       },
+       {
+        "ids": [
+         "GO-2025-4011"
+        ],
+        "cves": [
+         "CVE-2025-58185"
+        ],
+        "summary": "Parsing DER payload can cause memory exhaustion in encoding/asn1"
+       },
+       {
+        "ids": [
+         "GO-2025-4012"
+        ],
+        "cves": [
+         "CVE-2025-58186"
+        ],
+        "summary": "Lack of limit when parsing cookies can cause memory exhaustion in net/http"
+       },
+       {
+        "ids": [
+         "GO-2025-4013"
+        ],
+        "cves": [
+         "CVE-2025-58188"
+        ],
+        "summary": "Panic when validating certificates with DSA public keys in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2025-4014"
+        ],
+        "cves": [
+         "CVE-2025-58183"
+        ],
+        "summary": "Unbounded allocation when parsing GNU sparse map in archive/tar"
+       },
+       {
+        "ids": [
+         "GO-2025-4015"
+        ],
+        "cves": [
+         "CVE-2025-61724"
+        ],
+        "summary": "Excessive CPU consumption in Reader.ReadResponse in net/textproto"
+       },
+       {
+        "ids": [
+         "GO-2025-4155"
+        ],
+        "cves": [
+         "CVE-2025-61729"
+        ],
+        "summary": "Excessive resource consumption when printing error string for host certificate validation in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2025-4175"
+        ],
+        "cves": [
+         "CVE-2025-61727"
+        ],
+        "summary": "Improper application of excluded DNS name constraints when verifying wildcard names in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2026-4337"
+        ],
+        "cves": [
+         "CVE-2025-68121"
+        ],
+        "summary": "Unexpected session resumption in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-4340"
+        ],
+        "cves": [
+         "CVE-2025-61730"
+        ],
+        "summary": "Handshake messages may be processed at the incorrect encryption level in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-4341"
+        ],
+        "cves": [
+         "CVE-2025-61726"
+        ],
+        "summary": "Memory exhaustion in query parameter parsing in net/url"
+       },
+       {
+        "ids": [
+         "GO-2026-4342"
+        ],
+        "cves": [
+         "CVE-2025-61728"
+        ],
+        "summary": "Excessive CPU consumption when building archive index in archive/zip"
+       },
+       {
+        "ids": [
+         "GO-2026-4403"
+        ],
+        "cves": [
+         "CVE-2025-22873"
+        ],
+        "summary": "Improper access to parent directory of root in os"
+       },
+       {
+        "ids": [
+         "GO-2026-4601"
+        ],
+        "cves": [
+         "CVE-2026-25679"
+        ],
+        "summary": "Incorrect parsing of IPv6 host literals in net/url"
+       },
+       {
+        "ids": [
+         "GO-2026-4602"
+        ],
+        "cves": [
+         "CVE-2026-27139"
+        ],
+        "summary": "FileInfo can escape from a Root in os"
+       },
+       {
+        "ids": [
+         "GO-2026-4603"
+        ],
+        "cves": [
+         "CVE-2026-27142"
+        ],
+        "summary": "URLs in meta content attribute actions are not escaped in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-4864"
+        ],
+        "cves": [
+         "CVE-2026-32282"
+        ],
+        "summary": "TOCTOU permits root escape on Linux via Root.Chmod in os in internal/syscall/unix"
+       },
+       {
+        "ids": [
+         "GO-2026-4865"
+        ],
+        "cves": [
+         "CVE-2026-32289"
+        ],
+        "summary": "JsBraceDepth Context Tracking Bugs (XSS) in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-4869"
+        ],
+        "cves": [
+         "CVE-2026-32288"
+        ],
+        "summary": "Unbounded allocation for old GNU sparse in archive/tar"
+       },
+       {
+        "ids": [
+         "GO-2026-4870"
+        ],
+        "cves": [
+         "CVE-2026-32283"
+        ],
+        "summary": "Unauthenticated TLS 1.3 KeyUpdate record can cause persistent connection retention and DoS in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-4918"
+        ],
+        "cves": [
+         "CVE-2026-33814"
+        ],
+        "summary": "Infinite loop in HTTP/2 transport when given bad SETTINGS_MAX_FRAME_SIZE in net/http/internal/http2 in golang.org/x/net"
+       },
+       {
+        "ids": [
+         "GO-2026-4946"
+        ],
+        "cves": [
+         "CVE-2026-32281"
+        ],
+        "summary": "Inefficient policy validation in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2026-4947"
+        ],
+        "cves": [
+         "CVE-2026-32280"
+        ],
+        "summary": "Unexpected work during chain building in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2026-4970"
+        ],
+        "cves": [
+         "CVE-2026-39822"
+        ],
+        "summary": "Root escape via symlink plus trailing slash in os"
+       },
+       {
+        "ids": [
+         "GO-2026-4971"
+        ],
+        "cves": [
+         "CVE-2026-39836"
+        ],
+        "summary": "Panic in Dial and LookupPort when handling NUL byte on Windows in net"
+       },
+       {
+        "ids": [
+         "GO-2026-4976"
+        ],
+        "cves": [
+         "CVE-2026-39825"
+        ],
+        "summary": "ReverseProxy forwards queries with more than urlmaxqueryparams parameters in net/http/httputil"
+       },
+       {
+        "ids": [
+         "GO-2026-4977"
+        ],
+        "cves": [
+         "CVE-2026-42499"
+        ],
+        "summary": "Quadratic string concatenation in consumePhrase in net/mail"
+       },
+       {
+        "ids": [
+         "GO-2026-4980"
+        ],
+        "cves": [
+         "CVE-2026-39826"
+        ],
+        "summary": "Escaper bypass leads to XSS in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-4981"
+        ],
+        "cves": [
+         "CVE-2026-33811"
+        ],
+        "summary": "Crash when handling long CNAME response in net"
+       },
+       {
+        "ids": [
+         "GO-2026-4982"
+        ],
+        "cves": [
+         "CVE-2026-39823"
+        ],
+        "summary": "Bypass of meta content URL escaping causes XSS in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-4986"
+        ],
+        "cves": [
+         "CVE-2026-39820"
+        ],
+        "summary": "Quadratic string concatentation in consumeComment in net/mail"
+       },
+       {
+        "ids": [
+         "GO-2026-5026"
+        ],
+        "cves": [
+         "CVE-2026-39821"
+        ],
+        "summary": "Invoking failure to reject ASCII-only Punycode-encoded labels in golang.org/x/net/idna"
+       },
+       {
+        "ids": [
+         "GO-2026-5037"
+        ],
+        "cves": [
+         "CVE-2026-27145"
+        ],
+        "summary": "Inefficient candidate hostname parsing in crypto/x509"
+       },
+       {
+        "ids": [
+         "GO-2026-5038"
+        ],
+        "cves": [
+         "CVE-2026-42504"
+        ],
+        "summary": "Quadratic complexity in WordDecoder.DecodeHeader in mime"
+       },
+       {
+        "ids": [
+         "GO-2026-5039"
+        ],
+        "cves": [
+         "CVE-2026-42507"
+        ],
+        "summary": "Arbitrary inputs are included in errors without any escaping in net/textproto"
+       },
+       {
+        "ids": [
+         "GO-2026-5856"
+        ],
+        "cves": [
+         "CVE-2026-42505"
+        ],
+        "summary": "Invoking Encrypted Client Hello privacy leak in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-5972"
+        ],
+        "cves": [
+         "CVE-2026-33818"
+        ],
+        "summary": "Enforce maximum recursion depth in encoding/asn1"
+       },
+       {
+        "ids": [
+         "GO-2026-6088"
+        ],
+        "cves": [
+         "CVE-2026-56859"
+        ],
+        "summary": "Add recursion depth guard during decode in encoding/xml"
+       },
+       {
+        "ids": [
+         "GO-2026-6089"
+        ],
+        "cves": [
+         "CVE-2026-56853"
+        ],
+        "summary": "Apply ReadHeaderTimeout when doing unencrypted HTTP/2 check in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6090"
+        ],
+        "cves": [
+         "CVE-2026-56862"
+        ],
+        "summary": "Limit handshake messages we are willing to accept post-handshake in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-6091"
+        ],
+        "cves": [
+         "CVE-2026-56858"
+        ],
+        "summary": "Fix Javascript regexp context tracking in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-6218"
+        ],
+        "cves": [
+         "CVE-2026-56860"
+        ],
+        "summary": "Avoid quadratic complexity in resolvePath in net/url"
+       },
+       {
+        "ids": [
+         "GO-2026-6599"
+        ],
+        "cves": [
+         "CVE-2026-94448"
+        ],
+        "summary": "Reset context tracking on consecutive template expressions in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-6600"
+        ],
+        "cves": [
+         "CVE-2026-97030"
+        ],
+        "summary": "Recognize yield as regexp preceder keyword in html/template"
+       },
+       {
+        "ids": [
+         "GO-2026-6603"
+        ],
+        "cves": [
+         "CVE-2026-78659"
+        ],
+        "summary": "HTTP/2 server memory exhaustion due to Trailer headers in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6604"
+        ],
+        "cves": [
+         "CVE-2026-56857"
+        ],
+        "summary": "Root.Mkdir(All) can follow junctions out of the root on Windows in os"
+       },
+       {
+        "ids": [
+         "GO-2026-6605"
+        ],
+        "cves": [
+         "CVE-2026-56866"
+        ],
+        "summary": "HTTP/1 client connection desynchronization after CONNECT rejection in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6607"
+        ],
+        "cves": [
+         "CVE-2026-97031"
+        ],
+        "summary": "Reject malformed ECH outer extension references in crypto/tls"
+       },
+       {
+        "ids": [
+         "GO-2026-6608"
+        ],
+        "cves": [
+         "CVE-2026-94440"
+        ],
+        "summary": "Memory limit bypass when parsing MIME headers in net/textproto, mime/multipart"
+       },
+       {
+        "ids": [
+         "GO-2026-6609"
+        ],
+        "cves": [
+         "CVE-2026-78667"
+        ],
+        "summary": "Lack of limit on size of parsed Range headers in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6610"
+        ],
+        "cves": [
+         "CVE-2026-78660"
+        ],
+        "summary": "HTTP/2 transport accepts malformed framing-related headers in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6611"
+        ],
+        "cves": [
+         "CVE-2026-78669"
+        ],
+        "summary": "Excessive CPU consumption from repeated initial window changes in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6612"
+        ],
+        "cves": [
+         "CVE-2026-78663"
+        ],
+        "summary": "Double flow control refund on HTTP/2 server streams in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6613"
+        ],
+        "cves": [
+         "CVE-2026-94439"
+        ],
+        "summary": "HTTP/1 server connection desynchronization after 2xx CONNECT response in net/http"
+       },
+       {
+        "ids": [
+         "GO-2026-6617"
+        ],
+        "cves": [
+         "CVE-2026-97032"
+        ],
+        "summary": "HTTP/2 server crash due to HPACK encoder race in net/http"
+       }
+      ],
+      "fixed": [
+       "1.27.0-rc.2",
+       "1.27.0-rc.3",
+       "1.27.2"
+      ],
+      "ecosystem": "Go",
+      "import_name": "stdlib",
+      "db": "osv-scanner offline",
+      "sources": [
+       "osv-scanner"
+      ],
+      "rules": [
+       "deps.stdlib"
+      ]
+     }
+    }
+   ],
+   "message": "stdlib 1.22.99: 65 known vulnerabilities (e.g. CVE-2025-22870: HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net)"
+  }
+ },
+ {
+  "id": "CAA-2ab6d323",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 16,
+   "end_line": 16,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a SQL query string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.go.sqli.taint",
+    "refs": [
+     {
+      "file": "gosvc/handlers.go",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.go.sqli.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.go.sqli.taint",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers.go",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Request data reaches a SQL query string.",
+     "snippet": "\trows, err := db.Query(fmt.Sprintf(\"SELECT email FROM users WHERE name = '%s'\", name))",
+     "extra": {
+      "codeflow": [
+       [
+        "gosvc/handlers.go",
+        15
+       ],
+       [
+        "gosvc/handlers.go",
+        15
+       ],
+       [
+        "gosvc/handlers.go",
+        16
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.go.sqli.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a SQL query string."
+  }
+ },
+ {
+  "id": "CAA-8dfb2540",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 24,
+   "end_line": 24,
+   "function": null
+  },
+  "sources": [
+   "semgrep",
+   "gosec"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a shell command.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,gosec",
+    "detail": "pattern match: caa.go.cmdi.taint",
+    "refs": [
+     {
+      "file": "gosvc/handlers.go",
+      "line": 24,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.go.cmdi.taint",
+    "G204"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.go.cmdi.taint",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers.go",
+      "start_line": 24,
+      "end_line": 24,
+      "function": null
+     },
+     "message": "Request data reaches a shell command.",
+     "snippet": "\tout, _ := exec.Command(\"sh\", \"-c\", \"ping -c 1 \"+host).Output()",
+     "extra": {
+      "codeflow": [
+       [
+        "gosvc/handlers.go",
+        23
+       ],
+       [
+        "gosvc/handlers.go",
+        23
+       ],
+       [
+        "gosvc/handlers.go",
+        24
+       ]
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "rules": [
+       "caa.go.cmdi.taint",
+       "G204"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a shell command."
+  }
+ },
+ {
+  "id": "CAA-6daca4e3",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 30,
+   "end_line": 30,
+   "function": null
+  },
+  "sources": [
+   "semgrep",
+   "gosec"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is used as a file path.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep,gosec",
+    "detail": "pattern match: caa.go.path.taint",
+    "refs": [
+     {
+      "file": "gosvc/handlers.go",
+      "line": 30,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.go.path.taint",
+    "G304"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.go.path.taint",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers.go",
+      "start_line": 30,
+      "end_line": 30,
+      "function": null
+     },
+     "message": "Request data is used as a file path.",
+     "snippet": "\tdata, _ := os.ReadFile(filepath.Join(\"/srv/files\", name))",
+     "extra": {
+      "codeflow": [
+       [
+        "gosvc/handlers.go",
+        29
+       ],
+       [
+        "gosvc/handlers.go",
+        29
+       ],
+       [
+        "gosvc/handlers.go",
+        30
+       ]
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "rules": [
+       "caa.go.path.taint",
+       "G304"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is used as a file path."
+  }
+ },
+ {
+  "id": "CAA-66a95c6c",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 36,
+   "end_line": 36,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is written into an HTML response without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.go.xss.taint",
+    "refs": [
+     {
+      "file": "gosvc/handlers.go",
+      "line": 36,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.go.xss.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.go.xss.taint",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers.go",
+      "start_line": 36,
+      "end_line": 36,
+      "function": null
+     },
+     "message": "Request data is written into an HTML response without escaping.",
+     "snippet": "\tfmt.Fprintf(w, \"<h1>Hello %s</h1>\", name)",
+     "extra": {
+      "codeflow": [
+       [
+        "gosvc/handlers.go",
+        35
+       ],
+       [
+        "gosvc/handlers.go",
+        35
+       ],
+       [
+        "gosvc/handlers.go",
+        36
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.go.xss.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is written into an HTML response without escaping."
+  }
+ },
+ {
+  "id": "CAA-9bd0d292",
+  "title": "Use of net/http serve function that has no support for setti",
+  "cwe": "CWE-400",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 44,
+   "end_line": 44,
+   "function": null
+  },
+  "sources": [
+   "gosec"
+  ],
+  "dataflow": [],
+  "explanation": "Use of net/http serve function that has no support for setting timeouts",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "gosec",
+    "detail": "pattern match: G114",
+    "refs": [
+     {
+      "file": "gosvc/handlers.go",
+      "line": 44,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "G114"
+   ],
+   "candidates": [
+    {
+     "rule_id": "G114",
+     "source": "gosec",
+     "cwe": "CWE-400",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers.go",
+      "start_line": 44,
+      "end_line": 44,
+      "function": null
+     },
+     "message": "Use of net/http serve function that has no support for setting timeouts",
+     "snippet": "http.ListenAndServe(\":8080\", nil)",
+     "extra": {
+      "sources": [
+       "gosec"
+      ],
+      "rules": [
+       "G114"
+      ]
+     }
+    }
+   ],
+   "message": "Use of net/http serve function that has no support for setting timeouts"
+  }
+ },
+ {
+  "id": "CAA-b90c5897",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers_fixed.go",
+   "start_line": 22,
+   "end_line": 22,
+   "function": null
+  },
+  "sources": [
+   "gosec"
+  ],
+  "dataflow": [],
+  "explanation": "Subprocess launched with variable",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "gosec",
+    "detail": "pattern match: G204",
+    "refs": [
+     {
+      "file": "gosvc/handlers_fixed.go",
+      "line": 22,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "G204"
+   ],
+   "candidates": [
+    {
+     "rule_id": "G204",
+     "source": "gosec",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers_fixed.go",
+      "start_line": 22,
+      "end_line": 22,
+      "function": null
+     },
+     "message": "Subprocess launched with variable",
+     "snippet": "out, _ := exec.Command(\"ping\", \"-c\", \"1\", \"--\", host).Output()",
+     "extra": {
+      "sources": [
+       "gosec"
+      ],
+      "rules": [
+       "G204"
+      ]
+     }
+    }
+   ],
+   "message": "Subprocess launched with variable"
+  }
+ },
+ {
+  "id": "CAA-56b47560",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "gosvc/handlers_fixed.go",
+   "start_line": 28,
+   "end_line": 28,
+   "function": null
+  },
+  "sources": [
+   "gosec"
+  ],
+  "dataflow": [],
+  "explanation": "Potential file inclusion via variable",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "gosec",
+    "detail": "pattern match: G304",
+    "refs": [
+     {
+      "file": "gosvc/handlers_fixed.go",
+      "line": 28,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "G304"
+   ],
+   "candidates": [
+    {
+     "rule_id": "G304",
+     "source": "gosec",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "gosvc/handlers_fixed.go",
+      "start_line": 28,
+      "end_line": 28,
+      "function": null
+     },
+     "message": "Potential file inclusion via variable",
+     "snippet": "data, _ := os.ReadFile(filepath.Join(\"/srv/files\", name))",
+     "extra": {
+      "sources": [
+       "gosec"
+      ],
+      "rules": [
+       "G304"
+      ]
+     }
+    }
+   ],
+   "message": "Potential file inclusion via variable"
+  }
+ },
+ {
+  "id": "CAA-999aed93",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "java/src/FileController.java",
+   "start_line": 11,
+   "end_line": 11,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is used as a file path.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.java.path.taint",
+    "refs": [
+     {
+      "file": "java/src/FileController.java",
+      "line": 11,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.java.path.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.java.path.taint",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "java/src/FileController.java",
+      "start_line": 11,
+      "end_line": 11,
+      "function": null
+     },
+     "message": "Request data is used as a file path.",
+     "snippet": "        return new String(Files.readAllBytes(Paths.get(\"/srv/files/\" + name)));",
+     "extra": {
+      "codeflow": [
+       [
+        "java/src/FileController.java",
+        11
+       ],
+       [
+        "java/src/FileController.java",
+        11
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.java.path.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is used as a file path."
+  }
+ },
+ {
+  "id": "CAA-16d66813",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "java/src/FileController.java",
+   "start_line": 16,
+   "end_line": 16,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a process command.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.java.cmdi.taint",
+    "refs": [
+     {
+      "file": "java/src/FileController.java",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.java.cmdi.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.java.cmdi.taint",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "java/src/FileController.java",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Request data reaches a process command.",
+     "snippet": "        Process p = Runtime.getRuntime().exec(\"ping -c 1 \" + host);",
+     "extra": {
+      "codeflow": [
+       [
+        "java/src/FileController.java",
+        16
+       ],
+       [
+        "java/src/FileController.java",
+        16
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.java.cmdi.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a process command."
+  }
+ },
+ {
+  "id": "CAA-2d11d26c",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "java/src/SearchServlet.java",
+   "start_line": 9,
+   "end_line": 9,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is written to the response without HTML encoding.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.java.xss.taint",
+    "refs": [
+     {
+      "file": "java/src/SearchServlet.java",
+      "line": 9,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.java.xss.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.java.xss.taint",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "java/src/SearchServlet.java",
+      "start_line": 9,
+      "end_line": 9,
+      "function": null
+     },
+     "message": "Request data is written to the response without HTML encoding.",
+     "snippet": "        response.getWriter().println(\"<p>Results for \" + q + \"</p>\");",
+     "extra": {
+      "codeflow": [
+       [
+        "java/src/SearchServlet.java",
+        8
+       ],
+       [
+        "java/src/SearchServlet.java",
+        8
+       ],
+       [
+        "java/src/SearchServlet.java",
+        9
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.java.xss.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is written to the response without HTML encoding."
+  }
+ },
+ {
+  "id": "CAA-40848555",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "java/src/UserServlet.java",
+   "start_line": 16,
+   "end_line": 16,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a SQL query string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.java.sqli.taint",
+    "refs": [
+     {
+      "file": "java/src/UserServlet.java",
+      "line": 16,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.java.sqli.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.java.sqli.taint",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "java/src/UserServlet.java",
+      "start_line": 16,
+      "end_line": 16,
+      "function": null
+     },
+     "message": "Request data reaches a SQL query string.",
+     "snippet": "            ResultSet rs = st.executeQuery(\"SELECT email FROM users WHERE name = '\" + name + \"'\");",
+     "extra": {
+      "codeflow": [
+       [
+        "java/src/UserServlet.java",
+        13
+       ],
+       [
+        "java/src/UserServlet.java",
+        13
+       ],
+       [
+        "java/src/UserServlet.java",
+        16
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.java.sqli.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a SQL query string."
+  }
+ },
+ {
+  "id": "CAA-69db5bb2",
+  "title": "XML parser created without disabling DOCTYPE / external enti",
+  "cwe": "CWE-611",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "java/src/XmlImport.java",
+   "start_line": 8,
+   "end_line": 8,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "XML parser created without disabling DOCTYPE / external entities.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.java.xxe.documentbuilder",
+    "refs": [
+     {
+      "file": "java/src/XmlImport.java",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.java.xxe.documentbuilder"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.java.xxe.documentbuilder",
+     "source": "semgrep",
+     "cwe": "CWE-611",
+     "group": "A",
+     "location": {
+      "file": "java/src/XmlImport.java",
+      "start_line": 8,
+      "end_line": 8,
+      "function": null
+     },
+     "message": "XML parser created without disabling DOCTYPE / external entities.",
+     "snippet": "        DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.java.xxe.documentbuilder"
+      ]
+     }
+    }
+   ],
+   "message": "XML parser created without disabling DOCTYPE / external entities."
+  }
+ },
+ {
+  "id": "CAA-1e0cb09f",
+  "title": "Request data is evaluated as code.",
+  "cwe": "CWE-94",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/calc.js",
+   "start_line": 6,
+   "end_line": 6,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is evaluated as code.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.code-injection.taint",
+    "refs": [
+     {
+      "file": "js/calc.js",
+      "line": 6,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.code-injection.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.code-injection.taint",
+     "source": "semgrep",
+     "cwe": "CWE-94",
+     "group": "A",
+     "location": {
+      "file": "js/calc.js",
+      "start_line": 6,
+      "end_line": 6,
+      "function": null
+     },
+     "message": "Request data is evaluated as code.",
+     "snippet": "  const result = eval(req.body.expr);",
+     "extra": {
+      "codeflow": [
+       [
+        "js/calc.js",
+        6
+       ],
+       [
+        "js/calc.js",
+        6
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.code-injection.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is evaluated as code."
+  }
+ },
+ {
+  "id": "CAA-40a6ab67",
+  "title": "Path traversal",
+  "cwe": "CWE-22",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/files.ts",
+   "start_line": 8,
+   "end_line": 8,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is used as a file path.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.path.taint",
+    "refs": [
+     {
+      "file": "js/files.ts",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.path.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.path.taint",
+     "source": "semgrep",
+     "cwe": "CWE-22",
+     "group": "A",
+     "location": {
+      "file": "js/files.ts",
+      "start_line": 8,
+      "end_line": 8,
+      "function": null
+     },
+     "message": "Request data is used as a file path.",
+     "snippet": "  res.sendFile(path.join(BASE, req.params.name));",
+     "extra": {
+      "codeflow": [
+       [
+        "js/files.ts",
+        8
+       ],
+       [
+        "js/files.ts",
+        8
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.path.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is used as a file path."
+  }
+ },
+ {
+  "id": "CAA-260accae",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/greet.js",
+   "start_line": 6,
+   "end_line": 6,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data is written into an HTML response without escaping.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.xss.taint",
+    "refs": [
+     {
+      "file": "js/greet.js",
+      "line": 6,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.xss.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.xss.taint",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "js/greet.js",
+      "start_line": 6,
+      "end_line": 6,
+      "function": null
+     },
+     "message": "Request data is written into an HTML response without escaping.",
+     "snippet": "  res.send(\"<h1>Hello \" + req.query.name + \"</h1>\");",
+     "extra": {
+      "codeflow": [
+       [
+        "js/greet.js",
+        6
+       ],
+       [
+        "js/greet.js",
+        6
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.xss.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data is written into an HTML response without escaping."
+  }
+ },
+ {
+  "id": "CAA-d8d0faac",
+  "title": "package.json without a lockfile: every install may pull diff",
+  "cwe": "CWE-1357",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/package.json",
+   "start_line": 1,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "hygiene"
+  ],
+  "dataflow": [],
+  "explanation": "package.json without a lockfile: every install may pull different dependency versions",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "hygiene",
+    "detail": "pattern match: caa.hygiene.no-lockfile",
+    "refs": [
+     {
+      "file": "js/package.json",
+      "line": 1,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.hygiene.no-lockfile"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.hygiene.no-lockfile",
+     "source": "hygiene",
+     "cwe": "CWE-1357",
+     "group": "D",
+     "location": {
+      "file": "js/package.json",
+      "start_line": 1,
+      "end_line": null,
+      "function": null
+     },
+     "message": "package.json without a lockfile: every install may pull different dependency versions",
+     "snippet": "",
+     "extra": {
+      "severity_hint": "low",
+      "sources": [
+       "hygiene"
+      ],
+      "rules": [
+       "caa.hygiene.no-lockfile"
+      ]
+     }
+    }
+   ],
+   "message": "package.json without a lockfile: every install may pull different dependency versions"
+  }
+ },
+ {
+  "id": "CAA-96ed0a1d",
+  "title": "OS command injection",
+  "cwe": "CWE-78",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/ping.js",
+   "start_line": 7,
+   "end_line": 7,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a shell command.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.cmdi.taint",
+    "refs": [
+     {
+      "file": "js/ping.js",
+      "line": 7,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.cmdi.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.cmdi.taint",
+     "source": "semgrep",
+     "cwe": "CWE-78",
+     "group": "A",
+     "location": {
+      "file": "js/ping.js",
+      "start_line": 7,
+      "end_line": 7,
+      "function": null
+     },
+     "message": "Request data reaches a shell command.",
+     "snippet": "  exec(\"ping -c 1 \" + host, (err, out) => res.type(\"text/plain\").send(out));",
+     "extra": {
+      "codeflow": [
+       [
+        "js/ping.js",
+        6
+       ],
+       [
+        "js/ping.js",
+        6
+       ],
+       [
+        "js/ping.js",
+        7
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.cmdi.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a shell command."
+  }
+ },
+ {
+  "id": "CAA-c5e9afc1",
+  "title": "Request data decides the redirect target.",
+  "cwe": "CWE-601",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/redirect.ts",
+   "start_line": 6,
+   "end_line": 6,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data decides the redirect target.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.open-redirect.taint",
+    "refs": [
+     {
+      "file": "js/redirect.ts",
+      "line": 6,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.open-redirect.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.open-redirect.taint",
+     "source": "semgrep",
+     "cwe": "CWE-601",
+     "group": "A",
+     "location": {
+      "file": "js/redirect.ts",
+      "start_line": 6,
+      "end_line": 6,
+      "function": null
+     },
+     "message": "Request data decides the redirect target.",
+     "snippet": "  res.redirect(req.query.next as string);",
+     "extra": {
+      "codeflow": [
+       [
+        "js/redirect.ts",
+        6
+       ],
+       [
+        "js/redirect.ts",
+        6
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.open-redirect.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data decides the redirect target."
+  }
+ },
+ {
+  "id": "CAA-d101b85a",
+  "title": "SQL injection",
+  "cwe": "CWE-89",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "js/users.js",
+   "start_line": 7,
+   "end_line": 7,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Request data reaches a SQL query string.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.js.sqli.taint",
+    "refs": [
+     {
+      "file": "js/users.js",
+      "line": 7,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.js.sqli.taint"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.js.sqli.taint",
+     "source": "semgrep",
+     "cwe": "CWE-89",
+     "group": "A",
+     "location": {
+      "file": "js/users.js",
+      "start_line": 7,
+      "end_line": 7,
+      "function": null
+     },
+     "message": "Request data reaches a SQL query string.",
+     "snippet": "  db.query(\"SELECT id, email FROM users WHERE name = '\" + name + \"'\", (err, rows) => res.json(rows));",
+     "extra": {
+      "codeflow": [
+       [
+        "js/users.js",
+        6
+       ],
+       [
+        "js/users.js",
+        6
+       ],
+       [
+        "js/users.js",
+        7
+       ]
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.js.sqli.taint"
+      ]
+     }
+    }
+   ],
+   "message": "Request data reaches a SQL query string."
+  }
+ },
+ {
   "id": "CAA-d7c8351b",
   "title": "Business logic flaw",
   "cwe": "CWE-840",
@@ -2944,21 +6494,21 @@
   "location": {
    "file": "requirements.txt",
    "start_line": 1,
-   "end_line": 1,
+   "end_line": null,
    "function": null
   },
   "sources": [
-   "deps-snapshot"
+   "osv-scanner"
   ],
   "dataflow": [],
-  "explanation": "flask==2.2.2 affected by CVE-2023-30861: Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie).",
+  "explanation": "flask 2.2.2: 2 known vulnerabilities (e.g. CVE-2023-30861: Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header)",
   "severity": "medium",
   "severity_rationale": "",
   "evidence": [
    {
     "level": 0,
-    "by": "deps-snapshot",
-    "detail": "pattern match: deps.CVE-2023-30861",
+    "by": "osv-scanner",
+    "detail": "pattern match: deps.flask",
     "refs": [
      {
       "file": "requirements.txt",
@@ -2977,42 +6527,66 @@
   "llm_verdict": null,
   "extra": {
    "rules": [
-    "deps.CVE-2023-30861"
+    "deps.flask"
    ],
    "candidates": [
     {
-     "rule_id": "deps.CVE-2023-30861",
-     "source": "deps-snapshot",
+     "rule_id": "deps.flask",
+     "source": "osv-scanner",
      "cwe": "CWE-1395",
      "group": "E",
      "location": {
       "file": "requirements.txt",
       "start_line": 1,
-      "end_line": 1,
+      "end_line": null,
       "function": null
      },
-     "message": "flask==2.2.2 affected by CVE-2023-30861: Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie).",
-     "snippet": "flask==2.2.2",
+     "message": "flask 2.2.2: 2 known vulnerabilities (e.g. CVE-2023-30861: Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header)",
+     "snippet": "flask 2.2.2",
      "extra": {
       "package": "flask",
       "version": "2.2.2",
       "vuln_id": "CVE-2023-30861",
+      "advisories": [
+       {
+        "ids": [
+         "PYSEC-2023-62",
+         "GHSA-m2qf-hxjv-5gpq"
+        ],
+        "cves": [
+         "CVE-2023-30861"
+        ],
+        "summary": "Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header"
+       },
+       {
+        "ids": [
+         "PYSEC-2026-2151",
+         "GHSA-68rp-wp8r-4726"
+        ],
+        "cves": [
+         "CVE-2026-27205"
+        ],
+        "summary": "Flask session does not add `Vary: Cookie` header when accessed in some ways"
+       }
+      ],
       "fixed": [
        "2.2.5",
-       "2.3.2"
+       "2.3.2",
+       "3.1.3"
       ],
+      "ecosystem": "PyPI",
       "import_name": "flask",
-      "db": "snapshot 2026-10-01",
+      "db": "osv-scanner offline",
       "sources": [
-       "deps-snapshot"
+       "osv-scanner"
       ],
       "rules": [
-       "deps.CVE-2023-30861"
+       "deps.flask"
       ]
      }
     }
    ],
-   "message": "flask==2.2.2 affected by CVE-2023-30861: Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie)."
+   "message": "flask 2.2.2: 2 known vulnerabilities (e.g. CVE-2023-30861: Flask vulnerable to possible disclosure of permanent session cookie due to missing Vary: Cookie header)"
   }
  },
  {
@@ -3025,21 +6599,21 @@
   "location": {
    "file": "requirements.txt",
    "start_line": 2,
-   "end_line": 2,
+   "end_line": null,
    "function": null
   },
   "sources": [
-   "deps-snapshot"
+   "osv-scanner"
   ],
   "dataflow": [],
-  "explanation": "pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML.",
+  "explanation": "pyyaml 5.3: 2 known vulnerabilities (e.g. CVE-2020-1747: Improper Input Validation in PyYAML)",
   "severity": "medium",
   "severity_rationale": "",
   "evidence": [
    {
     "level": 0,
-    "by": "deps-snapshot",
-    "detail": "pattern match: deps.CVE-2020-14343",
+    "by": "osv-scanner",
+    "detail": "pattern match: deps.pyyaml",
     "refs": [
      {
       "file": "requirements.txt",
@@ -3058,41 +6632,169 @@
   "llm_verdict": null,
   "extra": {
    "rules": [
-    "deps.CVE-2020-14343"
+    "deps.pyyaml"
    ],
    "candidates": [
     {
-     "rule_id": "deps.CVE-2020-14343",
-     "source": "deps-snapshot",
+     "rule_id": "deps.pyyaml",
+     "source": "osv-scanner",
      "cwe": "CWE-1395",
      "group": "E",
      "location": {
       "file": "requirements.txt",
       "start_line": 2,
-      "end_line": 2,
+      "end_line": null,
       "function": null
      },
-     "message": "pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML.",
-     "snippet": "pyyaml==5.3",
+     "message": "pyyaml 5.3: 2 known vulnerabilities (e.g. CVE-2020-1747: Improper Input Validation in PyYAML)",
+     "snippet": "pyyaml 5.3",
      "extra": {
       "package": "pyyaml",
       "version": "5.3",
-      "vuln_id": "CVE-2020-14343",
+      "vuln_id": "CVE-2020-1747",
+      "advisories": [
+       {
+        "ids": [
+         "PYSEC-2020-96",
+         "GHSA-6757-jp84-gxfx"
+        ],
+        "cves": [
+         "CVE-2020-1747"
+        ],
+        "summary": "Improper Input Validation in PyYAML"
+       },
+       {
+        "ids": [
+         "PYSEC-2021-142",
+         "GHSA-8q59-q68h-6hv4"
+        ],
+        "cves": [
+         "CVE-2020-14343"
+        ],
+        "summary": "Improper Input Validation in PyYAML"
+       }
+      ],
       "fixed": [
+       "5.3.1",
        "5.4"
       ],
+      "ecosystem": "PyPI",
       "import_name": "yaml",
-      "db": "snapshot 2026-10-01",
+      "db": "osv-scanner offline",
       "sources": [
-       "deps-snapshot"
+       "osv-scanner"
       ],
       "rules": [
-       "deps.CVE-2020-14343"
+       "deps.pyyaml"
       ]
      }
     }
    ],
-   "message": "pyyaml==5.3 affected by CVE-2020-14343: Arbitrary code execution via full_load / FullLoader on untrusted YAML."
+   "message": "pyyaml 5.3: 2 known vulnerabilities (e.g. CVE-2020-1747: Improper Input Validation in PyYAML)"
+  }
+ },
+ {
+  "id": "CAA-6093c7dc",
+  "title": "Vulnerable dependency",
+  "cwe": "CWE-1395",
+  "group": "E",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "requirements.txt",
+   "start_line": 3,
+   "end_line": null,
+   "function": null
+  },
+  "sources": [
+   "osv-scanner"
+  ],
+  "dataflow": [],
+  "explanation": "requests 2.32.3: 2 known vulnerabilities (e.g. CVE-2024-47081: Requests vulnerable to .netrc credentials leak via malicious URLs)",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "osv-scanner",
+    "detail": "pattern match: deps.requests",
+    "refs": [
+     {
+      "file": "requirements.txt",
+      "line": 3,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "deps.requests"
+   ],
+   "candidates": [
+    {
+     "rule_id": "deps.requests",
+     "source": "osv-scanner",
+     "cwe": "CWE-1395",
+     "group": "E",
+     "location": {
+      "file": "requirements.txt",
+      "start_line": 3,
+      "end_line": null,
+      "function": null
+     },
+     "message": "requests 2.32.3: 2 known vulnerabilities (e.g. CVE-2024-47081: Requests vulnerable to .netrc credentials leak via malicious URLs)",
+     "snippet": "requests 2.32.3",
+     "extra": {
+      "package": "requests",
+      "version": "2.32.3",
+      "vuln_id": "CVE-2024-47081",
+      "advisories": [
+       {
+        "ids": [
+         "PYSEC-2026-1872",
+         "GHSA-9hjg-9r4m-mvj7"
+        ],
+        "cves": [
+         "CVE-2024-47081"
+        ],
+        "summary": "Requests vulnerable to .netrc credentials leak via malicious URLs"
+       },
+       {
+        "ids": [
+         "PYSEC-2026-2275",
+         "GHSA-gc5v-m9x4-r6x2"
+        ],
+        "cves": [
+         "CVE-2026-25645"
+        ],
+        "summary": "Requests has Insecure Temp File Reuse in its extract_zipped_paths() utility function"
+       }
+      ],
+      "fixed": [
+       "2.32.4",
+       "2.33.0"
+      ],
+      "ecosystem": "PyPI",
+      "import_name": "requests",
+      "db": "osv-scanner offline",
+      "sources": [
+       "osv-scanner"
+      ],
+      "rules": [
+       "deps.requests"
+      ]
+     }
+    }
+   ],
+   "message": "requests 2.32.3: 2 known vulnerabilities (e.g. CVE-2024-47081: Requests vulnerable to .netrc credentials leak via malicious URLs)"
   }
  },
  {
@@ -4066,6 +7768,294 @@
     }
    ],
    "message": "Outbound request to a non-constant URL inside a request handler."
+  }
+ },
+ {
+  "id": "CAA-82d32880",
+  "title": "Script/stylesheet from another origin loaded without Subreso",
+  "cwe": "CWE-353",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 4,
+   "end_line": 4,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Script/stylesheet from another origin loaded without Subresource Integrity.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.html.sri-missing",
+    "refs": [
+     {
+      "file": "templates/page.html",
+      "line": 4,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.html.sri-missing"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.html.sri-missing",
+     "source": "semgrep",
+     "cwe": "CWE-353",
+     "group": "D",
+     "location": {
+      "file": "templates/page.html",
+      "start_line": 4,
+      "end_line": 4,
+      "function": null
+     },
+     "message": "Script/stylesheet from another origin loaded without Subresource Integrity.",
+     "snippet": "  <script src=\"https://cdn.example-cdn.net/lib/chart.min.js\"></script>",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.html.sri-missing"
+      ]
+     }
+    }
+   ],
+   "message": "Script/stylesheet from another origin loaded without Subresource Integrity."
+  }
+ },
+ {
+  "id": "CAA-25f0b6f7",
+  "title": "Link opens a new tab without rel=\"noopener\" (reverse tabnabb",
+  "cwe": "CWE-1022",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 7,
+   "end_line": 7,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Link opens a new tab without rel=\"noopener\" (reverse tabnabbing in old browsers).",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.html.target-blank",
+    "refs": [
+     {
+      "file": "templates/page.html",
+      "line": 7,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.html.target-blank"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.html.target-blank",
+     "source": "semgrep",
+     "cwe": "CWE-1022",
+     "group": "D",
+     "location": {
+      "file": "templates/page.html",
+      "start_line": 7,
+      "end_line": 7,
+      "function": null
+     },
+     "message": "Link opens a new tab without rel=\"noopener\" (reverse tabnabbing in old browsers).",
+     "snippet": "  <a href=\"https://partner.example.org\" target=\"_blank\">Partner</a>",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.html.target-blank"
+      ]
+     }
+    }
+   ],
+   "message": "Link opens a new tab without rel=\"noopener\" (reverse tabnabbing in old browsers)."
+  }
+ },
+ {
+  "id": "CAA-96c1fe60",
+  "title": "Cross-site scripting",
+  "cwe": "CWE-79",
+  "group": "A",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 8,
+   "end_line": 8,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "Template output with escaping turned off.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.html.template-unescaped",
+    "refs": [
+     {
+      "file": "templates/page.html",
+      "line": 8,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.html.template-unescaped"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.html.template-unescaped",
+     "source": "semgrep",
+     "cwe": "CWE-79",
+     "group": "A",
+     "location": {
+      "file": "templates/page.html",
+      "start_line": 8,
+      "end_line": 8,
+      "function": null
+     },
+     "message": "Template output with escaping turned off.",
+     "snippet": "  <div class=\"comment\">{{ comment|safe }}</div>",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.html.template-unescaped"
+      ]
+     }
+    }
+   ],
+   "message": "Template output with escaping turned off."
+  }
+ },
+ {
+  "id": "CAA-b325b146",
+  "title": "POST form in a Django/Jinja template without a CSRF token.",
+  "cwe": "CWE-352",
+  "group": "D",
+  "owasp": "",
+  "asvs": "",
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 9,
+   "end_line": 12,
+   "function": null
+  },
+  "sources": [
+   "semgrep"
+  ],
+  "dataflow": [],
+  "explanation": "POST form in a Django/Jinja template without a CSRF token.",
+  "severity": "medium",
+  "severity_rationale": "",
+  "evidence": [
+   {
+    "level": 0,
+    "by": "semgrep",
+    "detail": "pattern match: caa.html.form-no-csrf",
+    "refs": [
+     {
+      "file": "templates/page.html",
+      "line": 9,
+      "http_exchange": null,
+      "note": ""
+     }
+    ]
+   }
+  ],
+  "level": 0,
+  "status": "open",
+  "not_verified": [],
+  "refutation": null,
+  "fix": null,
+  "llm_verdict": null,
+  "extra": {
+   "rules": [
+    "caa.html.form-no-csrf"
+   ],
+   "candidates": [
+    {
+     "rule_id": "caa.html.form-no-csrf",
+     "source": "semgrep",
+     "cwe": "CWE-352",
+     "group": "D",
+     "location": {
+      "file": "templates/page.html",
+      "start_line": 9,
+      "end_line": 12,
+      "function": null
+     },
+     "message": "POST form in a Django/Jinja template without a CSRF token.",
+     "snippet": "  <form method=\"post\" action=\"/profile\">\n    <input name=\"email\">\n    <button type=\"submit\">Save</button>\n  </form>",
+     "extra": {
+      "sources": [
+       "semgrep"
+      ],
+      "rules": [
+       "caa.html.form-no-csrf"
+      ]
+     }
+    }
+   ],
+   "message": "POST form in a Django/Jinja template without a CSRF token."
   }
  },
  {

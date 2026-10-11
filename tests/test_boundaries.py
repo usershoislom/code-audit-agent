@@ -151,3 +151,11 @@ def test_owner_listed_self_hosted_server_counts_as_local_hosted_api_does_not():
     own = ["ai-llm.inference.gpu.uz"]
     assert ProviderConfig(name="g", model="m", base_url="https://ai-llm.inference.gpu.uz/v1", self_hosted=own).is_local
     assert not ProviderConfig(name="q", model="m", base_url="https://api.groq.com/openai/v1", self_hosted=own).is_local
+
+
+def test_refutation_cannot_cite_a_manifest_line(registry):
+    rel = "requirements.txt"
+    model = ScriptedModel(replies=[json.dumps({"action": "verdict", "verdict": "not_vulnerable",
+                                               "protection_ref": f"{rel}:2"})])
+    t = triage(model, registry, registry.fs.ledger, "c", _shown(registry, rel, 1, 3), "k", [(rel, 1, 3)], budget=1)
+    assert t.verdict == "insufficient_data" and "manifest" in t.protection_rejected

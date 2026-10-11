@@ -25,6 +25,21 @@
        }
       },
       {
+       "id": "caa/CWE-89",
+       "name": "SQLinjection",
+       "shortDescription": {
+        "text": "SQL injection"
+       },
+       "properties": {
+        "tags": [
+         "CWE-89",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.4"
+       }
+      },
+      {
        "id": "caa/CWE-798",
        "name": "Hard-codedcredential",
        "shortDescription": {
@@ -70,6 +85,21 @@
        }
       },
       {
+       "id": "caa/CWE-79",
+       "name": "Cross-sitescripting",
+       "shortDescription": {
+        "text": "Cross-site scripting"
+       },
+       "properties": {
+        "tags": [
+         "CWE-79",
+         "security",
+         "A03:2021 Injection"
+        ],
+        "asvs": "V5.3.3"
+       }
+      },
+      {
        "id": "caa/CWE-22",
        "name": "Pathtraversal",
        "shortDescription": {
@@ -85,18 +115,63 @@
        }
       },
       {
-       "id": "caa/CWE-89",
-       "name": "SQLinjection",
+       "id": "caa/CWE-400",
+       "name": "Useofnet/httpservefunctionthathasnosupportforsetti",
        "shortDescription": {
-        "text": "SQL injection"
+        "text": "Use of net/http serve function that has no support for setti"
        },
        "properties": {
         "tags": [
-         "CWE-89",
+         "CWE-400",
+         "security",
+         "A04:2021 Insecure Design"
+        ],
+        "asvs": "V12.1.1"
+       }
+      },
+      {
+       "id": "caa/CWE-611",
+       "name": "XMLparsercreatedwithoutdisablingDOCTYPE/externalenti",
+       "shortDescription": {
+        "text": "XML parser created without disabling DOCTYPE / external enti"
+       },
+       "properties": {
+        "tags": [
+         "CWE-611",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V5.5.2"
+       }
+      },
+      {
+       "id": "caa/CWE-94",
+       "name": "Requestdataisevaluatedascode.",
+       "shortDescription": {
+        "text": "Request data is evaluated as code."
+       },
+       "properties": {
+        "tags": [
+         "CWE-94",
          "security",
          "A03:2021 Injection"
         ],
-        "asvs": "V5.3.4"
+        "asvs": "V5.2.4"
+       }
+      },
+      {
+       "id": "caa/CWE-601",
+       "name": "Requestdatadecidestheredirecttarget.",
+       "shortDescription": {
+        "text": "Request data decides the redirect target."
+       },
+       "properties": {
+        "tags": [
+         "CWE-601",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V5.1.5"
        }
       },
       {
@@ -115,24 +190,286 @@
        }
       },
       {
-       "id": "caa/CWE-79",
-       "name": "Cross-sitescripting",
+       "id": "caa/CWE-353",
+       "name": "Script/stylesheetfromanotheroriginloadedwithoutSubreso",
        "shortDescription": {
-        "text": "Cross-site scripting"
+        "text": "Script/stylesheet from another origin loaded without Subreso"
        },
        "properties": {
         "tags": [
-         "CWE-79",
+         "CWE-353",
          "security",
-         "A03:2021 Injection"
+         "A08:2021 Software and Data Integrity Failures"
         ],
-        "asvs": "V5.3.3"
+        "asvs": "V14.2.3"
+       }
+      },
+      {
+       "id": "caa/CWE-1022",
+       "name": "Linkopensanewtabwithoutrel=\"noopener\"(reversetabnabb",
+       "shortDescription": {
+        "text": "Link opens a new tab without rel=\"noopener\" (reverse tabnabb"
+       },
+       "properties": {
+        "tags": [
+         "CWE-1022",
+         "security",
+         "A05:2021 Security Misconfiguration"
+        ],
+        "asvs": "V14.5.2"
+       }
+      },
+      {
+       "id": "caa/CWE-352",
+       "name": "POSTforminaDjango/JinjatemplatewithoutaCSRFtoken.",
+       "shortDescription": {
+        "text": "POST form in a Django/Jinja template without a CSRF token."
+       },
+       "properties": {
+        "tags": [
+         "CWE-352",
+         "security",
+         "A01:2021 Broken Access Control"
+        ],
+        "asvs": "V4.2.2"
        }
       }
      ]
     }
    },
    "results": [
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-bbb7d647"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Command executed through a shell with a non-constant command string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b0df4337"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.cmdi.shell"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Consider possible security implications associated with the subprocess module."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs_fixed.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-dc0c73b2"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B404.blacklist"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Starting a process with a partial executable path"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/grep_logs_fixed.py"
+        },
+        "region": {
+         "startLine": 10,
+         "endLine": 10
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-05bfc924"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "bandit",
+        "detail": "pattern match: bandit.B607.start_process_with_partial_path"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "cli_tool/report.py"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-31d6d1a4"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
     {
      "ruleId": "caa/CWE-78",
      "level": "warning",
@@ -1195,6 +1532,1091 @@
      }
     },
     {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/notes/views.py"
+        },
+        "region": {
+         "startLine": 32,
+         "endLine": 32
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6c90af1b"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/notes/views.py"
+        },
+        "region": {
+         "startLine": 47,
+         "endLine": 47
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-5cbd1e42"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-798",
+     "level": "warning",
+     "message": {
+      "text": "Hard-coded credential: Credential-like value hard-coded in source."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "django_app/settings.py"
+        },
+        "region": {
+         "startLine": 2,
+         "endLine": 2
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-63e88b21"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.secrets.hardcoded-credential"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: SQL query text built from a non-constant string is passed to execute()."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 21,
+         "endLine": 21
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-3f0420fa"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "bandit"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,bandit",
+        "detail": "pattern match: caa.python.sqli.string-built-query"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: bandit, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main.py"
+        },
+        "region": {
+         "startLine": 27,
+         "endLine": 27
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-71731d51"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "fastapi_app/main_fixed.py"
+        },
+        "region": {
+         "startLine": 28,
+         "endLine": 28
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-174d715f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.python.xss.framework-html-response"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-2ab6d323"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.go.sqli.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Request data reaches a shell command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 24,
+         "endLine": 24
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-8dfb2540"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,gosec",
+        "detail": "pattern match: caa.go.cmdi.taint"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: gosec, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 30,
+         "endLine": 30
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-6daca4e3"
+     },
+     "properties": {
+      "confidence": "L1",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep",
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep,gosec",
+        "detail": "pattern match: caa.go.path.taint"
+       },
+       {
+        "level": "L1",
+        "by": "agreement",
+        "detail": "independent sources agree on place and CWE: gosec, semgrep"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written into an HTML response without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 36,
+         "endLine": 36
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-66a95c6c"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.go.xss.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-400",
+     "level": "warning",
+     "message": {
+      "text": "Use of net/http serve function that has no support for setti: Use of net/http serve function that has no support for setting timeouts"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers.go"
+        },
+        "region": {
+         "startLine": 44,
+         "endLine": 44
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-9bd0d292"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G114"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Subprocess launched with variable"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers_fixed.go"
+        },
+        "region": {
+         "startLine": 22,
+         "endLine": 22
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b90c5897"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G204"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: Potential file inclusion via variable"
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "gosvc/handlers_fixed.go"
+        },
+        "region": {
+         "startLine": 28,
+         "endLine": 28
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-56b47560"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "gosec"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "gosec",
+        "detail": "pattern match: G304"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/FileController.java"
+        },
+        "region": {
+         "startLine": 11,
+         "endLine": 11
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-999aed93"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.path.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Request data reaches a process command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/FileController.java"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-16d66813"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.cmdi.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written to the response without HTML encoding."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/SearchServlet.java"
+        },
+        "region": {
+         "startLine": 9,
+         "endLine": 9
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-2d11d26c"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.xss.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/UserServlet.java"
+        },
+        "region": {
+         "startLine": 16,
+         "endLine": 16
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-40848555"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.sqli.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-611",
+     "level": "warning",
+     "message": {
+      "text": "XML parser created without disabling DOCTYPE / external enti: XML parser created without disabling DOCTYPE / external entities."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "java/src/XmlImport.java"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-69db5bb2"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.java.xxe.documentbuilder"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-94",
+     "level": "warning",
+     "message": {
+      "text": "Request data is evaluated as code.: Request data is evaluated as code."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/calc.js"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-1e0cb09f"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.code-injection.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-22",
+     "level": "warning",
+     "message": {
+      "text": "Path traversal: Request data is used as a file path."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/files.ts"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-40a6ab67"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.path.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Request data is written into an HTML response without escaping."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/greet.js"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-260accae"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.xss.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-78",
+     "level": "warning",
+     "message": {
+      "text": "OS command injection: Request data reaches a shell command."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/ping.js"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-96ed0a1d"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.cmdi.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-601",
+     "level": "warning",
+     "message": {
+      "text": "Request data decides the redirect target.: Request data decides the redirect target."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/redirect.ts"
+        },
+        "region": {
+         "startLine": 6,
+         "endLine": 6
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-c5e9afc1"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.open-redirect.taint"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-89",
+     "level": "warning",
+     "message": {
+      "text": "SQL injection: Request data reaches a SQL query string."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "js/users.js"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-d101b85a"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.js.sqli.taint"
+       }
+      ]
+     }
+    },
+    {
      "ruleId": "caa/CWE-22",
      "level": "warning",
      "message": {
@@ -2150,6 +3572,179 @@
         "level": "L0",
         "by": "semgrep",
         "detail": "pattern match: caa.python.ssrf.user-url-fetch"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-353",
+     "level": "warning",
+     "message": {
+      "text": "Script/stylesheet from another origin loaded without Subreso: Script/stylesheet from another origin loaded without Subresource Integrity."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 4,
+         "endLine": 4
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-82d32880"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.sri-missing"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-1022",
+     "level": "warning",
+     "message": {
+      "text": "Link opens a new tab without rel=\"noopener\" (reverse tabnabb: Link opens a new tab without rel=\"noopener\" (reverse tabnabbing in old browsers)."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 7,
+         "endLine": 7
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-25f0b6f7"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.target-blank"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-79",
+     "level": "warning",
+     "message": {
+      "text": "Cross-site scripting: Template output with escaping turned off."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 8,
+         "endLine": 8
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-96c1fe60"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "A",
+      "notVerified": [
+       "no dynamic (L4) confirmation was performed",
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.template-unescaped"
+       }
+      ]
+     }
+    },
+    {
+     "ruleId": "caa/CWE-352",
+     "level": "warning",
+     "message": {
+      "text": "POST form in a Django/Jinja template without a CSRF token.: POST form in a Django/Jinja template without a CSRF token."
+     },
+     "locations": [
+      {
+       "physicalLocation": {
+        "artifactLocation": {
+         "uri": "templates/page.html"
+        },
+        "region": {
+         "startLine": 9,
+         "endLine": 12
+        }
+       }
+      }
+     ],
+     "partialFingerprints": {
+      "caaId": "CAA-b325b146"
+     },
+     "properties": {
+      "confidence": "L0",
+      "status": "open",
+      "severity": "medium",
+      "severityRationale": "",
+      "group": "D",
+      "notVerified": [
+       "scope: first-party code only; framework and driver behaviour assumed as documented"
+      ],
+      "sources": [
+       "semgrep"
+      ],
+      "evidence": [
+       {
+        "level": "L0",
+        "by": "semgrep",
+        "detail": "pattern match: caa.html.form-no-csrf"
        }
       ]
      }

@@ -19,6 +19,8 @@ from caa.core.untrusted import DATA_NOT_INSTRUCTIONS
 from caa.tools.registry import ToolRegistry
 
 _REF = re.compile(r"^\s*([^\s:]+):(\d+)\s*$")
+# a protection must be executable source, never a manifest/lock/config line (go.mod, requirements.txt, ...)
+_SOURCE_FILE = re.compile(r"\.(py|js|mjs|cjs|jsx|ts|tsx|java|go|kt|rb|php|cs|html?|jinja2?|j2|ejs)$")
 _FILE_HDR = re.compile(r'^(?:# file: ([^\s|]+)|<<UNTRUSTED_\w+ source="read_file ([^"]+)">>)')
 _NUMBERED = re.compile(r"^\s*(\d+)\| ?(.*)$")
 _SEARCH_HIT = re.compile(r"^([^\s:]+):(\d+): ?(.*)$")
@@ -158,6 +160,8 @@ def _validate_verdict(act: TriageAction, ledger: ReadLedger, slice_ranges, res: 
             res.protection_rejected = "no protection_ref given"
         elif not ledger.verify(ref):
             res.protection_rejected = f"{act.protection_ref} was never read by a tool"
+        elif not _SOURCE_FILE.search(ref.file or ""):
+            res.protection_rejected = f"{act.protection_ref} is a manifest/config line, not protecting code"
         elif candidate_ref is not None and (ref.file, ref.line) == (candidate_ref.file, candidate_ref.line):
             res.protection_rejected = f"{act.protection_ref} is the candidate's own line, not a protection"
         elif not ledger.is_code_line(ref):
