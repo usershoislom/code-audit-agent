@@ -1,0 +1,3 @@
+# keep LF on Windows checkouts: the files are copied into a Linux image and line numbers must match
+* text=auto eol=lf
+*.ps1 text eol=crlf

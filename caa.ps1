@@ -11,7 +11,9 @@
   Reports appear in .\caa-reports\<name>-<date>\report.html (open it in a browser).
   A .env file next to this script (model API keys, CAA_GIT_TOKEN for private repos) is passed in.
 #>
-$ErrorActionPreference = "Stop"
+# not "Stop": in Windows PowerShell 5.1 any stderr line of a native command (docker prints progress
+# and "No such image" there) would become a terminating error. Exit codes are checked explicitly.
+$ErrorActionPreference = "Continue"
 $Image = "code-audit-agent"
 $Root = $PSScriptRoot
 $Reports = Join-Path (Get-Location) "caa-reports"
@@ -20,8 +22,9 @@ if ($args.Count -gt 0 -and $args[0] -eq "rebuild") {
     docker build -t $Image $Root
     exit $LASTEXITCODE
 }
-docker image inspect $Image *> $null
-if ($LASTEXITCODE -ne 0) {
+$found = docker images -q $Image
+if ($LASTEXITCODE -ne 0) { Write-Host "[caa] Docker is not running - start Docker Desktop and try again"; exit 1 }
+if (-not $found) {
     Write-Host "[caa] building the Docker image (first run, takes a few minutes)..."
     docker build -t $Image $Root
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
