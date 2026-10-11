@@ -35,12 +35,13 @@ class ProviderConfig(BaseModel):
     timeout_s: float = 300.0
     extra_body: dict = Field(default_factory=dict)   # e.g. {"options": {"num_ctx": 32768}} for Ollama
     embedding_model: str | None = None
+    self_hosted: list[str] = Field(default_factory=list, exclude=True)  # owner's own servers (providers.yaml)
 
-    @computed_field  # derived from the URL, never from a user-supplied flag
+    @computed_field  # derived from the URL + the owner's list of own servers, never from a per-provider flag
     @property
     def is_local(self) -> bool:
         host = (urlparse(self.base_url).hostname or "").lower()
-        if host in LOCAL_HOSTS:
+        if host in LOCAL_HOSTS or host in {h.lower() for h in self.self_hosted}:
             return True
         try:
             return ip_address(host).is_loopback

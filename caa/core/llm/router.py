@@ -81,9 +81,10 @@ def build_router(cfg: dict, audit: AuditLog = NULL_AUDIT) -> ModelRouter | None:
     from caa.core.llm.provider import ProviderConfig
 
     provs = cfg.get("providers") or {}
+    own = cfg.get("self_hosted") or []
     models = {}
     for name, p in provs.items():
-        models[name] = _Lazy(ProviderConfig(name=name, **p), audit)
+        models[name] = _Lazy(ProviderConfig(name=name, self_hosted=own, **p), audit)
     if not models:
         return None
     return ModelRouter(models, cfg.get("roles") or {"analysis": next(iter(models))}, audit)

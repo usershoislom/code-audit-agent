@@ -1,6 +1,10 @@
 # Model providers. Switching model/provider = editing this file, no code change.
 # `is_local` is NOT configurable: it is derived from base_url (loopback only).
 # Third-party target data is routed ONLY to a local provider (see caa/core/llm/router.py).
+# Servers that belong to you. Models on these hosts count as LOCAL: they may receive
+# code of third-party targets. Hosted APIs (Groq etc.) must never be listed here.
+self_hosted:
+  - ai-llm.inference.gpu.uz
 providers:
   local:
     # Gemma 4 31B via Ollama/llama.cpp on this machine (256K context per model card;
@@ -10,8 +14,7 @@ providers:
     structured_output: json_schema
     extra_body: {options: {num_ctx: 32768}}
   gemma_remote:
-    # The user's Gemma deployment. Not loopback => treated as EXTERNAL: allowed only
-    # for our own stand (--own-stand). Tunnel it to 127.0.0.1 (ssh -L) to use it as `local`.
+    # Your own Gemma server (listed in self_hosted above => treated as local).
     model: gemma-4-31b-it             # vLLM; max_model_len 32768 on this deployment
     base_url: https://ai-llm.inference.gpu.uz/v1
     api_key_env: GEMMA_API_KEY
@@ -24,5 +27,5 @@ providers:
     api_key_env: GROQ_API_KEY
     structured_output: json_object
 roles:
-  analysis: gemma_remote   # triage, entry-point pass, patch (rerouted to `local` for third-party targets)
+  analysis: gemma_remote   # triage, entry-point pass, patch
   judge: groq

@@ -145,3 +145,9 @@ def test_refutation_cannot_cite_the_candidate_line_itself(registry):
     t = triage(model, registry, registry.fs.ledger, "c", _shown(registry, rel, 12, 17), "k", [(rel, 12, 17)],
                budget=1, candidate_ref=Ref(file=rel, line=16))
     assert t.verdict == "insufficient_data" and "own line" in t.protection_rejected
+
+
+def test_owner_listed_self_hosted_server_counts_as_local_hosted_api_does_not():
+    own = ["ai-llm.inference.gpu.uz"]
+    assert ProviderConfig(name="g", model="m", base_url="https://ai-llm.inference.gpu.uz/v1", self_hosted=own).is_local
+    assert not ProviderConfig(name="q", model="m", base_url="https://api.groq.com/openai/v1", self_hosted=own).is_local
