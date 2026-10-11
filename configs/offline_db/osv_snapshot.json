@@ -1,0 +1,12 @@
+{
+  "_comment": "Small illustrative offline snapshot for the seeded stand. For real use point scan_dependencies at an osv-scanner offline database (osv-scanner --offline-vulnerabilities --download-offline-databases) or pip-audit; this file is only the zero-dependency fallback.",
+  "snapshot_date": "2026-10-01",
+  "vulns": [
+    {"id": "CVE-2023-30861", "package": "flask", "fixed": ["2.2.5", "2.3.2"], "summary": "Session cookie may be cached by a proxy and served to another client (missing Vary: Cookie)."},
+    {"id": "CVE-2020-14343", "package": "pyyaml", "fixed": ["5.4"], "summary": "Arbitrary code execution via full_load / FullLoader on untrusted YAML."},
+    {"id": "CVE-2024-22195", "package": "jinja2", "fixed": ["3.1.3"], "summary": "xmlattr filter allows keys with spaces, enabling attribute injection (XSS)."},
+    {"id": "CVE-2023-32681", "package": "requests", "fixed": ["2.31.0"], "summary": "Proxy-Authorization header leaked to destination on HTTPS redirect."},
+    {"id": "CVE-2023-25577", "package": "werkzeug", "fixed": ["2.2.3"], "summary": "Unbounded multipart form parts allow resource exhaustion."},
+    {"id": "CVE-2023-43804", "package": "urllib3", "fixed": ["1.26.17", "2.0.6"], "summary": "Cookie header not stripped on cross-origin redirect."}
+  ]
+}

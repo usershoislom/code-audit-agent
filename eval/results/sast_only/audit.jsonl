@@ -1,0 +1,7 @@
+{"ts": 1791717585.734, "kind": "run_start", "engine": "code", "options": {"use_verification": false, "use_llm_triage": false, "use_llm_entrypoints": false, "use_rag": false, "use_dynamic": false, "use_runtime": false, "use_patch": false, "triage_budget": 6, "llm_concurrency": 8, "max_candidates": 200, "target_trust": "own_stand", "stages_to_save": true}, "tag": "own_stand"}
+{"ts": 1791717585.737, "kind": "stage_done", "stage": "inventory", "seconds": 0.0}
+{"ts": 1791717589.655, "kind": "candidates", "count": 111, "by_source": {"semgrep": 63, "bandit": 43, "gosec": 5}, "analyzers": [{"analyzer": "semgrep", "status": "ran", "note": "rules: go.yaml, html.yaml, java.yaml, javascript.yaml, python-core.yaml", "candidates": 63}, {"analyzer": "bandit", "status": "ran", "note": "", "candidates": 44}, {"analyzer": "gosec", "status": "ran", "note": "1 go module(s)", "candidates": 5}]}
+{"ts": 1791717589.655, "kind": "stage_done", "stage": "candidates", "seconds": 3.92}
+{"ts": 1791717589.712, "kind": "stage_done", "stage": "context", "seconds": 0.05}
+{"ts": 1791717589.713, "kind": "stage_done", "stage": "verify", "seconds": 0.0}
+{"ts": 1791717589.718, "kind": "run_end", "stats": {"stage_seconds": {"inventory": 0.0, "candidates": 3.92, "context": 0.05, "verify": 0.0}, "candidates": 111, "findings_initial": 86}}

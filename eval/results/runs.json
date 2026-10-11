@@ -1,0 +1,140 @@
+{
+ "sast_only": {
+  "seconds": 4.1,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 3.92,
+    "context": 0.05,
+    "verify": 0.0
+   },
+   "candidates": 111,
+   "findings_initial": 86
+  },
+  "loc": 1700,
+  "sandbox": null
+ },
+ "agent_no_llm": {
+  "seconds": 11.7,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 11.42,
+    "context": 0.05,
+    "verify": 0.05
+   },
+   "candidates": 127,
+   "findings_initial": 98
+  },
+  "loc": 1700,
+  "sandbox": null
+ },
+ "agent_full": {
+  "seconds": 87.1,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 11.67,
+    "context": 0.04,
+    "verify": 6.52,
+    "runtime": 7.66,
+    "patch": 60.98
+   },
+   "candidates": 127,
+   "findings_initial": 98
+  },
+  "loc": 1700,
+  "sandbox": "local-unshare"
+ },
+ "agent_llm_norag": {
+  "seconds": 1321.3,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 10.7,
+    "llm_entrypoints": 1056.4,
+    "context": 0.06,
+    "triage": 253.84,
+    "verify": 0.07
+   },
+   "candidates": 136,
+   "findings_initial": 102,
+   "llm_usage": {
+    "local": {},
+    "gemma_remote": {
+     "prompt_tokens": 618957,
+     "completion_tokens": 235871,
+     "calls": 263
+    },
+    "groq": {}
+   }
+  },
+  "loc": 1700,
+  "sandbox": null
+ },
+ "agent_llm_rag": {
+  "seconds": 1413.8,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 11.16,
+    "llm_entrypoints": 1109.97,
+    "context": 0.06,
+    "triage": 292.35,
+    "verify": 0.05
+   },
+   "candidates": 137,
+   "findings_initial": 104,
+   "llm_usage": {
+    "local": {},
+    "gemma_remote": {
+     "prompt_tokens": 617376,
+     "completion_tokens": 242782,
+     "calls": 245
+    },
+    "groq": {}
+   }
+  },
+  "loc": 1700,
+  "sandbox": null
+ },
+ "llm_only_files": {
+  "seconds": 523.1,
+  "stats": {
+   "llm_usage": {
+    "analysis": {
+     "prompt_tokens": 37801,
+     "completion_tokens": 211475,
+     "calls": 103
+    }
+   }
+  },
+  "loc": 1624,
+  "sandbox": null
+ },
+ "sast_llm_triage": {
+  "seconds": 220.6,
+  "stats": {
+   "stage_seconds": {
+    "inventory": 0.0,
+    "candidates": 4.37,
+    "context": 0.04,
+    "triage": 216.02,
+    "verify": 0.0
+   },
+   "candidates": 111,
+   "findings_initial": 83,
+   "llm_usage": {
+    "local": {},
+    "gemma_remote": {
+     "prompt_tokens": 136044,
+     "completion_tokens": 108885,
+     "calls": 149
+    },
+    "groq": {}
+   }
+  },
+  "loc": 1700,
+  "sandbox": null
+ }
+}

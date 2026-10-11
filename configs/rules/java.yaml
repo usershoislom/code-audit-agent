@@ -1,0 +1,319 @@
+# Java (Servlet / Spring MVC). Taint mode -> traces become L2 evidence.
+# (YAML anchors expanded: the Semgrep parser does not support aliases)
+rules:
+- id: caa.java.sqli.taint
+  languages:
+  - java
+  severity: ERROR
+  message: Request data reaches a SQL query string.
+  metadata:
+    cwe: CWE-89
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sanitizers:
+  - pattern: Integer.parseInt(...)
+  - pattern: Long.parseLong(...)
+  - pattern: Integer.valueOf(...)
+  - pattern: Long.valueOf(...)
+  - pattern: UUID.fromString(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: (java.sql.Statement $S).executeQuery($Q)
+      - pattern: (java.sql.Statement $S).execute($Q)
+      - pattern: (java.sql.Statement $S).executeUpdate($Q)
+      - pattern: (Statement $S).executeQuery($Q)
+      - pattern: (Statement $S).execute($Q)
+      - pattern: (Statement $S).executeUpdate($Q)
+      - pattern: $CONN.prepareStatement($Q)
+      - pattern: $JDBC.queryForList($Q, ...)
+      - pattern: $JDBC.queryForObject($Q, ...)
+      - pattern: $JDBC.query($Q, ...)
+      - pattern: $JDBC.update($Q, ...)
+      - pattern: $EM.createQuery($Q, ...)
+      - pattern: $EM.createNativeQuery($Q, ...)
+    - focus-metavariable: $Q
+- id: caa.java.cmdi.taint
+  languages:
+  - java
+  severity: ERROR
+  message: Request data reaches a process command.
+  metadata:
+    cwe: CWE-78
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sanitizers:
+  - pattern: Integer.parseInt(...)
+  - pattern: Long.parseLong(...)
+  - pattern: Integer.valueOf(...)
+  - pattern: Long.valueOf(...)
+  - pattern: UUID.fromString(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: Runtime.getRuntime().exec($C, ...)
+      - pattern: new ProcessBuilder($C, ...)
+    - focus-metavariable: $C
+- id: caa.java.path.taint
+  languages:
+  - java
+  severity: WARNING
+  message: Request data is used as a file path.
+  metadata:
+    cwe: CWE-22
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sanitizers:
+  - pattern: FilenameUtils.getName(...)
+  - pattern: (Path $P).getFileName()
+  - pattern: Integer.parseInt(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: new File($P, ...)
+      - pattern: new File($B, $P)
+      - pattern: new FileInputStream($P)
+      - pattern: new FileReader($P)
+      - pattern: Paths.get($P, ...)
+      - pattern: Path.of($P, ...)
+    - focus-metavariable: $P
+- id: caa.java.xss.taint
+  languages:
+  - java
+  severity: WARNING
+  message: Request data is written to the response without HTML encoding.
+  metadata:
+    cwe: CWE-79
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sanitizers:
+  - pattern: Encode.forHtml(...)
+  - pattern: HtmlUtils.htmlEscape(...)
+  - pattern: StringEscapeUtils.escapeHtml4(...)
+  - pattern: Integer.parseInt(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: (HttpServletResponse $R).getWriter().write($X)
+      - pattern: (HttpServletResponse $R).getWriter().print($X)
+      - pattern: (HttpServletResponse $R).getWriter().println($X)
+      - pattern: (PrintWriter $W).write($X)
+      - pattern: (PrintWriter $W).print($X)
+      - pattern: (PrintWriter $W).println($X)
+    - focus-metavariable: $X
+- id: caa.java.ssrf.taint
+  languages:
+  - java
+  severity: WARNING
+  message: Request data decides the URL of an outbound request.
+  metadata:
+    cwe: CWE-918
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: new URL($U)
+      - pattern: URI.create($U)
+      - pattern: $REST.getForObject($U, ...)
+      - pattern: $REST.getForEntity($U, ...)
+    - focus-metavariable: $U
+- id: caa.java.open-redirect.taint
+  languages:
+  - java
+  severity: WARNING
+  message: Request data decides the redirect target.
+  metadata:
+    cwe: CWE-601
+    group: A
+  mode: taint
+  pattern-sources:
+  - pattern: (HttpServletRequest $R).getParameter(...)
+  - pattern: (HttpServletRequest $R).getParameterValues(...)
+  - pattern: (HttpServletRequest $R).getHeader(...)
+  - pattern: (HttpServletRequest $R).getQueryString()
+  - pattern: (HttpServletRequest $R).getPathInfo()
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A(...) $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  - patterns:
+    - pattern-inside: '$RET $M(..., @$A $T $X, ...) { ... }
+
+        '
+    - metavariable-regex:
+        metavariable: $A
+        regex: ^(RequestParam|PathVariable|RequestHeader|RequestBody|CookieValue)$
+    - pattern: $X
+  pattern-sinks:
+  - patterns:
+    - pattern: (HttpServletResponse $R).sendRedirect($U)
+    - focus-metavariable: $U
+- id: caa.java.xxe.documentbuilder
+  languages:
+  - java
+  severity: WARNING
+  message: XML parser created without disabling DOCTYPE / external entities.
+  metadata:
+    cwe: CWE-611
+    group: A
+  patterns:
+  - pattern: DocumentBuilderFactory.newInstance()
+  - pattern-not-inside: '$F = DocumentBuilderFactory.newInstance();
+
+      ...
+
+      $F.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
+      '
+  - pattern-not-inside: '$T $F = DocumentBuilderFactory.newInstance();
+
+      ...
+
+      $F.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
+      '
+- id: caa.java.crypto.weak-hash
+  languages:
+  - java
+  severity: WARNING
+  message: Weak hash algorithm (MD5/SHA-1).
+  metadata:
+    cwe: CWE-327
+    group: D
+  pattern-either:
+  - pattern: MessageDigest.getInstance("MD5")
+  - pattern: MessageDigest.getInstance("SHA-1")
+  - pattern: MessageDigest.getInstance("SHA1")
+- id: caa.java.deserialization
+  languages:
+  - java
+  severity: ERROR
+  message: Java native deserialization of a stream.
+  metadata:
+    cwe: CWE-502
+    group: A
+  pattern: (ObjectInputStream $O).readObject()
+- id: caa.java.secrets.hardcoded
+  languages:
+  - java
+  severity: WARNING
+  message: Credential-like value hard-coded in source.
+  metadata:
+    cwe: CWE-798
+    group: D
+  pattern-regex: (?i)\b(?:password|passwd|secret|api_?key|token)\w*\s*=\s*"[^"\s]{8,}"

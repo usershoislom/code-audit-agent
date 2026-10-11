@@ -1,0 +1,1323 @@
+{
+ "CAA-8df85eaf": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "The endpoint `/admin/export` (authz/admin.py:46-49) allows any user to retrieve a dump of all users' IDs, emails, and password hashes from the database. Unlike its sibling admin endpoints `/admin/users` (authz/admin.py:33-36) and `/admin/users/<int:uid>/disable` (authz/admin.py:39-43), which are protected by the `@admin_required` decorator (authz/admin.py:24-30), `admin_export` has no authentication or authorization checks, leading to a critical information leak.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-97e0f907": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-312491aa": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-33645f88": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-e81fdd15": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-bbb7d647": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-b0df4337": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-dc0c73b2": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cli_tool/grep_logs_fixed.py:10 is outside the data path (sink function / call chain)",
+  "severity": null,
+  "explanation": "The code uses `subprocess.run` with a list of arguments and the default `shell=False`. In this mode, the arguments are passed directly to the operating system without being interpreted by a shell, which prevents OS command injection. Additionally, the use of `--` ensures that the user-provided pattern is not interpreted as a command-line option for grep.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-05bfc924": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cli_tool/grep_logs_fixed.py:10 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-31d6d1a4": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-d8fa872f": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-b203c778": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-433bad03": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cmdi/archive_fixed.py:14 is outside the data path (sink function / call chain)",
+  "severity": null,
+  "explanation": "The user-provided input 'name' is passed through 'shlex.quote()' before being concatenated into the command string executed by 'os.system()'. 'shlex.quote()' properly escapes the input to ensure it is treated as a single shell argument, preventing OS command injection.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-33c18287": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-68fcdaa6": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-bc2556a7": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-50a74a04": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-9a968212": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "no protection_ref given",
+  "severity": null,
+  "explanation": "The inputs 'src' and 'fmt' used in the command string at cmdi/convert_fixed.py:13 are strictly validated in the caller function 'convert' (cmdi/convert_fixed.py:17-24). 'src' is validated against a restrictive regular expression (re.fullmatch) that allows only alphanumeric characters, underscores, hyphens, and a specific extension, preventing shell metacharacters. 'fmt' is checked against a strict allow-list of ('png', 'jpg', 'webp').",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-33eb8487": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-1abe4edd": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-dafb7904": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-a1e66f44": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cmdi/ping_fixed.py:14 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The code uses `subprocess.run` with a list of arguments and the default `shell=False`. In this configuration, the `host` variable is passed as a single argument to the `ping` executable, and shell metacharacters are not interpreted. This prevents OS command injection (CWE-78). The Bandit warning mentioned in the report ('Starting a process with a partial executable path') refers to a different issue (B603: potential PATH hijacking), not command injection.",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-762151de": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cmdi/trap_argv_list.py:14 is outside the data path (sink function / call chain)",
+  "severity": null,
+  "explanation": "The application uses `subprocess.run` with a list of arguments and the default `shell=False`. In this mode, the arguments are passed directly to the executable without shell interpretation, preventing OS command injection. The use of `--` further helps prevent argument injection into the `nslookup` command.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-78baf4e9": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cmdi/trap_argv_list.py:14 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-ebef619f": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-b755d6b4": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "cmdi/trap_constant_shell.py:10",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The sink subprocess.run is called with shell=True, but the only variable used in the command string is LOG_DIR, which is defined as a hardcoded constant string '/var/log/app' at line 10. There is no user-controlled input reaching the sink.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-c30ec4be": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "cmdi/trap_digit_guard.py:14 is outside the data path (sink function / call chain)",
+  "severity": null,
+  "explanation": "The input `pid` is retrieved from the request form and validated using `pid.isdigit()` at line 14. This ensures that `pid` contains only digits before it is concatenated into the shell command at line 16. Since only digits are allowed, no shell metacharacters can be injected, preventing OS command injection.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-aaf0c737": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-8cc39187": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The Flask SECRET_KEY is hard-coded as a string literal.",
+    "config/settings.py:6"
+   ],
+   [
+    "The AWS_ACCESS_KEY_ID is hard-coded as a string literal.",
+    "config/settings.py:7"
+   ],
+   [
+    "The smtp_password is hard-coded as a string literal.",
+    "config/settings.py:8"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [
+   "config/settings.py:6"
+  ],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "Multiple sensitive credentials, including the Flask secret key, an AWS access key ID, and an SMTP password, are hard-coded directly in the source code. This allows anyone with access to the codebase to compromise the application's session security, AWS infrastructure, and email system.",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-f06f1bc4": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-6dc56888": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-4db4bc61": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 6
+ },
+ "CAA-85a78868": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "config/settings.py:15",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The call to `app.run(debug=True)` is guarded by `if __name__ == '__main__':`. In a production Flask deployment, the application is typically served by a WSGI server (e.g., Gunicorn, uWSGI) which imports the app object. When imported, `__name__` is not `'__main__'`, so the debug server is not started. This is a standard pattern to enable debug mode only during local development when the script is executed directly.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-f67a114b": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "config/settings_fixed.py:17 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-173b1564": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-b9c396f0": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-6c90af1b": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-748ac9f9": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-5cbd1e42": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-63e88b21": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-6d550a02": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "medium",
+  "explanation": "The Django setting `DEBUG` is hardcoded to `True` in `django_app/settings.py:3`. In a production environment, this causes Django to display detailed traceback pages upon errors, which leak sensitive information including source code snippets, local variables, and configuration settings to the end user. There is no environment-based check or override present in the provided code to disable this in production.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-efb65407": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-ae7d546e": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-3f0420fa": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 2
+ },
+ "CAA-71731d51": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-95f6ec9b": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-174d715f": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "fastapi_app/main_fixed.py:28 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The user input `name` is passed through `markupsafe.escape` (imported on line 6) before being embedded in the HTML response, which prevents cross-site scripting.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-dcca0bb2": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The reported vulnerability (CVE-2025-22870) is located in the `golang.org/x/net` package. A search for this package across all `.go` files in the project returned no matches, meaning the affected package is not imported and therefore the vulnerability is not reachable in this application.",
+  "injection_suspected": false,
+  "tool_calls": 2
+ },
+ "CAA-2ab6d323": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-8dfb2540": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-6daca4e3": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-66a95c6c": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-9bd0d292": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-b90c5897": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "gosvc/handlers_fixed.go:22 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The code uses `exec.Command` in Go, which does not invoke a shell by default. The arguments are passed as a slice, meaning shell metacharacters in the `host` variable will be treated as literal arguments to the `ping` binary rather than shell commands. Additionally, the use of `--` is intended to prevent argument injection by signaling the end of command-line options, ensuring that the `host` input is treated as a positional argument.",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-56b47560": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "gosvc/handlers_fixed.go:27",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-999aed93": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-16d66813": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-2d11d26c": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The user-controlled parameter 'q' is retrieved from the request at java/src/SearchServlet.java:8.",
+    "java/src/SearchServlet.java:8"
+   ],
+   [
+    "The value of 'q' is concatenated directly into an HTML response and written to the output stream at java/src/SearchServlet.java:9 without any HTML encoding or sanitization.",
+    "java/src/SearchServlet.java:9"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-40848555": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-69db5bb2": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 6
+ },
+ "CAA-1e0cb09f": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The application takes user-provided input from the request body ('req.body.expr') and passes it directly to the 'eval()' function.",
+    "js/calc.js:6"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "critical",
+  "explanation": "The code in js/calc.js:6 uses the 'eval()' function to evaluate an expression provided by the user in the request body. This allows an attacker to execute arbitrary JavaScript code on the server, leading to full system compromise (Remote Code Execution). There are no sanitization or validation steps performed on the input before it reaches the sink.",
+  "injection_suspected": false,
+  "tool_calls": 4
+ },
+ "CAA-40a6ab67": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-260accae": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-d8d0faac": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The project contains a package.json file at js/package.json:1 but lacks a corresponding lockfile (package-lock.json, yarn.lock, or pnpm-lock.yaml) to pin transitive dependencies.",
+    "js/package.json:1"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "low",
+  "explanation": "The absence of a lockfile means that while top-level dependencies are pinned in package.json, transitive dependencies are resolved at install time based on the ranges specified in the dependencies' own package.json files. This leads to non-deterministic builds where different environments or subsequent installs may pull different versions of transitive dependencies, potentially introducing bugs or security vulnerabilities (CWE-1357).",
+  "injection_suspected": false,
+  "tool_calls": 5
+ },
+ "CAA-96ed0a1d": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-c5e9afc1": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-d101b85a": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "User-controlled input from 'req.query.name' is assigned to the variable 'name'.",
+    "js/users.js:6"
+   ],
+   [
+    "The 'name' variable is concatenated directly into a SQL query string, which is then passed to 'db.query'.",
+    "js/users.js:7"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "The application takes user input from the 'name' query parameter and concatenates it directly into a SQL query string. This allows an attacker to manipulate the SQL statement by providing specially crafted input (e.g., using single quotes to break out of the string literal), leading to a classic SQL injection vulnerability (CWE-89). Although the current implementation of 'db.query' in 'js/db.js' is a no-op stub, the logic in 'js/users.js' is fundamentally insecure and would be exploitable with any real database driver.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-d7c8351b": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-3dcf722d": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The application takes a user-controlled 'filename' from the URL path using the '<path:filename>' converter, which allows slashes.",
+    "path/avatar.py:10"
+   ],
+   [
+    "The 'filename' is concatenated directly into a file path without any validation or sanitization.",
+    "path/avatar.py:12"
+   ],
+   [
+    "The resulting path is passed to 'send_file', which is a known sink for path traversal when the path is not sanitized.",
+    "path/avatar.py:12"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "The endpoint '/avatar/<path:filename>' allows an attacker to provide a path containing '..' sequences. Since the input is concatenated directly to the base directory ('/srv/files/avatars/') and passed to 'send_file', an attacker can read arbitrary files on the system by requesting a path like '/avatar/../../etc/passwd', which resolves to '/srv/files/avatars/../../etc/passwd' (effectively '/etc/passwd'). The code imports 'secure_filename' and 'send_from_directory' but fails to use them to sanitize the input.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-9380f86c": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-4e616929": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-e0caae90": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-d3738621": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "path/trap_allowlist.py:14",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The variable 'kind' is validated against a hardcoded allow-list 'TEMPLATES' (containing only 'invoice', 'receipt', and 'letter') before being used to construct a file path. This prevents any path traversal sequences from reaching the 'open' call.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-fdd661f4": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "path/trap_basename.py:12",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The user input from `request.args.get('img', '')` is passed through `os.path.basename()` at line 12. `os.path.basename()` returns only the final component of the path, stripping all directory separators and leading paths. This ensures that the resulting `img` variable cannot contain path traversal sequences like `../` that would allow accessing files outside the intended directory. While `os.path.basename('..')` returns `..`, which would result in the path `/srv/files/thumbs/..` (resolving to `/srv/files`), the sink is `open(..., 'rb').read()`. Opening a directory for reading in Python raises an `IsADirectoryError` (on Linux) or `PermissionError` (on Windows), meaning the attacker cannot read any files outside the `thumbs` directory. Since `os.path.basename` prevents the input from being an absolute path or containing traversal sequences that lead to other files, the vulnerability is not reachable.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-7ad21d87": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "path/trap_secure_filename.py:12",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The input 'name' is passed through `secure_filename()` from `werkzeug.utils` at line 12. `secure_filename` is a recognized sanitizer that removes directory separators and path traversal sequences (e.g., '../'), ensuring the resulting string is a simple filename. Consequently, the path constructed in line 13 using `os.path.join` is guaranteed to remain within the intended 'reports' directory under `BASE_DIR`.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-d4f29ffa": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 6
+ },
+ "CAA-f89f33db": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "no protection_ref given",
+  "severity": null,
+  "explanation": "The dependency pyyaml==5.3 is listed in requirements.txt:2, but searches for 'import yaml', 'from yaml', and 'yaml.' across all .py files returned no results. Since the package is not imported or used in the codebase, the vulnerability is not reachable.",
+  "injection_suspected": false,
+  "tool_calls": 3
+ },
+ "CAA-6093c7dc": {
+  "verdict": "vulnerable",
+  "claims": [
+   [
+    "The application uses requests version 2.32.3, which is vulnerable to CVE-2024-47081 (credentials leak via .netrc).",
+    "requirements.txt:3"
+   ],
+   [
+    "The function preview() in ssrf/fetch.py takes a user-provided URL from the 'url' query parameter.",
+    "ssrf/fetch.py:12"
+   ],
+   [
+    "The user-provided URL is passed directly to requests.get() without validation, making the .netrc leak reachable.",
+    "ssrf/fetch.py:13"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "medium",
+  "explanation": "The application is using a version of the 'requests' library (2.32.3) that is vulnerable to CVE-2024-47081, which can lead to the leakage of .netrc credentials. The code in ssrf/fetch.py takes a URL directly from a user-controlled request parameter and passes it to requests.get() without any validation or filtering, allowing an attacker to trigger the vulnerability by providing a malicious URL.",
+  "injection_suspected": false,
+  "tool_calls": 2
+ },
+ "CAA-8438defd": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": true,
+  "tool_calls": 0
+ },
+ "CAA-394c76d5": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-8b6f3dd1": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-0067bc10": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-eadf9f15": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "sqli/trap_column_map.py:17",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The variable 'column' used in the SQL query is retrieved from a hardcoded allow-list dictionary 'SORT_COLUMNS' (defined at line 11) using the '.get()' method. If the user-provided 'key' is not present in the dictionary, it defaults to 'created_at'. Consequently, 'column' can only ever be one of the predefined safe strings ('name', 'created_at', or 'amount'), preventing any attacker-controlled input from altering the SQL structure.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-285152cd": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "sqli/trap_constant_table.py:11",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The variable `TABLE` used in the SQL query is a hardcoded constant string defined at the module level (`TABLE = 'audit_events'`). It is not influenced by user input, so no SQL injection is possible.",
+  "injection_suspected": false,
+  "tool_calls": 2
+ },
+ "CAA-8cf9acce": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "sqli/trap_int_cast.py:14",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-1f877485": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "sqli/trap_sort_allowlist.py:17",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The input 'direction' is validated against a strict allow-list ('asc', 'desc') at line 17. If the input is not one of these two values, the application aborts with a 400 error. This prevents any arbitrary SQL from being injected into the query at line 20.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-875d5129": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-23755123": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-ca849552": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-7f1bf1df": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "ssrf/fetch_fixed.py:14",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "The code implements several strong protections against SSRF: 1) It validates that the URL scheme is strictly 'https' (line 14). 2) It uses an allow-list of hostnames (`ALLOWED_HOSTS`) and verifies that the parsed hostname is present in this list (line 14). 3) It disables redirects (`allow_redirects=False`) to prevent redirect-based SSRF bypasses (line 16). 4) It sets a timeout to prevent certain DoS scenarios (line 16). The use of `urlparse(url).hostname` is a reliable way to extract the destination host for validation before passing the URL to `requests.get`.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-82d32880": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-25f0b6f7": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-96c1fe60": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 6
+ },
+ "CAA-b325b146": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 6
+ },
+ "CAA-8f85ee5e": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "tests/test_fixtures.py:1 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The hard-coded credential is located in a test fixtures file (`tests/test_fixtures.py`) and uses a placeholder email address (`alice@example.test`), indicating it is used for testing purposes only and not for a production system. According to the knowledge card, obvious placeholders in test fixtures are not considered vulnerabilities.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-85569570": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-328f3ef0": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "xss/comment_fixed.py:10 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The user-controlled input 'body' from the request form is passed through 'markupsafe.escape' before being concatenated into the HTML response. 'markupsafe.escape' is a recognized sanitizer that prevents XSS by escaping HTML special characters.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-8537ace4": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": "high",
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-323ae7ca": {
+  "verdict": "insufficient_data",
+  "claims": [
+   [
+    "The input 'name' is retrieved from request arguments.",
+    "xss/greet_fixed.py:9"
+   ],
+   [
+    "The 'escape' function is imported from 'markupsafe', which is a recognized sanitizer.",
+    "xss/greet_fixed.py:2"
+   ],
+   [
+    "The input 'name' is passed through the 'escape' function before being embedded in the HTML response.",
+    "xss/greet_fixed.py:10"
+   ]
+  ],
+  "dropped_claims": [],
+  "dataflow": [
+   "xss/greet_fixed.py:9",
+   "xss/greet_fixed.py:10"
+  ],
+  "protection": null,
+  "protection_rejected": "xss/greet_fixed.py:10 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The user input 'name' is properly escaped using markupsafe.escape before being returned in the HTML response, which prevents cross-site scripting.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ },
+ "CAA-d1f7588b": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-016e3741": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "xss/search_page_fixed.py:10 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The code uses `render_template_string` with a static template string and passes the user input `q` as a keyword argument. In Flask, `render_template_string` uses the application's Jinja2 environment, which has autoescaping enabled by default. Therefore, the variable `{{ q }}` is automatically HTML-escaped before being rendered, preventing Cross-Site Scripting (XSS). This is the correct way to use `render_template_string` to avoid both XSS and Server-Side Template Injection (SSTI), as opposed to the vulnerable version in `xss/search_page.py` which concatenated user input directly into the template string.",
+  "injection_suspected": false,
+  "tool_calls": 3
+ },
+ "CAA-06467464": {
+  "verdict": "not_vulnerable",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": "xss/trap_int_count.py:9",
+  "protection_rejected": null,
+  "severity": null,
+  "explanation": "",
+  "injection_suspected": false,
+  "tool_calls": 0
+ },
+ "CAA-603ab841": {
+  "verdict": "insufficient_data",
+  "claims": [],
+  "dropped_claims": [],
+  "dataflow": [],
+  "protection": null,
+  "protection_rejected": "xss/trap_server_value.py:11 is the candidate's own line, not a protection",
+  "severity": null,
+  "explanation": "The code returns a string containing the output of `platform.python_version()`. This function returns the version of the Python interpreter, which is a trusted system value and cannot be controlled by a user. Since there is no user-controllable input being reflected in the HTML response, this is not a Cross-Site Scripting (XSS) vulnerability.",
+  "injection_suspected": false,
+  "tool_calls": 1
+ }
+}

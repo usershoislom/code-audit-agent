@@ -1,0 +1,1293 @@
+{
+ "root": "/home/user/code-audit-agent/eval/seeded/repo",
+ "files": 94,
+ "profile": {
+  "languages": {
+   "python": {
+    "files": 67,
+    "loc": 1321,
+    "frameworks": [
+     "argparse",
+     "django",
+     "fastapi",
+     "flask"
+    ],
+    "manifests": [
+     "requirements.txt"
+    ]
+   },
+   "go": {
+    "files": 2,
+    "loc": 82,
+    "frameworks": [
+     "net/http"
+    ],
+    "manifests": [
+     "gosvc/go.mod"
+    ]
+   },
+   "java": {
+    "files": 8,
+    "loc": 142,
+    "frameworks": [
+     "servlet",
+     "spring"
+    ],
+    "manifests": []
+   },
+   "javascript": {
+    "files": 9,
+    "loc": 89,
+    "frameworks": [
+     "express"
+    ],
+    "manifests": [
+     "js/package.json"
+    ]
+   },
+   "typescript": {
+    "files": 3,
+    "loc": 35,
+    "frameworks": [
+     "express"
+    ],
+    "manifests": []
+   },
+   "html": {
+    "files": 2,
+    "loc": 31,
+    "frameworks": [],
+    "manifests": []
+   }
+  },
+  "kinds": [
+   "web",
+   "cli"
+  ],
+  "manifests": [
+   "requirements.txt",
+   "gosvc/go.mod",
+   "js/package.json"
+  ]
+ },
+ "python_loc": 1321,
+ "loc": 1700,
+ "entrypoints": {
+  "routes": [
+   {
+    "file": "authz/admin.py",
+    "func": "admin_users",
+    "line": 35,
+    "path": "/admin/users",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/admin.py",
+    "func": "admin_disable",
+    "line": 41,
+    "path": "/admin/users/<int:uid>/disable",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [
+     "uid"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/admin.py",
+    "func": "admin_export",
+    "line": 47,
+    "path": "/admin/export",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/admin_fixed.py",
+    "func": "admin_users",
+    "line": 35,
+    "path": "/admin/users",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/admin_fixed.py",
+    "func": "admin_disable",
+    "line": 41,
+    "path": "/admin/users/<int:uid>/disable",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [
+     "uid"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/admin_fixed.py",
+    "func": "admin_export",
+    "line": 48,
+    "path": "/admin/export",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/invoices.py",
+    "func": "invoice_pdf",
+    "line": 35,
+    "path": "/api/invoices/<int:invoice_id>/pdf",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "invoice_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "authz/invoices.py",
+    "func": "invoice_json",
+    "line": 44,
+    "path": "/api/invoices/<int:invoice_id>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "invoice_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/notes.py",
+    "func": "list_notes",
+    "line": 35,
+    "path": "/notes",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/notes.py",
+    "func": "view_note",
+    "line": 42,
+    "path": "/notes/<int:note_id>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "note_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "authz/notes.py",
+    "func": "delete_note",
+    "line": 51,
+    "path": "/notes/<int:note_id>/delete",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [
+     "note_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/notes_fixed.py",
+    "func": "list_notes",
+    "line": 35,
+    "path": "/notes",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/notes_fixed.py",
+    "func": "view_note",
+    "line": 42,
+    "path": "/notes/<int:note_id>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "note_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "authz/notes_fixed.py",
+    "func": "delete_note",
+    "line": 51,
+    "path": "/notes/<int:note_id>/delete",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [
+     "note_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "authz/trap_global_hook.py",
+    "func": "login",
+    "line": 15,
+    "path": "/login",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/trap_global_hook.py",
+    "func": "settings",
+    "line": 20,
+    "path": "/settings",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/trap_global_hook.py",
+    "func": "set_theme",
+    "line": 27,
+    "path": "/settings/theme",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/trap_public_catalog.py",
+    "func": "catalog_item",
+    "line": 9,
+    "path": "/catalog/<int:item_id>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "item_id"
+    ],
+    "auth": false,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/trap_public_catalog.py",
+    "func": "catalog",
+    "line": 15,
+    "path": "/catalog",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "authz/trap_scoped_orders.py",
+    "func": "order",
+    "line": 35,
+    "path": "/orders/<int:order_id>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "order_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "authz/trap_scoped_orders.py",
+    "func": "me",
+    "line": 45,
+    "path": "/me",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/archive.py",
+    "func": "backup",
+    "line": 12,
+    "path": "/backup",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/archive_fixed.py",
+    "func": "backup",
+    "line": 12,
+    "path": "/backup",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/convert.py",
+    "func": "convert",
+    "line": 17,
+    "path": "/convert",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/convert_fixed.py",
+    "func": "convert",
+    "line": 17,
+    "path": "/convert",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/ping.py",
+    "func": "ping",
+    "line": 12,
+    "path": "/diag/ping",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/ping_fixed.py",
+    "func": "ping",
+    "line": 12,
+    "path": "/diag/ping",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/trap_argv_list.py",
+    "func": "lookup",
+    "line": 12,
+    "path": "/diag/lookup",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/trap_constant_shell.py",
+    "func": "disk",
+    "line": 14,
+    "path": "/diag/disk",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "cmdi/trap_digit_guard.py",
+    "func": "kill_job",
+    "line": 12,
+    "path": "/jobs/kill",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main.py",
+    "func": "read_item",
+    "line": 20,
+    "path": "/items/{item_id}",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "item_id"
+    ],
+    "auth": false,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main.py",
+    "func": "greet",
+    "line": 26,
+    "path": "/greet",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "name"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main.py",
+    "func": "order_invoice",
+    "line": 31,
+    "path": "/orders/{order_id}/invoice",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "order_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "fastapi_app/main.py",
+    "func": "read_order",
+    "line": 39,
+    "path": "/orders/{order_id}",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "order_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main_fixed.py",
+    "func": "read_item",
+    "line": 21,
+    "path": "/items/{item_id}",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "item_id"
+    ],
+    "auth": false,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main_fixed.py",
+    "func": "greet",
+    "line": 27,
+    "path": "/greet",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "name"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "fastapi_app/main_fixed.py",
+    "func": "order_invoice",
+    "line": 32,
+    "path": "/orders/{order_id}/invoice",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "order_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "fastapi_app/main_fixed.py",
+    "func": "read_order",
+    "line": 40,
+    "path": "/orders/{order_id}",
+    "framework": "fastapi",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "order_id"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "logic/checkout.py",
+    "func": "checkout",
+    "line": 8,
+    "path": "/checkout",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "logic/checkout_fixed.py",
+    "func": "checkout",
+    "line": 8,
+    "path": "/checkout",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/avatar.py",
+    "func": "avatar",
+    "line": 11,
+    "path": "/avatar/<path:filename>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "filename"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/avatar_fixed.py",
+    "func": "avatar",
+    "line": 11,
+    "path": "/avatar/<path:filename>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "filename"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/denylist.py",
+    "func": "docs",
+    "line": 11,
+    "path": "/docs",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/download.py",
+    "func": "download",
+    "line": 11,
+    "path": "/download",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/download_fixed.py",
+    "func": "download",
+    "line": 11,
+    "path": "/download",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/prefix_unnormalised.py",
+    "func": "export",
+    "line": 11,
+    "path": "/export",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/trap_allowlist.py",
+    "func": "template",
+    "line": 13,
+    "path": "/templates/<kind>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "kind"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/trap_basename.py",
+    "func": "thumbs",
+    "line": 11,
+    "path": "/thumbs",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "path/trap_secure_filename.py",
+    "func": "report_file",
+    "line": 11,
+    "path": "/reports/<name>",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [
+     "name"
+    ],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/injected_comment.py",
+    "func": "staff_lookup",
+    "line": 13,
+    "path": "/staff/lookup",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/orders_concat.py",
+    "func": "list_orders",
+    "line": 13,
+    "path": "/orders",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/orders_concat_fixed.py",
+    "func": "list_orders",
+    "line": 13,
+    "path": "/orders",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/product_routes.py",
+    "func": "product_search",
+    "line": 9,
+    "path": "/products/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/product_routes_fixed.py",
+    "func": "product_search",
+    "line": 9,
+    "path": "/products/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/report_percent.py",
+    "func": "report",
+    "line": 13,
+    "path": "/reports",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/report_percent_fixed.py",
+    "func": "report",
+    "line": 13,
+    "path": "/reports",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/trap_column_map.py",
+    "func": "payments",
+    "line": 15,
+    "path": "/payments",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/trap_constant_table.py",
+    "func": "audit_count",
+    "line": 15,
+    "path": "/audit/count",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/trap_int_cast.py",
+    "func": "invoice_page",
+    "line": 13,
+    "path": "/invoices/page",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/trap_sort_allowlist.py",
+    "func": "customers",
+    "line": 15,
+    "path": "/customers",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/user_lookup.py",
+    "func": "search_users",
+    "line": 13,
+    "path": "/users/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "sqli/user_lookup_fixed.py",
+    "func": "search_users",
+    "line": 13,
+    "path": "/users/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "ssrf/fetch.py",
+    "func": "preview",
+    "line": 11,
+    "path": "/preview",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "ssrf/fetch_fixed.py",
+    "func": "preview",
+    "line": 11,
+    "path": "/preview",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/comment.py",
+    "func": "preview",
+    "line": 8,
+    "path": "/comment/preview",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/comment_fixed.py",
+    "func": "preview",
+    "line": 8,
+    "path": "/comment/preview",
+    "framework": "flask",
+    "methods": [
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/greet.py",
+    "func": "hello",
+    "line": 8,
+    "path": "/hello",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/greet_fixed.py",
+    "func": "hello",
+    "line": 8,
+    "path": "/hello",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/search_page.py",
+    "func": "search",
+    "line": 8,
+    "path": "/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/search_page_fixed.py",
+    "func": "search",
+    "line": 8,
+    "path": "/search",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/trap_int_count.py",
+    "func": "badge",
+    "line": 8,
+    "path": "/cart/badge",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "xss/trap_server_value.py",
+    "func": "about",
+    "line": 10,
+    "path": "/about",
+    "framework": "flask",
+    "methods": [
+     "GET"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "note_list",
+    "line": 10,
+    "path": "/notes/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "note_detail",
+    "line": 24,
+    "path": "/notes/<int:pk>/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [
+     "pk"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": false
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "note_edit",
+    "line": 16,
+    "path": "/notes/<int:pk>/edit/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [
+     "pk"
+    ],
+    "auth": true,
+    "lookup_by_id": true,
+    "ownership_check": true
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "note_search",
+    "line": 30,
+    "path": "/notes/search/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "note_search_safe",
+    "line": 37,
+    "path": "/notes/search2/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [],
+    "auth": true,
+    "lookup_by_id": false,
+    "ownership_check": false
+   },
+   {
+    "file": "django_app/notes/views.py",
+    "func": "greet",
+    "line": 45,
+    "path": "/hello/",
+    "framework": "django",
+    "methods": [
+     "GET",
+     "POST"
+    ],
+    "params": [],
+    "auth": false,
+    "lookup_by_id": false,
+    "ownership_check": false
+   }
+  ],
+  "global_auth_hooks": [
+   "authz/trap_global_hook.py:9"
+  ],
+  "cli": [
+   "main@cli_tool/grep_logs.py",
+   "main@cli_tool/grep_logs_fixed.py",
+   "main@cli_tool/report.py"
+  ]
+ },
+ "configs": [
+  "config/settings.py",
+  "config/settings_fixed.py",
+  "django_app/settings.py",
+  "django_app/settings_fixed.py"
+ ],
+ "symbol_index": "tree-sitter",
+ "tools": {
+  "opengrep": "/usr/local/bin/opengrep",
+  "semgrep": "/usr/local/bin/semgrep",
+  "bandit": "/usr/local/bin/bandit",
+  "codeql": null
+ },
+ "analyzers": [
+  {
+   "analyzer": "semgrep",
+   "status": "ran",
+   "note": "rules: go.yaml, html.yaml, java.yaml, javascript.yaml, python-core.yaml",
+   "candidates": 63
+  },
+  {
+   "analyzer": "bandit",
+   "status": "ran",
+   "note": "",
+   "candidates": 44
+  },
+  {
+   "analyzer": "gosec",
+   "status": "ran",
+   "note": "1 go module(s)",
+   "candidates": 5
+  },
+  {
+   "analyzer": "govulncheck",
+   "status": "skipped",
+   "note": "needs vuln.go.dev (set CAA_DEPS_ONLINE=1) or a local DB (CAA_GOVULNDB=file://...)",
+   "candidates": 0
+  },
+  {
+   "analyzer": "osv",
+   "status": "ran",
+   "note": "osv-scanner (offline DB)",
+   "candidates": 4
+  },
+  {
+   "analyzer": "secrets",
+   "status": "ran",
+   "note": "gitleaks",
+   "candidates": 2
+  },
+  {
+   "analyzer": "hygiene",
+   "status": "ran",
+   "note": "",
+   "candidates": 4
+  }
+ ],
+ "dropped_unknown_cwe": {
+  "CWE-703": 1
+ }
+}

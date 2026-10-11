@@ -1,0 +1,3466 @@
+{
+ "sast_only": {
+  "all_open": {
+   "overall": {
+    "tp": 47,
+    "fp": 36,
+    "fn": 14,
+    "precision": 0.566,
+    "recall": 0.77,
+    "f1": 0.653
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 4,
+     "fn": 0,
+     "precision": 0.636,
+     "recall": 1.0,
+     "f1": 0.778
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.667
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 19,
+     "fn": 0,
+     "precision": 0.269,
+     "recall": 1.0,
+     "f1": 0.424
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 6,
+     "fn": 0,
+     "precision": 0.6,
+     "recall": 1.0,
+     "f1": 0.75
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 1,
+     "precision": 0.75,
+     "recall": 0.75,
+     "f1": 0.75
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 4,
+     "fn": 0,
+     "precision": 0.733,
+     "recall": 1.0,
+     "f1": 0.846
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "0/5",
+    "C": "0/1",
+    "D": "8/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 24,
+   "fpr_clean_files": 0.453,
+   "pairs": 35,
+   "pair_accuracy": 0.543,
+   "calibration": {
+    "L0": {
+     "tp": 35,
+     "fp": 29,
+     "precision": 0.547
+    },
+    "L1": {
+     "tp": 15,
+     "fp": 7,
+     "precision": 0.682
+    }
+   },
+   "false_positives": [
+    "cli_tool/grep_logs.py:2 CWE-78 L0",
+    "cli_tool/grep_logs_fixed.py:2 CWE-78 L0",
+    "cli_tool/grep_logs_fixed.py:10 CWE-78 L0",
+    "cmdi/archive.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:14 CWE-78 L1",
+    "cmdi/convert.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:13 CWE-78 L1",
+    "cmdi/ping.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:14 CWE-78 L0",
+    "cmdi/trap_argv_list.py:4 CWE-78 L0",
+    "cmdi/trap_argv_list.py:14 CWE-78 L0",
+    "cmdi/trap_constant_shell.py:4 CWE-78 L0",
+    "cmdi/trap_constant_shell.py:15 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:4 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:16 CWE-78 L1",
+    "config/settings_fixed.py:17 CWE-327 L0",
+    "fastapi_app/main_fixed.py:28 CWE-79 L0",
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "gosvc/handlers_fixed.go:28 CWE-22 L0",
+    "path/trap_allowlist.py:16 CWE-22 L0",
+    "path/trap_basename.py:13 CWE-22 L0",
+    "path/trap_secure_filename.py:13 CWE-22 L0",
+    "sqli/trap_column_map.py:19 CWE-89 L1",
+    "sqli/trap_constant_table.py:17 CWE-89 L1",
+    "sqli/trap_int_cast.py:17 CWE-89 L1",
+    "sqli/trap_sort_allowlist.py:20 CWE-89 L1",
+    "ssrf/fetch_fixed.py:16 CWE-918 L0",
+    "tests/test_fixtures.py:1 CWE-798 L0",
+    "xss/comment_fixed.py:10 CWE-79 L0",
+    "xss/greet_fixed.py:10 CWE-79 L0",
+    "xss/search_page_fixed.py:10 CWE-79 L0",
+    "xss/trap_int_count.py:10 CWE-79 L0",
+    "xss/trap_server_value.py:11 CWE-79 L0"
+   ],
+   "missed": [
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/notes/views.py CWE-639 (note_detail)",
+    "django_app/settings.py CWE-489 (DEBUG = True)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "fastapi_app/main.py CWE-639 (read_order)",
+    "fastapi_app/main.py CWE-942 (app.add_middleware(CORSMiddleware)",
+    "js/package.json CWE-1357 (None)",
+    "gosvc/go.mod CWE-1395 (None)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 61,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-352": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-353": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-601": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-79": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 9,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-798": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 11,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-918": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-94": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-942": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "0/39",
+    "B": "0/5",
+    "C": "0/1",
+    "D": "0/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 35,
+   "pair_accuracy": 0.0,
+   "calibration": {},
+   "false_positives": [],
+   "missed": [
+    "sqli/user_lookup.py CWE-89 (search_users)",
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "sqli/report_percent.py CWE-89 (report)",
+    "sqli/repo_layer.py CWE-89 (find_product)",
+    "sqli/injected_comment.py CWE-89 (staff_lookup)",
+    "cmdi/ping.py CWE-78 (ping)",
+    "cmdi/archive.py CWE-78 (backup)",
+    "cmdi/convert.py CWE-78 (convert_image)",
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "path/denylist.py CWE-22 (docs)",
+    "path/prefix_unnormalised.py CWE-22 (export)",
+    "xss/greet.py CWE-79 (hello)",
+    "xss/search_page.py CWE-79 (search)",
+    "xss/comment.py CWE-79 (preview)",
+    "ssrf/fetch.py CWE-918 (preview)",
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (app.config[\"SECRET_KEY\"])",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "config/settings.py CWE-798 (smtp_password =)",
+    "config/settings.py CWE-327 (hash_password)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/notes/views.py CWE-639 (note_detail)",
+    "django_app/notes/views.py CWE-89 (note_search)",
+    "django_app/notes/views.py CWE-79 (greet)",
+    "django_app/settings.py CWE-798 (SECRET_KEY =)",
+    "django_app/settings.py CWE-489 (DEBUG = True)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "fastapi_app/main.py CWE-89 (read_item)",
+    "fastapi_app/main.py CWE-79 (greet)",
+    "fastapi_app/main.py CWE-639 (read_order)",
+    "fastapi_app/main.py CWE-942 (app.add_middleware(CORSMiddleware)",
+    "cli_tool/grep_logs.py CWE-78 (main)",
+    "cli_tool/report.py CWE-89 (main)",
+    "js/users.js CWE-89 (app.get(\"/users\")",
+    "js/ping.js CWE-78 (app.get(\"/ping\")",
+    "js/greet.js CWE-79 (app.get(\"/hello\")",
+    "js/calc.js CWE-94 (app.post(\"/calc\")",
+    "js/files.ts CWE-22 (app.get(\"/files/)",
+    "js/redirect.ts CWE-601 (app.get(\"/go\")",
+    "js/package.json CWE-1357 (None)",
+    "java/src/UserServlet.java CWE-89 (protected void doGet)",
+    "java/src/SearchServlet.java CWE-79 (protected void doGet)",
+    "java/src/FileController.java CWE-22 (public String read)",
+    "java/src/FileController.java CWE-78 (public String ping)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-89 (func userHandler)",
+    "gosvc/handlers.go CWE-78 (func pingHandler)",
+    "gosvc/handlers.go CWE-22 (func fileHandler)",
+    "gosvc/handlers.go CWE-79 (func helloHandler)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "gosvc/go.mod CWE-1395 (None)",
+    "templates/page.html CWE-353 (cdn.example-cdn.net)",
+    "templates/page.html CWE-1022 (target=\"_blank\")",
+    "templates/page.html CWE-79 (|safe)",
+    "templates/page.html CWE-352 (<form method=\"post\")"
+   ]
+  },
+  "seconds": 4.1,
+  "sec_per_kloc": 2.4,
+  "tokens_per_kloc": 0
+ },
+ "agent_no_llm": {
+  "all_open": {
+   "overall": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 1,
+    "precision": 0.923,
+    "recall": 0.984,
+    "f1": 0.952
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.75,
+     "recall": 1.0,
+     "f1": 0.857
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.917,
+     "recall": 1.0,
+     "f1": 0.957
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "13/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 3,
+   "fpr_clean_files": 0.057,
+   "pairs": 35,
+   "pair_accuracy": 0.914,
+   "calibration": {
+    "L0": {
+     "tp": 3,
+     "fp": 3,
+     "precision": 0.5
+    },
+    "L2": {
+     "tp": 8,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 2,
+     "precision": 0.961
+    }
+   },
+   "false_positives": [
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "gosvc/handlers_fixed.go:28 CWE-22 L0",
+    "requirements.txt:2 CWE-1395 L0",
+    "sqli/trap_column_map.py:19 CWE-89 L3",
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 57,
+    "fp": 2,
+    "fn": 4,
+    "precision": 0.966,
+    "recall": 0.934,
+    "f1": 0.95
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.889,
+     "f1": 0.941
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.917,
+     "recall": 1.0,
+     "f1": 0.957
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "36/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "13/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 2,
+   "fpr_clean_files": 0.038,
+   "pairs": 35,
+   "pair_accuracy": 0.914,
+   "calibration": {
+    "L2": {
+     "tp": 8,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 2,
+     "precision": 0.961
+    }
+   },
+   "false_positives": [
+    "sqli/trap_column_map.py:19 CWE-89 L3",
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "templates/page.html CWE-79 (|safe)"
+   ]
+  },
+  "seconds": 11.7,
+  "sec_per_kloc": 6.9,
+  "tokens_per_kloc": 0
+ },
+ "agent_full": {
+  "all_open": {
+   "overall": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 1,
+    "precision": 0.923,
+    "recall": 0.984,
+    "f1": 0.952
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.75,
+     "recall": 1.0,
+     "f1": 0.857
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.917,
+     "recall": 1.0,
+     "f1": 0.957
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "13/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 3,
+   "fpr_clean_files": 0.057,
+   "pairs": 35,
+   "pair_accuracy": 0.914,
+   "calibration": {
+    "L0": {
+     "tp": 3,
+     "fp": 3,
+     "precision": 0.5
+    },
+    "L2": {
+     "tp": 8,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 33,
+     "fp": 2,
+     "precision": 0.943
+    },
+    "L4": {
+     "tp": 1,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L5": {
+     "tp": 15,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "gosvc/handlers_fixed.go:28 CWE-22 L0",
+    "requirements.txt:2 CWE-1395 L0",
+    "sqli/trap_column_map.py:19 CWE-89 L3",
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 57,
+    "fp": 2,
+    "fn": 4,
+    "precision": 0.966,
+    "recall": 0.934,
+    "f1": 0.95
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.889,
+     "f1": 0.941
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.917,
+     "recall": 1.0,
+     "f1": 0.957
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "36/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "13/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 2,
+   "fpr_clean_files": 0.038,
+   "pairs": 35,
+   "pair_accuracy": 0.914,
+   "calibration": {
+    "L2": {
+     "tp": 8,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 33,
+     "fp": 2,
+     "precision": 0.943
+    },
+    "L4": {
+     "tp": 1,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L5": {
+     "tp": 15,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [
+    "sqli/trap_column_map.py:19 CWE-89 L3",
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "templates/page.html CWE-79 (|safe)"
+   ]
+  },
+  "seconds": 87.1,
+  "sec_per_kloc": 51.2,
+  "tokens_per_kloc": 0
+ },
+ "agent_llm_norag": {
+  "all_open": {
+   "overall": {
+    "tp": 60,
+    "fp": 6,
+    "fn": 1,
+    "precision": 0.909,
+    "recall": 0.984,
+    "f1": 0.945
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 2,
+     "fp": 1,
+     "fn": 1,
+     "precision": 0.667,
+     "recall": 0.667,
+     "f1": 0.667
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.667,
+     "recall": 1.0,
+     "f1": 0.8
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "5/5",
+    "C": "1/1",
+    "D": "13/13",
+    "E": "2/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 2,
+   "fpr_clean_files": 0.038,
+   "pairs": 35,
+   "pair_accuracy": 0.914,
+   "calibration": {
+    "L0": {
+     "tp": 3,
+     "fp": 4,
+     "precision": 0.429
+    },
+    "L1": {
+     "tp": 1,
+     "fp": 1,
+     "precision": 0.5
+    },
+    "L2": {
+     "tp": 7,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 1,
+     "precision": 0.98
+    }
+   },
+   "false_positives": [
+    "django_app/notes/views.py:32 CWE-639 L0",
+    "django_app/notes/views.py:40 CWE-639 L0",
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "requirements.txt:2 CWE-1395 L0",
+    "ssrf/fetch.py:13 CWE-840 L1",
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "gosvc/go.mod CWE-1395 (None)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 56,
+    "fp": 1,
+    "fn": 5,
+    "precision": 0.982,
+    "recall": 0.918,
+    "f1": 0.949
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.667,
+     "f1": 0.8
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.889,
+     "f1": 0.941
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "36/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "13/13",
+    "E": "2/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 1,
+   "fpr_clean_files": 0.019,
+   "pairs": 35,
+   "pair_accuracy": 0.886,
+   "calibration": {
+    "L2": {
+     "tp": 7,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 1,
+     "precision": 0.98
+    }
+   },
+   "false_positives": [
+    "ssrf/fetch_fixed.py:16 CWE-918 L3"
+   ],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "gosvc/go.mod CWE-1395 (None)",
+    "templates/page.html CWE-79 (|safe)"
+   ]
+  },
+  "seconds": 1321.3,
+  "sec_per_kloc": 777.2,
+  "tokens_per_kloc": 502840
+ },
+ "agent_llm_rag": {
+  "all_open": {
+   "overall": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 1,
+    "precision": 0.923,
+    "recall": 0.984,
+    "f1": 0.952
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.75,
+     "recall": 1.0,
+     "f1": 0.857
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.667
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.667,
+     "recall": 1.0,
+     "f1": 0.8
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.875,
+     "recall": 1.0,
+     "f1": 0.933
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "5/5",
+    "C": "1/1",
+    "D": "12/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 1,
+   "fpr_clean_files": 0.019,
+   "pairs": 35,
+   "pair_accuracy": 0.971,
+   "calibration": {
+    "L0": {
+     "tp": 4,
+     "fp": 5,
+     "precision": 0.444
+    },
+    "L2": {
+     "tp": 7,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [
+    "django_app/notes/views.py:30 CWE-639 L0",
+    "django_app/notes/views.py:37 CWE-639 L0",
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "requirements.txt:2 CWE-1395 L0",
+    "ssrf/fetch.py:13 CWE-840 L0"
+   ],
+   "missed": [
+    "config/settings.py CWE-489 (app.run(debug=True))"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 56,
+    "fp": 0,
+    "fn": 5,
+    "precision": 1.0,
+    "recall": 0.918,
+    "f1": 0.957
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1357": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1395": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.667
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.889,
+     "f1": 0.941
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "recall_per_group": {
+    "A": "36/39",
+    "B": "5/5",
+    "C": "0/1",
+    "D": "12/13",
+    "E": "3/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 35,
+   "pair_accuracy": 0.943,
+   "calibration": {
+    "L2": {
+     "tp": 7,
+     "fp": 0,
+     "precision": 1.0
+    },
+    "L3": {
+     "tp": 49,
+     "fp": 0,
+     "precision": 1.0
+    }
+   },
+   "false_positives": [],
+   "missed": [
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "templates/page.html CWE-79 (|safe)"
+   ]
+  },
+  "seconds": 1413.8,
+  "sec_per_kloc": 831.6,
+  "tokens_per_kloc": 505975
+ },
+ "llm_only_files": {
+  "all_open": {
+   "overall": {
+    "tp": 52,
+    "fp": 25,
+    "fn": 9,
+    "precision": 0.675,
+    "recall": 0.852,
+    "f1": 0.754
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-20": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 5,
+     "fn": 0,
+     "precision": 0.583,
+     "recall": 1.0,
+     "f1": 0.737
+    },
+    "CWE-287": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.25,
+     "recall": 1.0,
+     "f1": 0.4
+    },
+    "CWE-353": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 2,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-502": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-772": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.9,
+     "recall": 1.0,
+     "f1": 0.947
+    },
+    "CWE-798": {
+     "tp": 4,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.8,
+     "recall": 1.0,
+     "f1": 0.889
+    },
+    "CWE-840": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-862": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-88": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 10,
+     "fp": 1,
+     "fn": 1,
+     "precision": 0.909,
+     "recall": 0.909,
+     "f1": 0.909
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.333,
+     "recall": 1.0,
+     "f1": 0.5
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-\uff0c89": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "37/39",
+    "B": "5/5",
+    "C": "1/1",
+    "D": "9/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 16,
+   "fpr_clean_files": 0.302,
+   "pairs": 35,
+   "pair_accuracy": 0.686,
+   "calibration": {
+    "L0": {
+     "tp": 52,
+     "fp": 25,
+     "precision": 0.675
+    }
+   },
+   "false_positives": [
+    "requirements.txt:2 CWE-502 L0",
+    "authz/admin_fixed.py:41 CWE-352 L0",
+    "authz/notes_fixed.py:49 CWE-352 L0",
+    "authz/trap_global_hook.py:15 CWE-287 L0",
+    "authz/trap_global_hook.py:26 CWE-352 L0",
+    "cli_tool/grep_logs_fixed.py:10 CWE-22 L0",
+    "cmdi/archive_fixed.py:14 CWE-22 L0",
+    "django_app/settings.py:4 CWE-20 L0",
+    "gosvc/handlers_fixed.go:28 CWE-22 L0",
+    "java/src/UserServletFixed.java:15 CWE-772 L0",
+    "java/src/UserServletFixed.java:17 CWE-772 L0",
+    "js/ping_fixed.js:7 CWE-918 L0",
+    "js/ping_fixed.js:7 CWE-88 L0",
+    "js/trap_files_basename.ts:9 CWE-22 L0",
+    "logic/checkout_fixed.py:11 CWE-20 L0",
+    "logic/checkout_fixed.py:12 CWE-20 L0",
+    "path/download_fixed.py:17 CWE-400 L0",
+    "path/trap_basename.py:13 CWE-22 L0",
+    "path/trap_secure_filename.py:14 CWE-400 L0",
+    "path/trap_secure_filename.py:14 CWE-79 L0",
+    "sqli/orders_concat.py:15 CWE-\uff0c89 L0",
+    "sqli/product_routes.py:11 CWE-89 L0",
+    "ssrf/fetch_fixed.py:16 CWE-918 L0",
+    "ssrf/fetch_fixed.py:17 CWE-400 L0",
+    "tests/test_fixtures.py:1 CWE-798 L0"
+   ],
+   "missed": [
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "js/package.json CWE-1357 (None)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "gosvc/go.mod CWE-1395 (None)",
+    "templates/page.html CWE-353 (cdn.example-cdn.net)",
+    "templates/page.html CWE-1022 (target=\"_blank\")"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 61,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-352": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-353": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-601": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-79": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 9,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-798": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 11,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-918": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-94": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-942": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "0/39",
+    "B": "0/5",
+    "C": "0/1",
+    "D": "0/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 35,
+   "pair_accuracy": 0.0,
+   "calibration": {},
+   "false_positives": [],
+   "missed": [
+    "sqli/user_lookup.py CWE-89 (search_users)",
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "sqli/report_percent.py CWE-89 (report)",
+    "sqli/repo_layer.py CWE-89 (find_product)",
+    "sqli/injected_comment.py CWE-89 (staff_lookup)",
+    "cmdi/ping.py CWE-78 (ping)",
+    "cmdi/archive.py CWE-78 (backup)",
+    "cmdi/convert.py CWE-78 (convert_image)",
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "path/denylist.py CWE-22 (docs)",
+    "path/prefix_unnormalised.py CWE-22 (export)",
+    "xss/greet.py CWE-79 (hello)",
+    "xss/search_page.py CWE-79 (search)",
+    "xss/comment.py CWE-79 (preview)",
+    "ssrf/fetch.py CWE-918 (preview)",
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (app.config[\"SECRET_KEY\"])",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "config/settings.py CWE-798 (smtp_password =)",
+    "config/settings.py CWE-327 (hash_password)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/notes/views.py CWE-639 (note_detail)",
+    "django_app/notes/views.py CWE-89 (note_search)",
+    "django_app/notes/views.py CWE-79 (greet)",
+    "django_app/settings.py CWE-798 (SECRET_KEY =)",
+    "django_app/settings.py CWE-489 (DEBUG = True)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "fastapi_app/main.py CWE-89 (read_item)",
+    "fastapi_app/main.py CWE-79 (greet)",
+    "fastapi_app/main.py CWE-639 (read_order)",
+    "fastapi_app/main.py CWE-942 (app.add_middleware(CORSMiddleware)",
+    "cli_tool/grep_logs.py CWE-78 (main)",
+    "cli_tool/report.py CWE-89 (main)",
+    "js/users.js CWE-89 (app.get(\"/users\")",
+    "js/ping.js CWE-78 (app.get(\"/ping\")",
+    "js/greet.js CWE-79 (app.get(\"/hello\")",
+    "js/calc.js CWE-94 (app.post(\"/calc\")",
+    "js/files.ts CWE-22 (app.get(\"/files/)",
+    "js/redirect.ts CWE-601 (app.get(\"/go\")",
+    "js/package.json CWE-1357 (None)",
+    "java/src/UserServlet.java CWE-89 (protected void doGet)",
+    "java/src/SearchServlet.java CWE-79 (protected void doGet)",
+    "java/src/FileController.java CWE-22 (public String read)",
+    "java/src/FileController.java CWE-78 (public String ping)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-89 (func userHandler)",
+    "gosvc/handlers.go CWE-78 (func pingHandler)",
+    "gosvc/handlers.go CWE-22 (func fileHandler)",
+    "gosvc/handlers.go CWE-79 (func helloHandler)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "gosvc/go.mod CWE-1395 (None)",
+    "templates/page.html CWE-353 (cdn.example-cdn.net)",
+    "templates/page.html CWE-1022 (target=\"_blank\")",
+    "templates/page.html CWE-79 (|safe)",
+    "templates/page.html CWE-352 (<form method=\"post\")"
+   ]
+  },
+  "seconds": 523.1,
+  "sec_per_kloc": 322.1,
+  "tokens_per_kloc": 153495
+ },
+ "sast_llm_triage": {
+  "all_open": {
+   "overall": {
+    "tp": 47,
+    "fp": 25,
+    "fn": 14,
+    "precision": 0.653,
+    "recall": 0.77,
+    "f1": 0.707
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 7,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-327": {
+     "tp": 1,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.667
+    },
+    "CWE-352": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-353": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-400": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-489": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 1,
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.667
+    },
+    "CWE-601": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-611": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 7,
+     "fp": 18,
+     "fn": 0,
+     "precision": 0.28,
+     "recall": 1.0,
+     "f1": 0.438
+    },
+    "CWE-79": {
+     "tp": 9,
+     "fp": 5,
+     "fn": 0,
+     "precision": 0.643,
+     "recall": 1.0,
+     "f1": 0.783
+    },
+    "CWE-798": {
+     "tp": 3,
+     "fp": 1,
+     "fn": 1,
+     "precision": 0.75,
+     "recall": 0.75,
+     "f1": 0.75
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-918": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-94": {
+     "tp": 1,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "CWE-942": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "39/39",
+    "B": "0/5",
+    "C": "0/1",
+    "D": "8/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 15,
+   "fpr_clean_files": 0.283,
+   "pairs": 35,
+   "pair_accuracy": 0.571,
+   "calibration": {
+    "L0": {
+     "tp": 27,
+     "fp": 21,
+     "precision": 0.562
+    },
+    "L1": {
+     "tp": 20,
+     "fp": 4,
+     "precision": 0.833
+    }
+   },
+   "false_positives": [
+    "cli_tool/grep_logs.py:2 CWE-78 L0",
+    "cli_tool/grep_logs_fixed.py:2 CWE-78 L0",
+    "cli_tool/grep_logs_fixed.py:10 CWE-78 L0",
+    "cmdi/archive.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:4 CWE-78 L0",
+    "cmdi/archive_fixed.py:14 CWE-78 L1",
+    "cmdi/convert.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:4 CWE-78 L0",
+    "cmdi/convert_fixed.py:13 CWE-78 L1",
+    "cmdi/ping.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:4 CWE-78 L0",
+    "cmdi/ping_fixed.py:14 CWE-78 L0",
+    "cmdi/trap_argv_list.py:4 CWE-78 L0",
+    "cmdi/trap_argv_list.py:14 CWE-78 L0",
+    "cmdi/trap_constant_shell.py:4 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:4 CWE-78 L0",
+    "cmdi/trap_digit_guard.py:16 CWE-78 L1",
+    "config/settings_fixed.py:17 CWE-327 L0",
+    "fastapi_app/main_fixed.py:28 CWE-79 L0",
+    "gosvc/handlers_fixed.go:22 CWE-78 L0",
+    "tests/test_fixtures.py:1 CWE-798 L0",
+    "xss/comment_fixed.py:10 CWE-79 L0",
+    "xss/greet_fixed.py:10 CWE-79 L0",
+    "xss/search_page_fixed.py:10 CWE-79 L1",
+    "xss/trap_server_value.py:11 CWE-79 L0"
+   ],
+   "missed": [
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/notes/views.py CWE-639 (note_detail)",
+    "django_app/settings.py CWE-489 (DEBUG = True)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "fastapi_app/main.py CWE-639 (read_order)",
+    "fastapi_app/main.py CWE-942 (app.add_middleware(CORSMiddleware)",
+    "js/package.json CWE-1357 (None)",
+    "gosvc/go.mod CWE-1395 (None)"
+   ]
+  },
+  "level_ge_2": {
+   "overall": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 61,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "per_cwe": {
+    "CWE-1022": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1188": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1357": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-1395": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 3,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-22": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-327": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-352": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-353": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-400": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-489": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 2,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-601": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-611": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-639": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-78": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 7,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-79": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 9,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-798": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 4,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-840": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-862": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-89": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 11,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-918": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-94": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    },
+    "CWE-942": {
+     "tp": 0,
+     "fp": 0,
+     "fn": 1,
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "recall_per_group": {
+    "A": "0/39",
+    "B": "0/5",
+    "C": "0/1",
+    "D": "0/13",
+    "E": "0/3"
+   },
+   "clean_files": 53,
+   "clean_files_flagged": 0,
+   "fpr_clean_files": 0.0,
+   "pairs": 35,
+   "pair_accuracy": 0.0,
+   "calibration": {},
+   "false_positives": [],
+   "missed": [
+    "sqli/user_lookup.py CWE-89 (search_users)",
+    "sqli/orders_concat.py CWE-89 (list_orders)",
+    "sqli/report_percent.py CWE-89 (report)",
+    "sqli/repo_layer.py CWE-89 (find_product)",
+    "sqli/injected_comment.py CWE-89 (staff_lookup)",
+    "cmdi/ping.py CWE-78 (ping)",
+    "cmdi/archive.py CWE-78 (backup)",
+    "cmdi/convert.py CWE-78 (convert_image)",
+    "path/download.py CWE-22 (download)",
+    "path/avatar.py CWE-22 (avatar)",
+    "path/denylist.py CWE-22 (docs)",
+    "path/prefix_unnormalised.py CWE-22 (export)",
+    "xss/greet.py CWE-79 (hello)",
+    "xss/search_page.py CWE-79 (search)",
+    "xss/comment.py CWE-79 (preview)",
+    "ssrf/fetch.py CWE-918 (preview)",
+    "authz/notes.py CWE-639 (delete_note)",
+    "authz/admin.py CWE-862 (admin_export)",
+    "authz/invoices.py CWE-639 (invoice_json)",
+    "logic/checkout.py CWE-840 (checkout)",
+    "config/settings.py CWE-798 (app.config[\"SECRET_KEY\"])",
+    "config/settings.py CWE-798 (AWS_ACCESS_KEY_ID =)",
+    "config/settings.py CWE-798 (smtp_password =)",
+    "config/settings.py CWE-327 (hash_password)",
+    "config/settings.py CWE-489 (app.run(debug=True))",
+    "requirements.txt CWE-1395 (flask==2.2.2)",
+    "requirements.txt CWE-1395 (requests==2.32.3)",
+    "django_app/notes/views.py CWE-639 (note_detail)",
+    "django_app/notes/views.py CWE-89 (note_search)",
+    "django_app/notes/views.py CWE-79 (greet)",
+    "django_app/settings.py CWE-798 (SECRET_KEY =)",
+    "django_app/settings.py CWE-489 (DEBUG = True)",
+    "django_app/settings.py CWE-1188 (ALLOWED_HOSTS =)",
+    "fastapi_app/main.py CWE-89 (read_item)",
+    "fastapi_app/main.py CWE-79 (greet)",
+    "fastapi_app/main.py CWE-639 (read_order)",
+    "fastapi_app/main.py CWE-942 (app.add_middleware(CORSMiddleware)",
+    "cli_tool/grep_logs.py CWE-78 (main)",
+    "cli_tool/report.py CWE-89 (main)",
+    "js/users.js CWE-89 (app.get(\"/users\")",
+    "js/ping.js CWE-78 (app.get(\"/ping\")",
+    "js/greet.js CWE-79 (app.get(\"/hello\")",
+    "js/calc.js CWE-94 (app.post(\"/calc\")",
+    "js/files.ts CWE-22 (app.get(\"/files/)",
+    "js/redirect.ts CWE-601 (app.get(\"/go\")",
+    "js/package.json CWE-1357 (None)",
+    "java/src/UserServlet.java CWE-89 (protected void doGet)",
+    "java/src/SearchServlet.java CWE-79 (protected void doGet)",
+    "java/src/FileController.java CWE-22 (public String read)",
+    "java/src/FileController.java CWE-78 (public String ping)",
+    "java/src/XmlImport.java CWE-611 (public Document parse)",
+    "gosvc/handlers.go CWE-89 (func userHandler)",
+    "gosvc/handlers.go CWE-78 (func pingHandler)",
+    "gosvc/handlers.go CWE-22 (func fileHandler)",
+    "gosvc/handlers.go CWE-79 (func helloHandler)",
+    "gosvc/handlers.go CWE-400 (http.ListenAndServe)",
+    "gosvc/go.mod CWE-1395 (None)",
+    "templates/page.html CWE-353 (cdn.example-cdn.net)",
+    "templates/page.html CWE-1022 (target=\"_blank\")",
+    "templates/page.html CWE-79 (|safe)",
+    "templates/page.html CWE-352 (<form method=\"post\")"
+   ]
+  },
+  "seconds": 220.6,
+  "sec_per_kloc": 129.8,
+  "tokens_per_kloc": 144076
+ }
+}

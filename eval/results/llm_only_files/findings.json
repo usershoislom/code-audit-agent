@@ -1,0 +1,695 @@
+[
+ {
+  "location": {
+   "file": "requirements.txt",
+   "start_line": 2
+  },
+  "cwe": "CWE-502",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/admin.py",
+   "start_line": 47
+  },
+  "cwe": "CWE-306",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/admin_fixed.py",
+   "start_line": 41
+  },
+  "cwe": "CWE-352",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/invoices.py",
+   "start_line": 45
+  },
+  "cwe": "CWE-639",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/notes.py",
+   "start_line": 53
+  },
+  "cwe": "CWE-639",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/notes_fixed.py",
+   "start_line": 49
+  },
+  "cwe": "CWE-352",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/trap_global_hook.py",
+   "start_line": 15
+  },
+  "cwe": "CWE-287",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "authz/trap_global_hook.py",
+   "start_line": 26
+  },
+  "cwe": "CWE-352",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cli_tool/grep_logs.py",
+   "start_line": 10
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cli_tool/grep_logs_fixed.py",
+   "start_line": 10
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cli_tool/report.py",
+   "start_line": 8
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cmdi/archive.py",
+   "start_line": 14
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cmdi/archive_fixed.py",
+   "start_line": 14
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cmdi/convert.py",
+   "start_line": 13
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "cmdi/ping.py",
+   "start_line": 14
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 6
+  },
+  "cwe": "CWE-798",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 7
+  },
+  "cwe": "CWE-798",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 8
+  },
+  "cwe": "CWE-798",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 12
+  },
+  "cwe": "CWE-327",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "config/settings.py",
+   "start_line": 16
+  },
+  "cwe": "CWE-489",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 2
+  },
+  "cwe": "CWE-798",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 3
+  },
+  "cwe": "CWE-489",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/settings.py",
+   "start_line": 4
+  },
+  "cwe": "CWE-20",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 25
+  },
+  "cwe": "CWE-639",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 32
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "django_app/notes/views.py",
+   "start_line": 47
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 8
+  },
+  "cwe": "CWE-942",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 21
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 27
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "fastapi_app/main.py",
+   "start_line": 40
+  },
+  "cwe": "CWE-639",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 16
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 24
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 30
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "gosvc/handlers.go",
+   "start_line": 36
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "gosvc/handlers_fixed.go",
+   "start_line": 28
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/FileController.java",
+   "start_line": 11
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/FileController.java",
+   "start_line": 16
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/SearchServlet.java",
+   "start_line": 9
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/UserServlet.java",
+   "start_line": 16
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/UserServletFixed.java",
+   "start_line": 15
+  },
+  "cwe": "CWE-772",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/UserServletFixed.java",
+   "start_line": 17
+  },
+  "cwe": "CWE-772",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "java/src/XmlImport.java",
+   "start_line": 8
+  },
+  "cwe": "CWE-611",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/calc.js",
+   "start_line": 6
+  },
+  "cwe": "CWE-94",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/files.ts",
+   "start_line": 8
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/greet.js",
+   "start_line": 6
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/ping.js",
+   "start_line": 7
+  },
+  "cwe": "CWE-78",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/ping_fixed.js",
+   "start_line": 7
+  },
+  "cwe": "CWE-918",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/ping_fixed.js",
+   "start_line": 7
+  },
+  "cwe": "CWE-88",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/redirect.ts",
+   "start_line": 6
+  },
+  "cwe": "CWE-601",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/trap_files_basename.ts",
+   "start_line": 9
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "js/users.js",
+   "start_line": 7
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "logic/checkout.py",
+   "start_line": 12
+  },
+  "cwe": "CWE-20",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "logic/checkout_fixed.py",
+   "start_line": 11
+  },
+  "cwe": "CWE-20",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "logic/checkout_fixed.py",
+   "start_line": 12
+  },
+  "cwe": "CWE-20",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/avatar.py",
+   "start_line": 12
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/denylist.py",
+   "start_line": 15
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/download.py",
+   "start_line": 13
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/download_fixed.py",
+   "start_line": 17
+  },
+  "cwe": "CWE-400",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/prefix_unnormalised.py",
+   "start_line": 16
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/trap_basename.py",
+   "start_line": 13
+  },
+  "cwe": "CWE-22",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/trap_secure_filename.py",
+   "start_line": 14
+  },
+  "cwe": "CWE-400",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "path/trap_secure_filename.py",
+   "start_line": 14
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/injected_comment.py",
+   "start_line": 17
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/orders_concat.py",
+   "start_line": 15
+  },
+  "cwe": "CWE-\uff0c89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/product_routes.py",
+   "start_line": 11
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/repo_layer.py",
+   "start_line": 6
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/report_percent.py",
+   "start_line": 15
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "sqli/user_lookup.py",
+   "start_line": 16
+  },
+  "cwe": "CWE-89",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "ssrf/fetch.py",
+   "start_line": 13
+  },
+  "cwe": "CWE-918",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "ssrf/fetch_fixed.py",
+   "start_line": 16
+  },
+  "cwe": "CWE-918",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "ssrf/fetch_fixed.py",
+   "start_line": 17
+  },
+  "cwe": "CWE-400",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 8
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "templates/page.html",
+   "start_line": 9
+  },
+  "cwe": "CWE-352",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "tests/test_fixtures.py",
+   "start_line": 1
+  },
+  "cwe": "CWE-798",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "xss/comment.py",
+   "start_line": 10
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "xss/greet.py",
+   "start_line": 10
+  },
+  "cwe": "CWE-79",
+  "level": 0,
+  "status": "open"
+ },
+ {
+  "location": {
+   "file": "xss/search_page.py",
+   "start_line": 10
+  },
+  "cwe": "CWE-1336",
+  "level": 0,
+  "status": "open"
+ }
+]

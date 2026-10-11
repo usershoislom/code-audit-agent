@@ -1,0 +1,50 @@
+# HTML and server templates (Jinja/Django/EJS). Pattern rules: no data flow, evidence is the line itself.
+rules:
+  - id: caa.html.sri-missing
+    languages: [generic]
+    paths: {include: ["*.html", "*.htm", "*.jinja", "*.jinja2", "*.j2", "*.ejs"]}
+    severity: WARNING
+    message: Script/stylesheet from another origin loaded without Subresource Integrity.
+    metadata: {cwe: "CWE-353", group: D}
+    patterns:
+      - pattern-regex: <(?:script|link)\b[^>]*(?:src|href)\s*=\s*["']https?://[^"']+["'][^>]*>
+      - pattern-not-regex: integrity\s*=
+
+  - id: caa.html.mixed-content
+    languages: [generic]
+    paths: {include: ["*.html", "*.htm", "*.jinja", "*.jinja2", "*.j2", "*.ejs"]}
+    severity: WARNING
+    message: Script loaded over plain HTTP.
+    metadata: {cwe: "CWE-319", group: D}
+    pattern-regex: <script\b[^>]*src\s*=\s*["']http://[^"']+["']
+
+  - id: caa.html.target-blank
+    languages: [generic]
+    paths: {include: ["*.html", "*.htm", "*.jinja", "*.jinja2", "*.j2", "*.ejs"]}
+    severity: INFO
+    message: Link opens a new tab without rel="noopener" (reverse tabnabbing in old browsers).
+    metadata: {cwe: "CWE-1022", group: D}
+    patterns:
+      - pattern-regex: <a\b[^>]*target\s*=\s*["']_blank["'][^>]*>
+      - pattern-not-regex: rel\s*=\s*["'][^"']*noopener
+
+  - id: caa.html.template-unescaped
+    languages: [generic]
+    paths: {include: ["*.html", "*.htm", "*.jinja", "*.jinja2", "*.j2", "*.ejs"]}
+    severity: WARNING
+    message: Template output with escaping turned off.
+    metadata: {cwe: "CWE-79", group: A}
+    pattern-either:
+      - pattern-regex: \{\{[^}]*\|\s*safe\s*\}\}
+      - pattern-regex: \{%\s*autoescape\s+(?:false|off)\s*%\}
+      - pattern-regex: <%-\s*[^%]+%>
+
+  - id: caa.html.form-no-csrf
+    languages: [generic]
+    paths: {include: ["*.html", "*.htm", "*.jinja", "*.jinja2", "*.j2"]}
+    severity: INFO
+    message: POST form in a Django/Jinja template without a CSRF token.
+    metadata: {cwe: "CWE-352", group: D}
+    patterns:
+      - pattern-regex: (?is)<form\b[^>]*method\s*=\s*["']post["'][^>]*>(?:(?!</form>).)*</form>
+      - pattern-not-regex: (?is)csrf_token|csrfmiddlewaretoken|_csrf

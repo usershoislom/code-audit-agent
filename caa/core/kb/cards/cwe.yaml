@@ -1,0 +1,196 @@
+# Knowledge cards used for triage context (kb_lookup), report mapping and patch hints.
+# ASVS references are to ASVS 4.0.3; OWASP to Top 10 2021.
+- cwe: CWE-89
+  title: "SQL injection"
+  owasp: "A03:2021 Injection"
+  asvs: "V5.3.4"
+  severity: high
+  impact: "Attacker-controlled text changes the structure of the SQL statement (read/modify any row, auth bypass)."
+  sources: ['request.args', 'request.form', 'request.json', 'request.values', 'request.cookies', 'view arguments']
+  sinks: ['cursor.execute', 'connection.execute', 'executescript', 'raw ORM text()']
+  sanitizers: ['parameter binding (execute(sql, params))', 'int()/float() cast', 'allow-list of identifiers']
+  not_sanitizers: ['escaping quotes by hand', 'str.replace("''", "")', 'length checks']
+  fix: "Keep the SQL text constant and pass values as bound parameters; identifiers (column/table) only from an allow-list."
+  property: "The harmless marker must arrive at the driver as a bound parameter, never inside the SQL text."
+
+- cwe: CWE-78
+  title: "OS command injection"
+  owasp: "A03:2021 Injection"
+  asvs: "V5.3.8"
+  severity: high
+  impact: "Shell metacharacters in user input run arbitrary commands with the service's privileges."
+  sources: ['request.args', 'request.form', 'request.json', 'environment of the request']
+  sinks: ['subprocess.* with shell=True', 'os.system', 'os.popen']
+  sanitizers: ['argument list without shell', 'shlex.quote for unavoidable shells', 'strict allow-list / regex fullmatch']
+  not_sanitizers: ['blacklisting '';'' or ''&&''', 'strip()']
+  fix: "Call subprocess with an argument list and shell=False; validate the value against an allow-list."
+  property: "The marker must appear as exactly one argv element and no shell must be involved."
+
+- cwe: CWE-22
+  title: "Path traversal"
+  owasp: "A01:2021 Broken Access Control"
+  asvs: "V12.3.1"
+  severity: high
+  impact: "'../' sequences or absolute paths let a client read or overwrite files outside the intended directory."
+  sources: ['request.args', 'request.form', 'view arguments', 'uploaded filename']
+  sinks: ['open', 'send_file', 'os.remove', 'shutil functions']
+  sanitizers: ['realpath/abspath + commonpath/startswith check against base', 'werkzeug safe_join', 'send_from_directory', 'secure_filename', 'allow-list']
+  not_sanitizers: ['replace(''../'', '''')', 'os.path.basename on only one branch', 'normpath without base check']
+  fix: "Resolve the final path and refuse it unless it stays under the resolved base directory (or use send_from_directory/safe_join)."
+  property: "Whatever the client sends, the resolved path handed to the filesystem stays inside the base directory."
+
+- cwe: CWE-79
+  title: "Cross-site scripting (reflected/stored)"
+  owasp: "A03:2021 Injection"
+  asvs: "V5.3.3"
+  severity: medium
+  impact: "Script injected into a page runs in other users' browsers (session theft, actions on their behalf)."
+  sources: ['request.args', 'request.form', 'stored user content']
+  sinks: ['HTML string returned from a handler', 'make_response(html)', 'render_template_string', 'Markup()']
+  sanitizers: ['markupsafe.escape / html.escape', 'render_template with autoescape', 'int() cast']
+  not_sanitizers: ['removing ''<script>'' only', '|safe filter']
+  fix: "Render through a template with autoescaping, or escape the value with markupsafe.escape before concatenation."
+  property: "An HTML marker sent by the client must come back entity-encoded, never as live markup."
+
+- cwe: CWE-918
+  title: "Server-side request forgery"
+  owasp: "A10:2021 Server-Side Request Forgery"
+  asvs: "V12.6.1"
+  severity: high
+  impact: "The server fetches attacker-chosen URLs, reaching internal services or cloud metadata."
+  sources: ['request.args', 'request.json']
+  sinks: ['requests.get/post', 'urllib.request.urlopen', 'httpx']
+  sanitizers: ['allow-list of hosts after URL parsing', 'fixed base URL with path-only input']
+  not_sanitizers: ['startswith(''http'')', 'blacklist of ''localhost'' strings']
+  fix: "Parse the URL, require scheme https and host in an allow-list, disable redirects to other hosts."
+  property: "Only allow-listed hosts are contacted."
+
+- cwe: CWE-639
+  title: "Insecure direct object reference (authorization bypass through user-controlled key)"
+  owasp: "A01:2021 Broken Access Control"
+  asvs: "V4.2.1"
+  severity: high
+  impact: "A logged-in user reads or changes another user's object by changing an identifier."
+  sources: ['object id in URL path/query/body']
+  sinks: ['lookup by primary key without owner filter']
+  sanitizers: ['filter by owner (owner_id == current_user.id)', 'explicit ownership check followed by abort/403', 'policy decorator']
+  not_sanitizers: ['login_required alone', 'hard-to-guess ids without a check']
+  fix: "Scope the query by the current user (WHERE id = ? AND owner_id = ?) or check ownership and return 404/403."
+  property: "Account B gets 403/404 for account A's object id."
+
+- cwe: CWE-862
+  title: "Missing authorization"
+  owasp: "A01:2021 Broken Access Control"
+  asvs: "V4.1.3"
+  severity: high
+  impact: "A sensitive action can be called without the authentication/role check its sibling endpoints have."
+  sources: ['route without auth decorator or check']
+  sinks: ['state-changing or sensitive handler']
+  sanitizers: ['login_required / role decorator', 'before_request hook covering the blueprint', 'explicit check + abort']
+  not_sanitizers: ['hiding the link in the UI', 'obscure URL']
+  fix: "Apply the same decorator/policy that sibling routes of the resource use."
+  property: "An unauthenticated or low-privilege client receives 401/403."
+
+- cwe: CWE-840
+  title: "Business logic flaw"
+  owasp: "A04:2021 Insecure Design"
+  asvs: "V11.1.4"
+  severity: medium
+  impact: "Price/quantity/coupon rules can be abused (negative quantities, client-supplied prices, replay)."
+  sources: ['client-supplied price', 'quantity', 'coupon code']
+  sinks: ['order total computation', 'balance update']
+  sanitizers: ['server-side price lookup', 'quantity > 0 validation', 'single-use coupon state']
+  not_sanitizers: ['front-end validation only']
+  fix: "Recompute security-relevant values server-side and validate ranges."
+  property: "Requires human review in most cases."
+
+- cwe: CWE-798
+  title: "Hard-coded credentials"
+  owasp: "A07:2021 Identification and Authentication Failures"
+  asvs: "V2.10.4"
+  severity: high
+  impact: "Anyone with the code (or a leaked artifact) holds the credential."
+  sources: ['string literal']
+  sinks: ['config', 'client constructor', 'comparison']
+  sanitizers: ['value read from environment / secret manager', 'obvious placeholder in test fixtures']
+  not_sanitizers: ['base64 encoding']
+  fix: "Remove the literal, rotate the credential, read it from the environment or a secret store."
+  property: "Line inspection is sufficient."
+
+- cwe: CWE-327
+  title: "Broken or risky cryptographic algorithm"
+  owasp: "A02:2021 Cryptographic Failures"
+  asvs: "V6.2.5"
+  severity: medium
+  impact: "MD5/SHA1 used for passwords or integrity can be brute-forced or collided."
+  sources: ['n/a']
+  sinks: ['hashlib.md5', 'hashlib.sha1']
+  sanitizers: ['non-security use (cache key, ETag) with usedforsecurity=False']
+  not_sanitizers: ['adding a static salt']
+  fix: "Use a password KDF (argon2/bcrypt/scrypt/pbkdf2) for passwords and SHA-256+ for integrity."
+  property: "Line inspection is sufficient."
+
+- cwe: CWE-489
+  title: "Active debug code"
+  owasp: "A05:2021 Security Misconfiguration"
+  asvs: "V14.3.2"
+  severity: medium
+  impact: "Werkzeug debugger allows code execution if reachable."
+  sources: ['n/a']
+  sinks: ['app.run(debug=True)']
+  sanitizers: ['guarded by an environment check for local development only']
+  not_sanitizers: []
+  fix: "Drive debug from configuration that is false in production."
+  property: "Line inspection is sufficient."
+
+- cwe: CWE-942
+  title: "Permissive CORS policy"
+  owasp: "A05:2021 Security Misconfiguration"
+  asvs: "V14.5.3"
+  severity: low
+  impact: "Any origin can read responses (critical only together with credentials)."
+  sources: ['n/a']
+  sinks: ['CORS(origins=''*'')', 'Access-Control-Allow-Origin reflection']
+  sanitizers: ['explicit origin allow-list']
+  not_sanitizers: []
+  fix: "Configure an explicit allow-list of origins; never reflect Origin with credentials."
+  property: "Header inspection."
+
+- cwe: CWE-693
+  title: "Missing security headers"
+  owasp: "A05:2021 Security Misconfiguration"
+  asvs: "V14.4.3"
+  severity: low
+  impact: "Missing CSP/HSTS/X-Content-Type-Options weakens browser-side defences."
+  sources: ['n/a']
+  sinks: ['HTTP response']
+  sanitizers: ['headers set by app or reverse proxy']
+  not_sanitizers: []
+  fix: "Set the headers in the app or at the proxy."
+  property: "Header inspection."
+
+- cwe: CWE-1395
+  title: "Dependency on vulnerable third-party component"
+  owasp: "A06:2021 Vulnerable and Outdated Components"
+  asvs: "V14.2.1"
+  severity: medium
+  impact: "A known CVE in a pinned dependency; real impact depends on whether the affected feature is used."
+  sources: ['manifest']
+  sinks: ['import of the package']
+  sanitizers: ['package not imported / affected API not used']
+  not_sanitizers: []
+  fix: "Upgrade to a fixed version."
+  property: "Version match + import fact; never run an exploit."
+
+- cwe: CWE-1427
+  title: "Prompt-injection text in analysed material"
+  owasp: "LLM01:2025 Prompt Injection"
+  asvs: ""
+  severity: low
+  impact: "Text addressed to an AI reviewer tries to suppress findings; treat the surrounding code with extra suspicion."
+  sources: ['comments', 'strings', 'HTTP responses']
+  sinks: ['LLM reviewer']
+  sanitizers: []
+  not_sanitizers: []
+  fix: "Remove the steering text; review the surrounding code manually."
+  property: "Detected deterministically."
