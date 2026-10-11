@@ -97,9 +97,17 @@ def main():
     port = int(spec["port"])
     out = {"started": False, "probes": [], "log": [], "loopback_up": loopback_up()}
     install(spec, out["log"])
+    # "python" in a launch plan means the interpreter this harness runs on (the one with the
+    # agent's dependencies); the sandbox PATH is scrubbed and may hold another python or none at all
+    spec["cmd"] = [sys.executable if c in ("python", "python3") else c for c in spec["cmd"]]
     env = dict(os.environ, PORT=str(port), HOST=LOOPBACK, **(spec.get("env") or {}))
-    proc = subprocess.Popen(spec["cmd"], cwd=spec.get("cwd") or ".", env=env, stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT, text=True)
+    try:
+        proc = subprocess.Popen(spec["cmd"], cwd=spec.get("cwd") or ".", env=env, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, text=True)
+    except OSError as exc:                     # e.g. the runtime (node, go) is not installed in the sandbox
+        out["reason"] = f"cannot start {spec['cmd'][0]!r}: {exc}"
+        sys.stdout.write("CAA_RESULT " + json.dumps(out) + "\n")
+        return
     t0 = time.time()
     try:
         while time.time() - t0 < spec.get("boot_timeout", 40):
