@@ -29,12 +29,19 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {variant: default, build_args: ""}
+          - {variant: full, build_args: "--build-arg WITH_GO=1 --build-arg WITH_NODE=1"}
+    name: docker (${{ matrix.variant }})
     steps:
       - uses: actions/checkout@v4
       - name: Allow unprivileged user namespaces (sandbox inside the container)
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
       - name: Build image
-        run: docker build -t code-audit-agent .
+        run: docker build -t code-audit-agent ${{ matrix.build_args }} .
       - name: Smoke - seeded stand (static)
         run: |
           mkdir -p reports && chmod 777 reports
@@ -59,4 +66,4 @@ jobs:
         run: docker run --rm --security-opt seccomp=unconfined --security-opt apparmor=unconfined --entrypoint python code-audit-agent -m pytest -q -p no:cacheprovider /opt/caa/tests
       - uses: actions/upload-artifact@v4
         if: always()
-        with: {name: smoke-reports, path: reports, retention-days: 7}
+        with: {name: "smoke-reports-${{ matrix.variant }}", path: reports, retention-days: 7}

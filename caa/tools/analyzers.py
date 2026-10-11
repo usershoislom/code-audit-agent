@@ -229,6 +229,9 @@ ALL = [SemgrepAnalyzer(), BanditAnalyzer(), GosecAnalyzer(), GovulncheckAnalyzer
        SecretsAnalyzer(), HygieneAnalyzer()]
 
 
+GO_ONLY = {"gosec", "govulncheck"}
+
+
 def run_all(fs: RepoFS, prof: Profile, only: set[str] | None = None) -> list[AnalyzerResult]:
     results = []
     for a in ALL:
@@ -238,7 +241,8 @@ def run_all(fs: RepoFS, prof: Profile, only: set[str] | None = None) -> list[Ana
             results.append(AnalyzerResult(a.name, status="skipped", note="no matching language in project"))
             continue
         if not a.available():
-            results.append(AnalyzerResult(a.name, status="skipped", note=f"{a.tool} not installed"))
+            hint = " (Docker: uncomment WITH_GO=1 in build.conf)" if a.name in GO_ONLY else ""
+            results.append(AnalyzerResult(a.name, status="skipped", note=f"{a.tool} not installed{hint}"))
             continue
         try:
             results.append(a.run(fs, prof))

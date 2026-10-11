@@ -3,15 +3,31 @@
 #   ./caa.sh scan https://github.com/owner/repo
 #   ./caa.sh scan ./my-app --trust-target --run-app
 #   ./caa.sh rebuild
+# Extra languages for the image (Go tools, Node.js): uncomment lines in build.conf.
 set -euo pipefail
 IMAGE=code-audit-agent
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 REPORTS="$(pwd)/caa-reports"
 
-if [[ "${1:-}" == "rebuild" ]]; then exec docker build -t "$IMAGE" "$ROOT"; fi
+# build options: uncommented WITH_*=... lines of build.conf become --build-arg
+opts=()
+[[ -f "$ROOT/build.conf" ]] && while IFS= read -r line; do
+  [[ "$line" =~ ^[[:space:]]*(WITH_[A-Z_]+)=([^[:space:]]+) ]] && opts+=("${BASH_REMATCH[1]}=${BASH_REMATCH[2]}")
+done < "$ROOT/build.conf"
+want=$(IFS=,; echo "${opts[*]:-default}")
+build() {
+  echo "[caa] building the Docker image ($want) - the first build takes a few minutes..."
+  local args=(build -t "$IMAGE" --build-arg "CAA_BUILD=$want")
+  for o in ${opts[@]+"${opts[@]}"}; do args+=(--build-arg "$o"); done
+  docker "${args[@]}" "$ROOT"
+}
+
+if [[ "${1:-}" == "rebuild" ]]; then build; exit 0; fi
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
-  echo "[caa] building the Docker image (first run, takes a few minutes)..."
-  docker build -t "$IMAGE" "$ROOT"
+  build
+else
+  have=$(docker image inspect -f '{{index .Config.Labels "caa.build"}}' "$IMAGE")
+  [[ "$have" != "$want" ]] && { echo "[caa] build.conf changed ($have -> $want)"; build; }
 fi
 mkdir -p "$REPORTS"
 

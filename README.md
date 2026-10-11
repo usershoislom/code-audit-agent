@@ -21,7 +21,16 @@
 
 ## Быстрый старт: Docker (Windows без WSL, macOS, Linux)
 
-Нужен только [Docker Desktop](https://www.docker.com/products/docker-desktop/). В образе уже есть агент, все сканеры, Go и Node.
+Нужен только [Docker Desktop](https://www.docker.com/products/docker-desktop/). Первая сборка образа занимает около минуты (плюс скачивание базового образа Python).
+
+**Что в образе по умолчанию:** агент и сканеры, которые статически проверяют Python, JS/TS, Java, Go и HTML (opengrep, bandit, gitleaks, osv-scanner). Python-приложения можно запускать в песочнице.
+
+**Опционально** (файл `build.conf`, раскомментируйте строку; при следующем запуске образ пересоберётся сам):
+
+| Строка | Что добавляет | Время сборки |
+|---|---|---|
+| `WITH_GO=1` | gosec, govulncheck и Go: глубже проверка Go-кода, запуск Go-приложений | +3–5 мин |
+| `WITH_NODE=1` | Node.js и npm: запуск JS/TS-приложений с `--run-app` | +1 мин |
 
 **Windows (PowerShell):**
 ```powershell

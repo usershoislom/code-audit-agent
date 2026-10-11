@@ -8,6 +8,8 @@
     .\caa.ps1 scan C:\projects\my-app --trust-target --run-app --sandbox-network egress --install-deps
     .\caa.ps1 rebuild          # rebuild the image after `git pull`
 
+  Extra languages for the image (Go tools, Node.js): uncomment lines in build.conf.
+
   Reports appear in .\caa-reports\<name>-<date>\report.html (open it in a browser).
   A .env file next to this script (model API keys, CAA_GIT_TOKEN for private repos) is passed in.
 #>
@@ -18,16 +20,32 @@ $Image = "code-audit-agent"
 $Root = $PSScriptRoot
 $Reports = Join-Path (Get-Location) "caa-reports"
 
-if ($args.Count -gt 0 -and $args[0] -eq "rebuild") {
-    docker build -t $Image $Root
-    exit $LASTEXITCODE
+# build options: uncommented WITH_*=... lines of build.conf become --build-arg
+$opts = @()
+$confFile = Join-Path $Root "build.conf"
+if (Test-Path $confFile) {
+    foreach ($line in Get-Content $confFile) {
+        if ($line -match '^\s*(WITH_[A-Z_]+)=(\S+)') { $opts += "$($Matches[1])=$($Matches[2])" }
+    }
 }
+$want = if ($opts.Count) { $opts -join "," } else { "default" }
+$buildArgs = @("build", "-t", $Image, "--build-arg", "CAA_BUILD=$want")
+foreach ($o in $opts) { $buildArgs += @("--build-arg", $o) }
+
+function Build-Image {
+    Write-Host "[caa] building the Docker image ($want) - the first build takes a few minutes..."
+    & docker @buildArgs $Root
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
+if ($args.Count -gt 0 -and $args[0] -eq "rebuild") { Build-Image; exit 0 }
 $found = docker images -q $Image
 if ($LASTEXITCODE -ne 0) { Write-Host "[caa] Docker is not running - start Docker Desktop and try again"; exit 1 }
 if (-not $found) {
-    Write-Host "[caa] building the Docker image (first run, takes a few minutes)..."
-    docker build -t $Image $Root
-    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Build-Image
+} else {
+    $have = docker image inspect -f '{{index .Config.Labels "caa.build"}}' $Image
+    if ($have -ne $want) { Write-Host "[caa] build.conf changed ($have -> $want)"; Build-Image }
 }
 New-Item -ItemType Directory -Force -Path $Reports | Out-Null
 
