@@ -70,14 +70,28 @@ def unshare_available() -> bool:
         return False
 
 
+def docker_image_present(image: str) -> bool:
+    try:
+        return subprocess.run(["docker", "image", "inspect", image], capture_output=True, timeout=20).returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+
 class Sandbox:
     def __init__(self, cfg: SandboxConfig):
         self.cfg = cfg
         backend = cfg.backend
         if backend == "auto":
-            backend = "docker" if docker_available() else ("local-unshare" if unshare_available() else "none")
+            # docker only when its sandbox image is already built; a daemon without the image would
+            # make every check "inconclusive"
+            if docker_available() and docker_image_present(cfg.image):
+                backend = "docker"
+            else:
+                backend = "local-unshare" if unshare_available() else "none"
         if backend == "docker" and not docker_available():
             raise SandboxUnavailable("docker backend requested but no docker daemon")
+        if backend == "docker" and not docker_image_present(cfg.image):
+            raise SandboxUnavailable(f"sandbox image {cfg.image} is not built (make sandbox-image)")
         if backend == "local-unshare" and not unshare_available():
             raise SandboxUnavailable("unshare backend requested but user/network namespaces are unavailable")
         if backend == "none":
