@@ -6,39 +6,115 @@
 
 ## Статус
 
-| Часть брифа | Состояние |
+| Часть | Состояние |
 |---|---|
 | Ядро: 6 стадий, сериализуемое состояние, лестница L0–L5, отчёт SARIF + Markdown | готово |
-| Движок CODE (Python/Flask): группы A, B, D, E; L4 — свойство-тесты в песочнице; L5 — патч и повторный скан | готово |
-| Группа C (бизнес-логика) | только через LLM-проход по точкам входа; всегда `needs_human`, не выше L3 |
-| LLM-слой: OpenAI-совместимые провайдеры, маршрутизация по тегу конфиденциальности, structured output | готово; прогнан на Gemma 4 31B (vLLM) по всем строкам абляции |
-| Движок HTTP (живой режим) | **не реализован**, `caa live` — заглушка |
-| Таблица абляций | все 7 строк посчитаны; таблица пересобирается из логов (`--from-logs`) |
+| Автоопределение языков и фреймворков, выбор анализаторов под проект | готово: Python, JavaScript, TypeScript, Java, Go, HTML |
+| Python: Flask, Django, FastAPI, CLI (argparse/click/typer) | готово: свой taint-анализ, карта маршрутов, L4 свойство-тесты, L5 патчи |
+| JS/TS, Java, Go | готово: Opengrep taint-правила с трассами (до L3), gosec/govulncheck для Go; патчей пока нет |
+| Гигиена репозитория (.env в .gitignore, Dockerfile, CI, настройки) | готово |
+| Песочница: без сети или с выходом в интернет; запуск самого приложения и проверки на localhost | готово |
+| LLM-слой (локальная/своя модель и внешний API, маршрутизация конфиденциальности) | готово; прогнан на Gemma 4 31B |
+| Группа C (бизнес-логика) | только через LLM; всегда `needs_human`, не выше L3 |
+| Движок HTTP (живой режим по чужому сайту) | **не реализован**, `caa live` — заглушка |
 
 ## Быстрый старт
 
 ```bash
-pip install -e '.[stand,dev]'        # semgrep, bandit, tree-sitter, flask (для стенда)
-make test                             # 48 тестов: границы, taint, песочница, патчи
-caa scan eval/seeded/repo --own-stand --trust-target --out caa-out/stand
-make eval                             # таблица абляций без модели
-cp .env.example .env && $EDITOR .env  # ключи GROQ_API_KEY / GEMMA_API_KEY
-make eval-llm                         # + строки с моделью
+pip install -e '.[stand,dev]'              # агент + зависимости учебного стенда
+scripts/install_tools.sh                    # сканеры в ИЗОЛИРОВАННЫЙ префикс (закреплённые версии)
+export PATH="$HOME/.local/caa-tools/bin:$PATH"
+make test                                   # тесты
+caa scan path/to/repo                       # чужой код: только статический анализ, модель — локальная
+caa scan path/to/repo --llm                 # + триаж моделью
+caa scan path/to/own-app --trust-target --run-app                       # своё приложение: запустить в песочнице
+caa scan path/to/own-app --trust-target --run-app --sandbox-network egress --install-deps   # ... с интернетом
 ```
 
-Скан чужого кода: `caa scan <repo> [--llm]`. По умолчанию цель считается **чужой** (`third_party`): модель вызывается только локальная, L4 выключен.
+Флаги, которые **исполняют код цели** (`--trust-target`, `--run-app`, `--sandbox-network egress`, `--install-deps`), разрешены только вместе с `--trust-target` — для своего или доверенного кода.
+
+## Языки и инструменты
+
+Сначала `caa/langs.py` строит профиль проекта: языки (по расширениям), фреймворки (по импортам и `package.json`), тип программы (web / cli / library). По профилю `caa/tools/analyzers.py` запускает только подходящие плагины. Пропущенные плагины и причина пропуска записываются в инвентарь.
+
+| Плагин | Языки | Инструмент | Что даёт |
+|---|---|---|---|
+| semgrep | все | **Opengrep** (LGPL), иначе Semgrep CE + наши правила `configs/rules/<язык>.yaml` | поиск; у Opengrep — трассы «источник → сток» в SARIF |
+| bandit | Python | Bandit | второй независимый источник для Python |
+| gosec | Go | gosec | SAST для Go |
+| govulncheck | Go | govulncheck | уязвимые зависимости, **вызов которых реально есть в коде** (нужен `CAA_DEPS_ONLINE=1` или локальная база) |
+| osv | все манифесты | osv-scanner с **офлайн-базой** | уязвимые зависимости PyPI/npm/Go/Maven; список пакетов проекта никуда не отправляется |
+| secrets | все | gitleaks + встроенные правила | ключи и пароли в коде |
+| hygiene | все | встроенные проверки | см. ниже |
+
+Официальные правила Semgrep с декабря 2024 распространяются под некоммерческой лицензией, поэтому в репозитории только свои правила. Сканеры ставятся в отдельный префикс: у них свои закреплённые зависимости (Semgrep, например, конфликтует со свежим FastAPI).
+
+**Глубина проверки по языкам:**
+- **Python** — собственный taint-анализ:
+  - межпроцедурный, с санитайзерами и guard-проверками;
+  - источники: параметры маршрутов Flask/FastAPI/Django, `request.*`, `argparse`, `click`, `typer`, `sys.argv`, `input()`;
+  - карта маршрутов для контроля доступа (`@login_required`, `Depends(get_current_user)`, проверки владельца);
+  - проверки в песочнице (L4) и шаблонные патчи (L5).
+- **JS/TS, Java, Go** — taint-правила Opengrep внутри файла. Трасса цитируется построчно → L2; защитник (тестовый код, источник — запрос фреймворка) → L3. Для этих языков пока нет L4/L5 и потоков между файлами.
+- **HTML-шаблоны** — шаблонные правила: SRI для CDN-скриптов, `target=_blank` без `rel`, `|safe`/`autoescape off`, POST-форма без CSRF-токена.
+
+## Гигиена репозитория
+
+`caa/tools/hygiene.py`; каждая находка указывает на конкретный файл и строку.
+
+| Проверка | Что ищет |
+|---|---|
+| `.env` / ключи / `credentials.json` | файл есть и **не игнорируется** git (`git check-ignore`) или уже **закоммичен** (`git ls-files`) |
+| `.gitignore` | его нет, или он не игнорирует `.env`, хотя проект загружает `.env` |
+| Dockerfile | нет непривилегированного `USER`; образ без версии / `:latest`; `ADD <url>`; секрет в `ENV/ARG`; `COPY .` при наличии `.env` и без `.dockerignore` |
+| Django settings | `DEBUG = True`, `ALLOWED_HOSTS = ['*']`, `*_COOKIE_SECURE = False` |
+| CORS | любой origin вместе с credentials (FastAPI/Starlette/Express) |
+| Зависимости | `requirements.txt` без точных версий; `package.json` без lock-файла |
+| GitHub Actions | `pull_request_target` + checkout кода PR; сторонний action на ветке `@main`; текст issue/PR внутри `run:` |
+
+## Запуск приложения в песочнице
+
+`--run-app` (только с `--trust-target`): `caa/sandbox/app_runner.py` определяет, как поднять приложение, и запускает его в песочнице.
+
+| Как запускается | Команда |
+|---|---|
+| конфиг пользователя `.caa.yaml` | `run: {cmd: [...], port: 8000, health: /}` |
+| Flask | `flask --app` |
+| FastAPI | `uvicorn` |
+| Django | `manage.py runserver` |
+| Node | `npm start` |
+| Go | `go run .` |
+
+Затем `caa/sandbox/runtime_harness.py` выполняет безвредные GET-проверки — **только на 127.0.0.1**, это проверяется в коде:
+- приложение поднялось и отвечает;
+- заголовки безопасности (CSP, X-Content-Type-Options, X-Frame-Options);
+- HTML-маркер возвращается неэкранированным → **L4 для XSS**;
+- кавычка в параметре вызывает трассировку стека, debug-страницу или ошибку SQL, или ломает запрос, который с обычным значением работает → **L4 для SQLi / CWE-209**.
+
+**Сеть:**
+- `none` (по умолчанию) — сети нет вообще; в изолированном пространстве поднимается только `lo`;
+- `egress` — приложение ходит в интернет (свои API, реестры пакетов), `--install-deps` ставит его зависимости внутри песочницы:
+  - Docker: сеть `bridge`, остальные ограничения те же;
+  - запасной `unshare`: процесс использует сеть хоста (слабее, документировано).
+
+Каждый запуск с `egress` пишется в журнал аудита.
+
+**Ограничение:** приложению нужно его реальное окружение (база, конфиги). На стенде база пустая, поэтому проверка SQL через живое приложение часто ничего не показывает. Тогда SQLi подтверждает проверка функции в песочнице.
 
 ## Архитектура
 
 ```
+caa/langs.py       профиль проекта: языки, фреймворки, тип программы
 caa/core/          оркестратор, модели данных, лестница, KB (карточки CWE + BM25), триаж, LLM-слой, аудит
-caa/engine_code/   движок A: taint (source→sink), карта маршрутов + ABSENTIA, патчер, верификация
+caa/engine_code/   движок A: taint Python, карта маршрутов (Flask/FastAPI/Django) + ABSENTIA, патчер, верификация
 caa/engine_http/   движок B: не реализован
-caa/tools/         белый список инструментов: read_file, search, find_symbol, get_callers/callees,
-                   run_sast (Semgrep/Opengrep, Bandit, CodeQL-SARIF), scan_dependencies, scan_secrets, kb_lookup
-caa/sandbox/       песочница (docker --network none / unshare -n + rlimits) и harness свойство-тестов
+caa/tools/         белый список инструментов для модели; analyzers.py (плагины по языкам), sast.py (SARIF),
+                   deps.py (osv-scanner офлайн), secrets_scan.py, hygiene.py
+caa/sandbox/       runner.py (docker / unshare, сеть none|egress), harness.py (свойство-тесты функций),
+                   app_runner.py + runtime_harness.py (запуск приложения и проверки на localhost)
 caa/reports/       SARIF 2.1.0 и Markdown из одной структуры Finding
-configs/           providers.yaml, default.yaml, офлайн-правила Semgrep, офлайн-снимок уязвимостей
+configs/           providers.yaml, default.yaml, правила по языкам, офлайн-снимок уязвимостей
+scripts/           install_tools.sh — сканеры с закреплёнными версиями в изолированный префикс
 eval/              посевной стенд (repo/ + labels.yaml вне repo/), метрики, абляции, results/
 ```
 
@@ -67,7 +143,7 @@ eval/              посевной стенд (repo/ + labels.yaml вне repo/
 
 ### Границы, заданные кодом (и покрытые тестами)
 
-- **Маршрутизация конфиденциальности** (`caa/core/llm/router.py`). «Локальность» провайдера вычисляется из `base_url` (только loopback), а не берётся из флага. Задачи с тегом `TARGET_PRIVATE` уходят только на локальную модель; если её нет — `ConfidentialityViolation`.
+- **Маршрутизация конфиденциальности** (`caa/core/llm/router.py`). «Локальность» провайдера вычисляется из `base_url`: loopback или сервер из вашего списка `self_hosted` в `configs/providers.yaml`. Флага у отдельного провайдера нет. Задачи с тегом `TARGET_PRIVATE` уходят только на локальную модель; если её нет — `ConfidentialityViolation`.
 - **Белый список инструментов**, проверка аргументов pydantic, путь ограничен корнем репозитория, shell отсутствует (`caa/tools/registry.py`).
 - **Проверка ссылок** (`caa/core/citations.py`, `caa/core/triage.py`):
   - непрочитанная ссылка → утверждение отбрасывается;

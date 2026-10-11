@@ -1,6 +1,7 @@
 .PHONY: install test eval eval-llm scan-stand sandbox-image
 install:
 	pip install -e '.[stand,dev]'
+	scripts/install_tools.sh
 test:
 	python -m pytest -q tests
 eval:            ## deterministic rows of the ablation table
