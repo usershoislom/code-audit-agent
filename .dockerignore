@@ -1,0 +1,9 @@
+.git
+.env
+.venv
+**/__pycache__
+**/*.pyc
+caa-out
+caa-reports
+eval/results
+*.egg-info

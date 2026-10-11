@@ -16,22 +16,76 @@
 | Песочница: без сети или с выходом в интернет; запуск самого приложения и проверки на localhost | готово |
 | LLM-слой (локальная/своя модель и внешний API, маршрутизация конфиденциальности) | готово; прогнан на Gemma 4 31B |
 | Группа C (бизнес-логика) | только через LLM; всегда `needs_human`, не выше L3 |
+| Загрузка репозитория по ссылке, полный отчёт (HTML + Markdown), Docker-образ | готово |
 | Движок HTTP (живой режим по чужому сайту) | **не реализован**, `caa live` — заглушка |
 
-## Быстрый старт
+## Быстрый старт: Docker (Windows без WSL, macOS, Linux)
 
+Нужен только [Docker Desktop](https://www.docker.com/products/docker-desktop/). В образе уже есть агент, все сканеры, Go и Node.
+
+**Windows (PowerShell):**
+```powershell
+git clone https://github.com/usershoislom/code-audit-agent.git
+cd code-audit-agent
+.\caa.ps1 scan https://github.com/owner/repo          # первый запуск сам соберёт образ (несколько минут)
+```
+Если PowerShell не даёт запускать скрипты: `powershell -ExecutionPolicy Bypass -File .\caa.ps1 scan ...`.
+
+**macOS / Linux:**
 ```bash
-pip install -e '.[stand,dev]'              # агент + зависимости учебного стенда
-scripts/install_tools.sh                    # сканеры в ИЗОЛИРОВАННЫЙ префикс (закреплённые версии)
-export PATH="$HOME/.local/caa-tools/bin:$PATH"
-make test                                   # 68 тестов
-caa scan path/to/repo                       # чужой код: только статический анализ, модель — локальная
-caa scan path/to/repo --llm                 # + триаж моделью
-caa scan path/to/own-app --trust-target --run-app                       # своё приложение: запустить в песочнице
-caa scan path/to/own-app --trust-target --run-app --sandbox-network egress --install-deps   # ... с интернетом
+./caa.sh scan https://github.com/owner/repo
 ```
 
-Флаги, которые **исполняют код цели** (`--trust-target`, `--run-app`, `--sandbox-network egress`, `--install-deps`), разрешены только вместе с `--trust-target` — для своего или доверенного кода.
+**Что можно сканировать:**
+
+| Команда | Что делает |
+|---|---|
+| `.\caa.ps1 scan https://github.com/owner/repo` | репозиторий по ссылке |
+| `.\caa.ps1 scan owner/repo --ref develop` | короткая форма + ветка или тег |
+| `.\caa.ps1 scan C:\projects\my-app` | папка на компьютере (подключается только для чтения) |
+| `.\caa.ps1 scan owner/repo --llm` | + разбор находок моделью (ключи из `.env`) |
+| `.\caa.ps1 scan C:\projects\my-app --trust-target --run-app` | своё приложение: проверки в песочнице и запуск приложения |
+| `... --sandbox-network egress --install-deps` | то же, но приложению разрешён интернет и установка зависимостей |
+| `.\caa.ps1 rebuild` | пересобрать образ после `git pull` |
+
+**Отчёт** появляется в `caa-reports\<имя>-<дата>\`:
+- **`report.html`** — полный отчёт, открывается в браузере. В нём:
+  - сводка: цель, коммит, режим, длительность;
+  - обзор рисков по серьёзности, группам, уровням и языкам;
+  - «что исправить первым»;
+  - профиль проекта;
+  - какие проверки выполнены и какие пропущены (с причиной);
+  - запуск приложения;
+  - все находки целиком: путь данных, доказательства, что **не** проверено, патч;
+  - снятые кандидаты со строкой защиты;
+  - ограничения прогона;
+- `report.md` — то же в Markdown;
+- `report.sarif` — для IDE и CI;
+- `run.json`, `audit.jsonl`, `state/` — журнал и промежуточные результаты.
+
+В конце скана в консоль выводится краткая сводка. Язык заголовков: `--report-lang ru|en`, по умолчанию `ru`.
+
+**Модель и приватные репозитории** — файл `.env` рядом с `caa.ps1`:
+```
+GEMMA_API_KEY=...
+GROQ_API_KEY=...
+CAA_GIT_TOKEN=...          # только для приватных репозиториев; передаётся заголовком, не попадает в URL и отчёты
+```
+Если модель запущена на этом же компьютере (Ollama и т. п.), в `configs/providers.yaml` укажите адрес `http://host.docker.internal:11434/v1`. Этот адрес считается локальным.
+
+**Безопасность загрузки по ссылке.** Принимаются только `https://`-адреса. git разрешён только протокол https. Клонируется одна ветка без истории и без подмодулей. Скачанный код по умолчанию считается **чужим**: никакого его исполнения, модель — только локальная или ваша собственная.
+
+## Без Docker (Linux)
+
+```bash
+pip install -e '.[stand,dev]'
+scripts/install_tools.sh && export PATH="$HOME/.local/caa-tools/bin:$PATH"
+make test
+caa scan https://github.com/owner/repo
+caa scan path/to/own-app --trust-target --run-app
+```
+
+Флаги, которые **исполняют код цели** (`--run-app`, `--sandbox-network egress`, `--install-deps`), работают только вместе с `--trust-target` — для своего или доверенного кода.
 
 ## Языки и инструменты
 
