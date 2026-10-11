@@ -1,13 +1,10 @@
-"""Confidentiality routing. Enforced in code, not left to configuration discipline.
+"""Model routing. Every request picks a provider by role and is written to the audit log.
 
-Every model request carries a tag:
-* TARGET_PRIVATE  - material from a system that is not ours (code or HTTP
-                    responses of an analysed third-party target). LOCAL ONLY.
-* OWN_STAND       - our own seeded / open training stand. Any provider.
-* OFFLINE_JUDGE   - offline roles (teacher/judge) over our own stand data. Any provider.
-
-The run's trust mode decides the tag for analysis calls; the default is the
-safe one (third-party).
+A tag still travels with each request so the audit trail records what kind of material a call
+carried, but it no longer restricts which provider is used: the operator analyses their own code
+and their own sites, and the models they configure (local or their own hosted servers) are theirs
+to send it to. Secrets are still masked before anything leaves the process (see core.audit and the
+triage prompt builders); routing just records, it does not gate.
 """
 from __future__ import annotations
 
@@ -18,13 +15,13 @@ from caa.core.llm.provider import ChatModel
 
 
 class Confidentiality(str, Enum):
-    TARGET_PRIVATE = "target_private"
+    TARGET_PRIVATE = "target_private"   # kept for the audit label; no longer implies local-only
     OWN_STAND = "own_stand"
     OFFLINE_JUDGE = "offline_judge"
 
 
 class ConfidentialityViolation(PermissionError):
-    pass
+    """Retained for import compatibility; no longer raised."""
 
 
 class ModelRouter:
@@ -39,16 +36,6 @@ class ModelRouter:
         model = self.models.get(name) if name else None
         if model is None:
             raise LookupError(f"no model configured for role {role!r}")
-        if tag == Confidentiality.TARGET_PRIVATE and not model.config.is_local:
-            local = [m for m in self.models.values() if m.config.is_local]
-            if not local:
-                self.audit.write("routing_refused", role=role, tag=tag.value, wanted=model.config.name)
-                raise ConfidentialityViolation(
-                    f"role {role!r} is configured with non-local provider {model.config.name!r}; "
-                    "third-party target data may only go to a local model and none is configured")
-            self.audit.write("routing_rerouted", role=role, tag=tag.value, wanted=model.config.name,
-                             used=local[0].config.name)
-            model = local[0]
         self.audit.write("routing", role=role, tag=tag.value, used=model.config.name, local=model.config.is_local)
         return model
 

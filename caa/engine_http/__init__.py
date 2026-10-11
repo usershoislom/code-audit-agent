@@ -1,4 +1,6 @@
-"""Engine B (HTTP, black box) - not implemented in this build.
+"""Engine HTTP (black box): passive, read-only security checks of a live website from its URL.
 
-The `caa live` command is disabled until this engine is written and reviewed.
+See scanner.WebScan. The `caa live` command drives it. It never attacks the target: GET/HEAD only,
+same-origin, a fixed request budget, no payloads. The operator must confirm they are authorised to
+test the target.
 """

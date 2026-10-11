@@ -68,3 +68,15 @@ def test_template_patches_are_minimal(stand, rel, needle, cwe, must):
     assert must.replace("'", '"') in new.replace("'", '"')
     changed = [ln for ln in unified_diff(rel, old, new).splitlines() if ln[:1] in "+-" and ln[:3] not in ("+++", "---")]
     assert len(changed) <= 30
+
+
+def test_auto_backend_skips_docker_without_sandbox_image(monkeypatch):
+    import caa.sandbox.runner as r
+    monkeypatch.setattr(r, "docker_available", lambda: True)
+    monkeypatch.setattr(r, "docker_image_present", lambda image: False)
+    monkeypatch.setattr(r, "unshare_available", lambda: True)
+    assert Sandbox(SandboxConfig()).backend == "local-unshare"
+    with pytest.raises(SandboxUnavailable, match="not built"):
+        Sandbox(SandboxConfig(backend="docker"))
+    monkeypatch.setattr(r, "docker_image_present", lambda image: True)
+    assert Sandbox(SandboxConfig()).backend == "docker"

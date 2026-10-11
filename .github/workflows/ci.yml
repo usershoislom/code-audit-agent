@@ -1,0 +1,69 @@
+name: ci
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-go@v5
+        with: {go-version: "1.24", cache: false}
+      - name: Install analyzers (isolated prefix)
+        run: |
+          scripts/install_tools.sh "$HOME/.local/caa-tools"
+          echo "$HOME/.local/caa-tools/bin" >> "$GITHUB_PATH"
+      - name: Allow unprivileged user namespaces (sandbox backend; Ubuntu 24.04 restricts them via AppArmor)
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+      - name: Install agent
+        run: pip install -e '.[stand,dev]'
+      - name: Tests
+        run: python -m pytest -q -p no:cacheprovider tests
+
+  docker:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {variant: default, build_args: ""}
+          - {variant: full, build_args: "--build-arg WITH_GO=1 --build-arg WITH_NODE=1"}
+    name: docker (${{ matrix.variant }})
+    steps:
+      - uses: actions/checkout@v4
+      - name: Allow unprivileged user namespaces (sandbox inside the container)
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+      - name: Build image
+        run: docker build -t code-audit-agent ${{ matrix.build_args }} .
+      - name: Smoke - seeded stand (static)
+        run: |
+          mkdir -p reports && chmod 777 reports
+          docker run --rm -v "$PWD/reports:/out" code-audit-agent scan /opt/caa/eval/seeded/repo --own-stand --out /out/stand
+          test -s reports/stand/report.html && test -s reports/stand/report.md && test -s reports/stand/report.sarif
+      - name: Smoke - repository by URL
+        run: |
+          docker run --rm -v "$PWD/reports:/out" code-audit-agent scan pallets/markupsafe --out /out/markupsafe
+          test -s reports/markupsafe/report.html
+      - name: Smoke - sandbox and app runner inside the container
+        run: |
+          docker run --rm --security-opt seccomp=unconfined --security-opt apparmor=unconfined -v "$PWD/reports:/out" code-audit-agent \
+            scan /opt/caa/eval/seeded/repo/xss --trust-target --run-app --out /out/sandbox
+          grep -q "runtime" reports/sandbox/run.json
+          python3 - <<'PY'
+          import json
+          inv = json.load(open("reports/sandbox/state/01-inventory.json"))
+          started = [a for a in inv.get("runtime", []) if a.get("started")]
+          print("apps started:", len(started)); assert started, inv.get("runtime")
+          PY
+      - name: Tests inside the image
+        run: docker run --rm --security-opt seccomp=unconfined --security-opt apparmor=unconfined --entrypoint python code-audit-agent -m pytest -q -p no:cacheprovider /opt/caa/tests
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: "smoke-reports-${{ matrix.variant }}", path: reports, retention-days: 7}

@@ -49,6 +49,6 @@ def test_running_app_reflection_without_network(tmp_path):
     plan = detect_plans(RepoFS(tmp_path))[0]
     plan.probes = [{"kind": "reflect", "path": "/hello", "param": "name"}]
     res = sb.run_app(tmp_path, plan.spec(), timeout=60)
-    assert res["started"] and res["loopback_up"]
+    assert res.get("started") and res.get("loopback_up"), {k: res.get(k) for k in ("reason", "output_tail", "exit_code")}
     reflect = next(p for p in res["probes"] if p["kind"] == "reflect")
     assert reflect["raw_reflected"] is True
