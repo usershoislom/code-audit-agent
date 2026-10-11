@@ -28,6 +28,7 @@ class PipelineOptions:
     use_llm_entrypoints: bool = False
     use_rag: bool = True              # knowledge card in the triage prompt
     use_dynamic: bool = False         # L4 (sandbox) - trusted code only
+    use_runtime: bool = False         # start the app in the sandbox + runtime probes - trusted code only
     use_patch: bool = True
     triage_budget: int = 6
     llm_concurrency: int = 8
@@ -86,6 +87,7 @@ class Orchestrator:
         self.stats["candidates"] = len(cands)
         self.stats["findings_initial"] = len(findings)
         self._save(2, "candidates", [f.model_dump() for f in findings])
+        self._save(1, "inventory", inv)          # re-saved: generation adds analyzer status
         # 3. context
         contexts: dict[str, ContextSlice] = {}
 
@@ -128,6 +130,12 @@ class Orchestrator:
                     eng.dynamic(f)
                 _finalise(f, self.kb)
         self._timed("verify", stage_verify)
+        if o.use_runtime:
+            new = self._timed("runtime", lambda: eng.runtime(findings, inv))
+            for f in new:
+                _finalise(f, self.kb)
+            findings += new
+            self._save(1, "inventory", inv)
         self._save(5, "verified", [f.model_dump() for f in findings])
         # 6. patch
         if o.use_patch:

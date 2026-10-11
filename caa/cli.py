@@ -55,20 +55,27 @@ def cmd_scan(args) -> int:
     out = Path(args.out or f"caa-out/{time.strftime('%Y%m%d-%H%M%S')}")
     audit = AuditLog(out / "audit.jsonl")
     sandbox = None
+    if (args.run_app or args.sandbox_network == "egress" or args.install_deps) and not args.trust_target:
+        print("[caa] --run-app / --sandbox-network egress / --install-deps execute the target's code: "
+              "add --trust-target (own or trusted code only)", file=sys.stderr)
+        return 2
     if args.trust_target:
         sc = cfg.get("sandbox", {})
         try:
             sandbox = Sandbox(SandboxConfig(backend=args.sandbox or sc.get("backend", "auto"),
                                             image=sc.get("image", "caa-sandbox:latest"),
-                                            timeout_s=sc.get("timeout_s", 20), memory_mb=sc.get("memory_mb", 512)))
+                                            timeout_s=sc.get("timeout_s", 20), memory_mb=sc.get("memory_mb", 512),
+                                            network=args.sandbox_network))
         except SandboxUnavailable as exc:
             print(f"[caa] L4 disabled: {exc}", file=sys.stderr)
     kb = KnowledgeBase()
     engine = CodeEngine(Path(args.repo), kb, sandbox=sandbox, audit=audit,
-                        codeql_sarif=Path(args.codeql_sarif) if args.codeql_sarif else None)
+                        codeql_sarif=Path(args.codeql_sarif) if args.codeql_sarif else None,
+                        install_deps=args.install_deps)
     llm_cfg = cfg.get("llm", {})
     opts = PipelineOptions(use_llm_triage=args.llm, use_llm_entrypoints=args.llm and llm_cfg.get("entrypoint_pass", True),
-                           use_dynamic=sandbox is not None, triage_budget=llm_cfg.get("triage_tool_budget", 6),
+                           use_dynamic=sandbox is not None, use_runtime=sandbox is not None and args.run_app,
+                           triage_budget=llm_cfg.get("triage_tool_budget", 6),
                            target_trust="own_stand" if args.own_stand else cfg.get("target_trust", "third_party"),
                            use_patch=not args.no_patch)
     res = Orchestrator(engine, kb, opts, out, router=_router(args, audit), audit=audit).run()
@@ -97,6 +104,12 @@ def main(argv=None) -> int:
     s.add_argument("--trust-target", action="store_true",
                    help="code is trusted (own stand): allow L4 property checks in the sandbox")
     s.add_argument("--sandbox", choices=["auto", "docker", "local-unshare"])
+    s.add_argument("--run-app", action="store_true",
+                   help="start the application(s) in the sandbox and run localhost-only runtime checks")
+    s.add_argument("--sandbox-network", choices=["none", "egress"], default="none",
+                   help="egress lets the sandboxed app reach the internet (its APIs, package registries)")
+    s.add_argument("--install-deps", action="store_true",
+                   help="install the app's dependencies inside the sandbox before starting it (needs egress)")
     s.add_argument("--codeql-sarif")
     s.add_argument("--no-patch", action="store_true")
     s.set_defaults(fn=cmd_scan)

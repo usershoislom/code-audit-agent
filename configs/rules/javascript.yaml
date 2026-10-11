@@ -1,0 +1,263 @@
+# JavaScript / TypeScript (Node: Express/Koa/Next API routes). Taint mode -> traces become L2 evidence.
+# (YAML anchors expanded: the Semgrep parser does not support aliases)
+rules:
+- id: caa.js.sqli.taint
+  languages:
+  - javascript
+  - typescript
+  severity: ERROR
+  message: Request data reaches a SQL query string.
+  metadata:
+    cwe: CWE-89
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sanitizers:
+  - pattern: parseInt(...)
+  - pattern: Number(...)
+  - pattern: parseFloat(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: $DB.query($Q, ...)
+      - pattern: $DB.execute($Q, ...)
+      - pattern: $DB.raw($Q, ...)
+      - pattern: $DB.$queryRawUnsafe($Q, ...)
+    - focus-metavariable: $Q
+- id: caa.js.cmdi.taint
+  languages:
+  - javascript
+  - typescript
+  severity: ERROR
+  message: Request data reaches a shell command.
+  metadata:
+    cwe: CWE-78
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sanitizers:
+  - pattern: parseInt(...)
+  - pattern: Number(...)
+  - pattern: parseFloat(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: exec($C, ...)
+      - pattern: execSync($C, ...)
+      - pattern: $CP.exec($C, ...)
+      - pattern: $CP.execSync($C, ...)
+      - pattern: '$CP.spawn($C, ..., {..., shell: true, ...})'
+    - focus-metavariable: $C
+- id: caa.js.path.taint
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: Request data is used as a file path.
+  metadata:
+    cwe: CWE-22
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sanitizers:
+  - pattern: parseInt(...)
+  - pattern: $PATH.basename(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: $FS.readFile($P, ...)
+      - pattern: $FS.readFileSync($P, ...)
+      - pattern: $FS.createReadStream($P, ...)
+      - pattern: $FS.writeFile($P, ...)
+      - pattern: $FS.unlink($P, ...)
+      - pattern: $RES.sendFile($P, ...)
+      - pattern: $RES.download($P, ...)
+    - focus-metavariable: $P
+- id: caa.js.xss.taint
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: Request data is written into an HTML response without escaping.
+  metadata:
+    cwe: CWE-79
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sanitizers:
+  - pattern: parseInt(...)
+  - pattern: Number(...)
+  - pattern: escape(...)
+  - pattern: escapeHtml(...)
+  - pattern: $X.escape(...)
+  - pattern: encodeURIComponent(...)
+  - pattern: DOMPurify.sanitize(...)
+  - pattern: JSON.stringify(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: $RES.send($X)
+      - pattern: $RES.write($X)
+      - pattern: $RES.end($X)
+    - focus-metavariable: $X
+- id: caa.js.ssrf.taint
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: Request data decides the URL of an outbound request.
+  metadata:
+    cwe: CWE-918
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: fetch($U, ...)
+      - pattern: axios.get($U, ...)
+      - pattern: axios.post($U, ...)
+      - pattern: axios($U, ...)
+      - pattern: $HTTP.get($U, ...)
+      - pattern: got($U, ...)
+    - focus-metavariable: $U
+- id: caa.js.code-injection.taint
+  languages:
+  - javascript
+  - typescript
+  severity: ERROR
+  message: Request data is evaluated as code.
+  metadata:
+    cwe: CWE-94
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: eval($X)
+      - pattern: new Function(..., $X)
+      - pattern: $VM.runInNewContext($X, ...)
+      - pattern: $VM.runInThisContext($X, ...)
+    - focus-metavariable: $X
+- id: caa.js.open-redirect.taint
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: Request data decides the redirect target.
+  metadata:
+    cwe: CWE-601
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern: $REQ.query
+      - pattern: $REQ.body
+      - pattern: $REQ.params
+      - pattern: $REQ.cookies
+      - pattern: $REQ.headers
+      - pattern: $CTX.request.body
+      - pattern: $CTX.query
+    - metavariable-regex:
+        metavariable: $REQ
+        regex: ^(req|request)$
+  pattern-sinks:
+  - patterns:
+    - pattern: $RES.redirect($U)
+    - focus-metavariable: $U
+- id: caa.js.tls.reject-unauthorized
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: TLS certificate verification disabled.
+  metadata:
+    cwe: CWE-295
+    group: D
+  pattern-either:
+  - pattern: '{..., rejectUnauthorized: false, ...}'
+  - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+- id: caa.js.secrets.hardcoded
+  languages:
+  - javascript
+  - typescript
+  severity: WARNING
+  message: Credential-like value hard-coded in source.
+  metadata:
+    cwe: CWE-798
+    group: D
+  pattern-regex: (?i)\b(?:password|passwd|secret|api_?key|auth_?token|access_?token|jwt_?secret)\s*[:=]\s*['"][^'"\s]{8,}['"]

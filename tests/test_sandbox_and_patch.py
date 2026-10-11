@@ -33,6 +33,8 @@ def test_docker_command_is_locked_down():
     sb = Sandbox.__new__(Sandbox)
     sb.cfg = SandboxConfig()
     cmd = " ".join(sb.command_docker(Path("/w"), Path("/h")))
+    online = " ".join(sb.command_docker(Path("/w"), Path("/h"), network="egress"))
+    assert "--network bridge" in online and "--cap-drop ALL" in online and "--user 65534" in online
     for flag in ("--network none", "--read-only", "--cap-drop ALL", "no-new-privileges", "--user 65534",
                  "/w:/src:ro", "--rm", "--pids-limit"):
         assert flag in cmd

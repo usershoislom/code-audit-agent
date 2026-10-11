@@ -10,7 +10,9 @@ import yaml
 # CWEs that describe the same flaw for matching purposes.
 EQUIV = [{"CWE-639", "CWE-862", "CWE-285", "CWE-863", "CWE-306"}, {"CWE-798", "CWE-259", "CWE-321"},
          {"CWE-327", "CWE-328", "CWE-916"}, {"CWE-1395", "CWE-1104", "CWE-937"}]
-EXCLUDED = {"CWE-1427"}   # agent-safety items are reported separately
+# Reported separately, not in precision/recall: agent-safety items and runtime-only observations
+# (missing security headers / error pages of the sandboxed apps are true for every stand app but unlabelled).
+EXCLUDED = {"CWE-1427", "CWE-693", "CWE-209"}
 
 
 def same_class(a: str, b: str) -> bool:
@@ -27,9 +29,11 @@ def load_labels(path: Path, repo: Path) -> list[dict]:
             fn = next(n for n in ast.walk(tree) if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
                       and n.name == lab["function"])
             lo, hi = fn.lineno - len(fn.decorator_list), fn.end_lineno
+        elif "line" in lab:
+            lo = hi = lab["line"]
         else:
             ln = next(i for i, t in enumerate(src.splitlines(), 1) if lab["anchor"] in t)
-            lo = hi = ln
+            lo, hi = ln, ln + lab.get("span", 0)
         labels.append({**lab, "lo": lo, "hi": hi})
     return labels
 

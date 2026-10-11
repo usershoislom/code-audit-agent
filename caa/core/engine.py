@@ -47,6 +47,10 @@ class EvidenceEngine(ABC):
     def verify(self, finding: Finding, ctx: ContextSlice) -> None:
         """Deterministic ladder steps L1-L3 (+ refutations with verified references)."""
 
+    def runtime(self, findings: list[Finding], inventory: dict) -> list[Finding]:
+        """Start the application in the sandbox and run localhost-only probes. Returns new findings."""
+        return []
+
     def dynamic(self, finding: Finding) -> None:
         """L4: harmless dynamic confirmation (property check / two-own-accounts diff)."""
 

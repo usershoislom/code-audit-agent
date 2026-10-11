@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdn.example-cdn.net/lib/chart.min.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a href="https://partner.example.org" target="_blank" rel="noopener noreferrer">Partner</a>
+  <div class="comment">{{ comment }}</div>
+  <form method="post" action="/profile">
+    {% csrf_token %}
+    <input name="email">
+    <button type="submit">Save</button>
+  </form>
+</body>
+</html>

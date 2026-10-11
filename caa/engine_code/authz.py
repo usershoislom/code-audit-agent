@@ -10,18 +10,27 @@ from __future__ import annotations
 import ast
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from caa.core.models import Candidate, Group, Location, Ref
 from caa.engine_code.taint import ROUTE_DECOS, _call_name, _dotted, route_params
 from caa.tools.fs import RepoFS
 
 AUTH_DECORATOR = re.compile(r"(login_required|auth_required|jwt_required|requires_auth|admin_required|"
-                            r"roles?_required|permission_required|role_required|authenticated|staff_member_required)")
+                            r"roles?_required|permission_required|role_required|authenticated|staff_member_required|"
+                            r"user_passes_test)")
+# FastAPI: a dependency whose name says it authenticates the caller
+AUTH_DEPENDENCY = re.compile(r"Depends\(\s*(?:\w+\.)*(get_current_\w+|current_user|require_\w+|auth\w*|verify_\w*token\w*|"
+                             r"get_user|oauth2_scheme|security)\b")
+NON_INPUT_ANNOTATIONS = re.compile(r"^(Request|Response|BackgroundTasks|Session|AsyncSession|WebSocket|HTTPConnection)$")
 OWNER_WORDS = re.compile(r"\b(owner|owner_id|user_id|author|author_id|created_by|account_id|tenant_id)\b")
 CURRENT_USER = re.compile(r"(current_user|g\.user|session\[['\"]user(?:_id)?['\"]\]|session\.get\(['\"]user(?:_id)?['\"]\)|"
-                          r"request\.user|get_current_user\(\)|uid\b|me\.id)")
+                          r"request\.user|get_current_user\(\)|uid\b|me\.id|\buser\[['\"]id['\"]\]|\buser\.id\b)")
 PUBLIC_NAMES = re.compile(r"(login|logout|register|signup|index|home|health|status|static|public|about|ping|docs)", re.I)
-LOOKUP_CALLS = {"get", "get_or_404", "first_or_404", "filter_by", "filter", "execute", "find", "find_one", "load", "fetch"}
+LOOKUP_CALLS = {"get", "get_or_404", "first_or_404", "filter_by", "filter", "execute", "find", "find_one", "load", "fetch",
+                "get_object_or_404"}
+DJANGO_PATH = re.compile(r"^(?:re_)?path$")
+FASTAPI_PATH_PARAM = re.compile(r"\{([A-Za-z_]\w*)(?::[^}]*)?\}")
 INLINE_AUTH = re.compile(r"(current_user\.is_authenticated|['\"]user(?:_id)?['\"]\s+not\s+in\s+session|"
                          r"session\.get\(['\"]user(?:_id)?['\"]\)\s+is\s+None|not\s+g\.user|abort\(401\))")
 
@@ -40,17 +49,18 @@ class Route:
     ownership: list[Ref] = field(default_factory=list)        # ownership check / owner-scoped query
     forbidden_exit: list[Ref] = field(default_factory=list)   # abort(403/404) after a comparison
     end_line: int = 0
+    framework: str = "flask"
 
     @property
     def resource(self) -> str:
-        parts = [p for p in self.path.strip("/").split("/") if p and not p.startswith("<")]
+        parts = [p for p in self.path.strip("/").split("/") if p and not p.startswith(("<", "{"))]
         if not parts:
             return "/"
         n = 2 if parts[0] in ("api", "v1", "v2", "v3") else 1
         return "/".join(parts[:n])
 
     def to_dict(self) -> dict:
-        return {"file": self.file, "func": self.func, "line": self.line, "path": self.path,
+        return {"file": self.file, "func": self.func, "line": self.line, "path": self.path, "framework": self.framework,
                 "methods": self.methods, "params": self.params, "auth": bool(self.auth),
                 "lookup_by_id": bool(self.lookups), "ownership_check": bool(self.ownership)}
 
@@ -104,14 +114,99 @@ def build_route_map(fs: RepoFS) -> RouteMap:
                 for k in dnode.keywords:
                     if k.arg == "methods" and isinstance(k.value, (ast.List, ast.Tuple)):
                         methods = [str(e.value).upper() for e in k.value.elts if isinstance(e, ast.Constant)]
+            fastapi = bool(re.search(r"^\s*(?:from fastapi\b|import fastapi\b)", src, re.M))
+            params = sorted(input_params(node) if fastapi else route_params(node))
             r = Route(file=rel, func=node.name, line=node.lineno, deco_line=dnode.lineno, path=path,
-                      methods=methods, params=sorted(route_params(node)), end_line=node.end_lineno or node.lineno)
+                      methods=methods, params=params, end_line=node.end_lineno or node.lineno,
+                      framework="fastapi" if fastapi else "flask")
             for d, dn in zip(decos, node.decorator_list):
                 if AUTH_DECORATOR.search(d):
                     r.auth = Ref(file=rel, line=dn.lineno, note=f"@{d}")
+            if fastapi and r.auth is None:
+                dep = _fastapi_auth(node, dnode)
+                if dep is not None:
+                    r.auth = Ref(file=rel, line=dep.lineno, note=f"dependency {_dotted(dep)[:60]}")
             _analyse_body(rel, node, lines, r)
             routes.append(r)
+    routes += _django_routes(fs)
     return RouteMap(routes, global_auth)
+
+
+def input_params(func: ast.FunctionDef) -> set[str]:
+    """FastAPI: every parameter that is not a dependency or a framework object comes from the client."""
+    out = set()
+    args = func.args.args + func.args.kwonlyargs
+    defaults = [None] * (len(func.args.args) - len(func.args.defaults)) + list(func.args.defaults) + \
+        list(func.args.kw_defaults)
+    for a, d in zip(args, defaults):
+        if a.arg in ("self", "cls"):
+            continue
+        if d is not None and isinstance(d, ast.Call) and _call_name(d) in ("Depends", "Security"):
+            continue
+        ann = _dotted(a.annotation) if a.annotation is not None else ""
+        if NON_INPUT_ANNOTATIONS.match(ann.split(".")[-1]) or "Depends(" in ann:
+            continue
+        out.add(a.arg)
+    return out
+
+
+def _fastapi_auth(func: ast.FunctionDef, deco: ast.AST) -> ast.AST | None:
+    for d in list(func.args.defaults) + [x for x in func.args.kw_defaults if x is not None]:
+        if AUTH_DEPENDENCY.search(_dotted(d)):
+            return d
+    for a in func.args.args + func.args.kwonlyargs:
+        if a.annotation is not None and AUTH_DEPENDENCY.search(_dotted(a.annotation)):
+            return a.annotation
+    if isinstance(deco, ast.Call):
+        for k in deco.keywords:
+            if k.arg == "dependencies" and AUTH_DEPENDENCY.search(_dotted(k.value)):
+                return k.value
+    return None
+
+
+def _django_routes(fs: RepoFS) -> list[Route]:
+    """Django function views registered in urls.py via path()/re_path()."""
+    out: list[Route] = []
+    for urls in fs.iter_files("urls.py"):
+        try:
+            tree = ast.parse(fs.resolve(urls).read_text(encoding="utf-8"))
+        except (SyntaxError, OSError, UnicodeDecodeError):
+            continue
+        base = Path(urls).parent
+        for call in ast.walk(tree):
+            if not (isinstance(call, ast.Call) and DJANGO_PATH.match(_call_name(call) or "") and len(call.args) >= 2):
+                continue
+            if not isinstance(call.args[0], ast.Constant):
+                continue
+            target = call.args[1]
+            if isinstance(target, ast.Call):        # SomeView.as_view() - class-based views not modelled yet
+                continue
+            name = target.attr if isinstance(target, ast.Attribute) else getattr(target, "id", None)
+            module = _dotted(target.value) if isinstance(target, ast.Attribute) else "views"
+            if not name:
+                continue
+            views = (base / (module.split(".")[-1] + ".py")).as_posix()
+            try:
+                vsrc = fs.resolve(views).read_text(encoding="utf-8")
+                vtree = ast.parse(vsrc)
+            except (SyntaxError, OSError, UnicodeDecodeError):
+                continue
+            func = next((n for n in vtree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+                         and n.name == name), None)
+            if func is None:
+                continue
+            path = "/" + str(call.args[0].value)
+            params = [a.arg for a in func.args.args[1:]]          # after `request`
+            r = Route(file=views, func=name, line=func.lineno,
+                      deco_line=func.decorator_list[0].lineno if func.decorator_list else func.lineno,
+                      path=path, methods=["GET", "POST"], params=params, end_line=func.end_lineno or func.lineno,
+                      framework="django")
+            for d in func.decorator_list:
+                if AUTH_DECORATOR.search(_dotted(d)):
+                    r.auth = Ref(file=views, line=d.lineno, note=f"@{_dotted(d)}")
+            _analyse_body(views, func, vsrc.splitlines(), r)
+            out.append(r)
+    return out
 
 
 def _analyse_body(rel: str, func: ast.FunctionDef, lines: list[str], r: Route) -> None:
@@ -136,7 +231,8 @@ def _analyse_body(rel: str, func: ast.FunctionDef, lines: list[str], r: Route) -
                     r.ownership.append(Ref(file=rel, line=n.lineno, note="owner-scoped query"))
         if isinstance(n, ast.If):
             test_src = _dotted(n.test)
-            if (OWNER_WORDS.search(test_src) or ".id" in test_src) and CURRENT_USER.search(test_src):
+            if (OWNER_WORDS.search(test_src) or ".id" in test_src or re.search(r"\[\s*\d+\s*\]", test_src)) \
+                    and CURRENT_USER.search(test_src):
                 body_src = " ".join(_dotted(b) for b in n.body)
                 if re.search(r"abort\((?:403|404|401)\)|return .*(?:403|404)|raise", body_src):
                     r.ownership.append(Ref(file=rel, line=n.lineno, note="ownership comparison followed by deny"))
@@ -154,14 +250,14 @@ def authz_candidates(rm: RouteMap) -> list[Candidate]:
         protected_sibs = [s for s in sibs if s.auth]
         # --- CWE-862: deviates from the authentication policy of its resource
         if r.auth is None and not hooks and not PUBLIC_NAMES.search(r.func + " " + r.path):
-            if protected_sibs or (any_auth and len(any_auth) >= len(app) / 2):
-                evidence = protected_sibs[0].auth if protected_sibs else any_auth[0].auth
+            if protected_sibs:
+                evidence = protected_sibs[0].auth
                 out.append(Candidate(
                     rule_id="caa.authz.missing-auth-vs-siblings", source="authz-routes", cwe="CWE-862",
                     group=Group.ACCESS_CONTROL,
                     location=Location(file=r.file, start_line=r.line, end_line=r.end_line, function=r.func),
                     message=(f"{','.join(r.methods)} {r.path} has no authentication while "
-                             f"{len(protected_sibs) or len(any_auth)} comparable route(s) require it"),
+                             f"{len(protected_sibs)} route(s) of the same resource require it"),
                     extra={"route": r.to_dict(), "policy_ref": evidence.model_dump() if evidence else None,
                            "siblings": [s.to_dict() for s in sibs]}))
         # --- CWE-639: object fetched by client id without ownership check

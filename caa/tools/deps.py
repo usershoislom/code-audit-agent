@@ -69,23 +69,60 @@ def scan_dependencies(fs: RepoFS, snapshot: Path = SNAPSHOT) -> list[Candidate]:
 
 
 def _osv_scanner(fs: RepoFS) -> list[Candidate] | None:
-    proc = subprocess.run(["osv-scanner", "scan", "--offline", "--format", "json", "-r", str(fs.root)],
-                          capture_output=True, text=True, timeout=600)
+    """osv-scanner v2 against OFFLINE databases: whole-ecosystem DBs are downloaded, the project's
+    package list is never sent anywhere. Covers PyPI, npm, Go, Maven, ... manifests and lockfiles."""
+    cmd = ["osv-scanner", "scan", "source", "-r", "--format", "json", "--offline-vulnerabilities",
+           "--download-offline-databases", "--data-source", "native", str(fs.root)]
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
     try:
         data = json.loads(proc.stdout)
     except json.JSONDecodeError:
         return None
     out = []
     for res in data.get("results", []):
-        rel = Path(res["source"]["path"]).resolve().relative_to(fs.root).as_posix()
+        src = Path(res["source"]["path"])
+        try:
+            rel = src.resolve().relative_to(fs.root).as_posix()
+        except ValueError:
+            continue
         for pkg in res.get("packages", []):
-            name, ver = pkg["package"]["name"].lower(), pkg["package"]["version"]
-            line = next((ln for p, v, r, ln in parse_requirements(fs) if p == name and r == rel), 1)
-            for vuln in pkg.get("vulnerabilities", []):
-                out.append(Candidate(rule_id=f"deps.{vuln['id']}", source="osv-scanner", cwe="CWE-1395",
-                                     group=Group.DEPENDENCIES, location=Location(file=rel, start_line=line),
-                                     message=f"{name}=={ver}: {vuln.get('summary', vuln['id'])}",
-                                     extra={"package": name, "version": ver, "vuln_id": vuln["id"],
-                                            "import_name": IMPORT_NAMES.get(name, name.replace("-", "_")),
-                                            "db": "osv-scanner offline"}))
+            name, ver = pkg["package"]["name"], pkg["package"].get("version", "")
+            vulns = pkg.get("vulnerabilities", [])
+            if not vulns:
+                continue
+            # one finding per vulnerable package; PYSEC/GHSA/CVE ids of the same flaw are grouped
+            groups = pkg.get("groups") or [{"ids": [v["id"]]} for v in vulns]
+            by_id = {v["id"]: v for v in vulns}
+            fixed = sorted({ev["fixed"] for v in vulns for a in v.get("affected", []) for r in a.get("ranges", [])
+                            for ev in r.get("events", []) if "fixed" in ev}, key=parse_version)
+            advisories = []
+            for g in groups:
+                ids = g.get("ids", [])
+                summary = next((by_id[i].get("summary") for i in ids if by_id.get(i, {}).get("summary")), "")
+                cves = sorted({a for i in ids for a in by_id.get(i, {}).get("aliases", []) if a.startswith("CVE-")})
+                advisories.append({"ids": ids, "cves": cves, "summary": summary})
+            line = _manifest_line(fs, rel, name)
+            head = advisories[0]
+            out.append(Candidate(
+                rule_id=f"deps.{name}", source="osv-scanner", cwe="CWE-1395", group=Group.DEPENDENCIES,
+                location=Location(file=rel, start_line=line),
+                message=f"{name} {ver}: {len(advisories)} known vulnerabilit{'y' if len(advisories) == 1 else 'ies'}"
+                        f" (e.g. {(head['cves'] or head['ids'])[0]}: {head['summary']})",
+                snippet=f"{name} {ver}",
+                extra={"package": name, "version": ver, "vuln_id": (head["cves"] or head["ids"])[0],
+                       "advisories": advisories, "fixed": fixed[-3:],
+                       "ecosystem": pkg["package"].get("ecosystem"),
+                       "import_name": IMPORT_NAMES.get(name.lower(), name), "db": "osv-scanner offline"}))
     return out
+
+
+def _manifest_line(fs: RepoFS, rel: str, name: str) -> int:
+    try:
+        lines = fs.read_lines(rel)
+    except OSError:
+        return 1
+    short = name.split("/")[-1].split(":")[-1]
+    for i, t in enumerate(lines, 1):
+        if name in t or (short and re.search(rf"\b{re.escape(short)}\b", t)):
+            return i
+    return 1

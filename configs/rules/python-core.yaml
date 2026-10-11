@@ -13,6 +13,10 @@ rules:
       - pattern: $C.execute("..." % $X, ...)
       - pattern: $C.execute("...".format(...), ...)
       - pattern: $C.executescript($X)
+      - pattern: $M.objects.raw(f"...", ...)
+      - pattern: $M.objects.raw("..." + $X, ...)
+      - pattern: $M.objects.raw("..." % $X, ...)
+      - pattern: RawSQL(f"...", ...)
       - patterns:
           - pattern: $C.execute($Q, ...)
           - pattern-inside: |
@@ -98,6 +102,18 @@ rules:
           - pattern: make_response("..." + $X + "...", ...)
           - pattern: render_template_string($X, ...)
           - pattern: Markup($X)
+
+  - id: caa.python.xss.framework-html-response
+    languages: [python]
+    severity: WARNING
+    message: HTML response (Django/FastAPI/Starlette) built by string formatting, or escaping disabled.
+    metadata: {cwe: "CWE-79", group: A}
+    pattern-either:
+      - pattern: HttpResponse(f"...", ...)
+      - pattern: HttpResponse("..." + $X, ...)
+      - pattern: HTMLResponse(f"...", ...)
+      - pattern: HTMLResponse("..." + $X, ...)
+      - pattern: mark_safe($X)
 
   - id: caa.python.ssrf.user-url-fetch
     languages: [python]

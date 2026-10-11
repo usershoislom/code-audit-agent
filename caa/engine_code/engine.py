@@ -18,14 +18,19 @@ from caa.core.untrusted import find_injection_attempts, wrap
 from caa.engine_code.authz import build_route_map, authz_candidates
 from caa.engine_code.patcher import WorkingCopy, template_patch, unified_diff
 from caa.engine_code.taint import TaintEngine, is_route
+from caa.sandbox.app_runner import attach_probes, detect_plans
 from caa.sandbox.runner import Sandbox
 from caa.tools import deps as deps_tool
 from caa.tools import sast
 from caa.tools.fs import RepoFS
 from caa.tools.registry import ToolRegistry
-from caa.tools.secrets_scan import scan_secrets
+from caa.tools.analyzers import ALL as _ANALYZERS
+from caa.tools.analyzers import run_all as run_analyzers
+from caa.langs import detect as detect_profile
 from caa.tools.symbols import SymbolIndex
 
+ANALYZER_NAMES = {a.name for a in _ANALYZERS}
+ALL_GENERATORS = ANALYZER_NAMES | {"authz", "injection"}
 FRAMEWORK_HINTS = {"flask": r"^\s*(?:from flask|import flask)", "django": r"^\s*(?:from django|import django)",
                    "fastapi": r"^\s*(?:from fastapi|import fastapi)"}
 PLACEHOLDER = re.compile(r"(?i)(example|changeme|change_me|dummy|placeholder|your[_-]|xxx+|<[^>]+>|test|sample|fake)")
@@ -44,7 +49,7 @@ class CodeEngine(EvidenceEngine):
 
     def __init__(self, root: Path, kb: KnowledgeBase, sandbox: Sandbox | None = None, audit: AuditLog = NULL_AUDIT,
                  use_semgrep: bool = True, use_bandit: bool = True, codeql_sarif: Path | None = None,
-                 generators: set[str] | None = None, reanchor: bool = True):
+                 generators: set[str] | None = None, reanchor: bool = True, install_deps: bool = False):
         self.root = root.resolve()
         self.ledger = ReadLedger()
         self.fs = RepoFS(self.root, self.ledger)
@@ -53,70 +58,73 @@ class CodeEngine(EvidenceEngine):
         self.symbols = SymbolIndex(self.fs)
         self.taint = TaintEngine(self.fs, self.symbols)
         self.routes = build_route_map(self.fs)
+        self.taint.entries = {(r.file, r.func): (r.framework, r.params) for r in self.routes.routes}
         self.sandbox = sandbox
         self.use_semgrep, self.use_bandit, self.codeql_sarif = use_semgrep, use_bandit, codeql_sarif
         self._registry = ToolRegistry(self.fs, self.symbols, kb, audit)
         self._wc: WorkingCopy | None = None
         self.sarif_runs: list[dict] = []
-        self.generators = generators if generators is not None else {"secrets", "deps", "authz", "injection"}
+        self.generators = generators if generators is not None else set(ALL_GENERATORS)
         self.reanchor = reanchor
+        self.install_deps = install_deps
+        self.profile = detect_profile(self.fs)
+        self.analyzer_status: list[dict] = []
 
     # ------------------------------------------------------------- stage 1
     def inventory(self) -> dict:
         files = self.fs.iter_files("*")
-        langs = Counter(Path(f).suffix or "<none>" for f in files)
-        py = [f for f in files if f.endswith(".py")]
-        frameworks = set()
-        loc = 0
-        for f in py:
-            text = self.fs.resolve(f).read_text(encoding="utf-8", errors="replace")
-            loc += text.count("\n") + 1
-            for fw, rx in FRAMEWORK_HINTS.items():
-                if re.search(rx, text, re.M):
-                    frameworks.add(fw)
+        prof = self.profile
         cli = [s.qualname + "@" + s.file for s in self.symbols.symbols if s.name == "main"]
         return {
-            "root": str(self.root), "files": len(files), "python_files": len(py), "python_loc": loc,
-            "languages": dict(langs.most_common(10)), "frameworks": sorted(frameworks),
+            "root": str(self.root), "files": len(files),
+            "profile": prof.to_dict(),
+            "python_loc": prof.languages["python"].loc if prof.has("python") else 0,
+            "loc": sum(li.loc for li in prof.languages.values()),
             "entrypoints": {"routes": [r.to_dict() for r in self.routes.routes],
                             "global_auth_hooks": [str(r.file) + ":" + str(r.line) for r in self.routes.global_auth],
                             "cli": cli},
-            "manifests": [f for f in files if re.search(r"(requirements.*\.txt|pyproject\.toml|setup\.py|Pipfile)$", f)],
             "configs": [f for f in files if re.search(r"(settings|config)[^/]*\.(py|ya?ml|ini|toml|env)$", f)],
             "symbol_index": self.symbols.backend,
-            "analyzers": sast.available_analyzers(),
+            "tools": sast.available_analyzers(),
         }
 
     # ------------------------------------------------------------- stage 2
     def generate(self, inventory: dict) -> list[Candidate]:
-        runs = []
-        if self.use_semgrep:
-            runs.append(sast.run_semgrep(self.root))
-        if self.use_bandit:
-            runs.append(sast.run_bandit(self.root))
-        if self.codeql_sarif:
-            runs.append(sast.load_codeql_sarif(self.codeql_sarif))
-        self.sarif_runs = runs
-        cands = sast.sarif_runs_to_candidates(runs)
-        cands = [c for c in cands if self.kb.get(c.cwe)]          # only classes we have knowledge for
         g = self.generators
-        if "secrets" in g:
-            cands += scan_secrets(self.fs)
-        if "deps" in g:
-            cands += deps_tool.scan_dependencies(self.fs)
+        if not self.use_semgrep:
+            g = g - {"semgrep"}
+        if not self.use_bandit:
+            g = g - {"bandit"}
+        results = run_analyzers(self.fs, self.profile, only=g & ANALYZER_NAMES)
+        cands: list[Candidate] = []
+        for r in results:
+            self.analyzer_status.append({"analyzer": r.name, "status": r.status, "note": r.note,
+                                         "candidates": len(r.candidates)})
+            self.sarif_runs += r.sarif_runs
+            cands += r.candidates
+        if self.codeql_sarif:
+            run = sast.load_codeql_sarif(self.codeql_sarif)
+            self.sarif_runs.append(run)
+            cands += sast.sarif_runs_to_candidates([run])
+        dropped = [c for c in cands if not self.kb.get(c.cwe)]
+        cands = [c for c in cands if self.kb.get(c.cwe)]          # only classes we have knowledge for
         if "authz" in g:
             cands += authz_candidates(self.routes)
         if "injection" in g:
             cands += self._injection_candidates()
         for c in cands:
-            if self.reanchor and c.group == Group.DATAFLOW:
+            if self.reanchor and c.group == Group.DATAFLOW and c.location.file.endswith(".py"):
                 self._reanchor(c)
-        self.audit.write("candidates", count=len(cands), by_source=dict(Counter(c.source for c in cands)))
+        inventory["analyzers"] = self.analyzer_status
+        inventory["dropped_unknown_cwe"] = dict(Counter(c.cwe for c in dropped))
+        self.audit.write("candidates", count=len(cands), by_source=dict(Counter(c.source for c in cands)),
+                         analyzers=self.analyzer_status)
         return cands
 
     def _injection_candidates(self) -> list[Candidate]:
         out = []
-        for rel in self.fs.iter_files("*.py"):
+        code = [f for f in self.fs.iter_files("*") if re.search(r"\.(py|js|ts|jsx|tsx|java|go|html?)$", f)]
+        for rel in code:
             for line, txt in find_injection_attempts(self.fs.resolve(rel).read_text(errors="replace")):
                 out.append(Candidate(rule_id="caa.agent.prompt-injection-text", source="injection-scan",
                                      cwe="CWE-1427", group=Group.AGENT_SAFETY,
@@ -196,7 +204,18 @@ class CodeEngine(EvidenceEngine):
     def context(self, f: Finding) -> ContextSlice:
         file, line = f.location.file, f.location.start_line
         ranges, parts, facts = [], [], {}
-        if f.group == Group.DATAFLOW:
+        if f.group == Group.DATAFLOW and not file.endswith(".py"):
+            flow = self._codeflow(f)
+            facts["codeflow"] = flow
+            lines_of_interest = sorted({ln for fl, ln in flow if fl == file} | {line})
+            a, b = max(1, min(lines_of_interest) - 12), max(lines_of_interest) + 12
+            ranges.append((file, a, b))
+            parts.append(f"# file: {file}\n" + self.fs.read_file(file, a, b))
+            for fl in sorted({fl for fl, _ in flow if fl != file}):
+                lns = [ln for x, ln in flow if x == fl]
+                ranges.append((fl, max(1, min(lns) - 8), max(lns) + 8))
+                parts.append(f"# file: {fl}\n" + self.fs.read_file(fl, max(1, min(lns) - 8), max(lns) + 8))
+        elif f.group == Group.DATAFLOW:
             tr = self.taint.trace(file, line, f.cwe)
             facts["trace"] = {"reached": tr.reached, "steps": [s.model_dump() for s in tr.steps],
                               "sanitizer": tr.sanitizer.model_dump() if tr.sanitizer else None,
@@ -258,10 +277,73 @@ class CodeEngine(EvidenceEngine):
 
     # ------------------------------------------------------------- stage 5
     def verify(self, f: Finding, ctx: ContextSlice) -> None:
-        {Group.DATAFLOW: self._verify_dataflow, Group.ACCESS_CONTROL: self._verify_access,
-         Group.SECRETS_CONFIG: self._verify_config, Group.DEPENDENCIES: self._verify_deps,
-         Group.AGENT_SAFETY: self._verify_injection, Group.BUSINESS_LOGIC: lambda f, c: None}[f.group](f, ctx)
+        if "hygiene" in f.sources and f.group == Group.SECRETS_CONFIG:
+            self._verify_hygiene(f, ctx)
+        elif f.group == Group.DATAFLOW and not f.location.file.endswith(".py"):
+            self._verify_dataflow_flow(f, ctx)
+        else:
+            {Group.DATAFLOW: self._verify_dataflow, Group.ACCESS_CONTROL: self._verify_access,
+             Group.SECRETS_CONFIG: self._verify_config, Group.DEPENDENCIES: self._verify_deps,
+             Group.AGENT_SAFETY: self._verify_injection, Group.BUSINESS_LOGIC: lambda f, c: None}[f.group](f, ctx)
         self._severity(f)
+
+    # --- non-Python data flow: Semgrep taint traces --------------------------------------------
+    @staticmethod
+    def _codeflow(f: Finding) -> list[tuple[str, int]]:
+        for c in f.extra.get("candidates") or []:
+            flow = (c.get("extra") or {}).get("codeflow")
+            if flow:
+                return [(fl, ln) for fl, ln in flow]
+        return []
+
+    def _verify_dataflow_flow(self, f: Finding, ctx: ContextSlice) -> None:
+        flow = ctx.facts.get("codeflow") or []
+        if len(flow) < 2:
+            f.not_verified.append("pattern match only: the rule has no data-flow trace for this language/class")
+            return
+        steps = []
+        for i, (fl, ln) in enumerate(flow):
+            ref = Ref(file=fl, line=ln)
+            if not self.ledger.verify(ref):
+                self.fs.read_file(fl, ln, ln)
+            kind = "source" if i == 0 else ("sink" if i == len(flow) - 1 else "propagation")
+            steps.append(DataflowStep(kind=kind, ref=ref, code=(self.ledger.line_text(fl, ln) or "").strip()))
+        if steps[-1].ref.line != f.location.start_line:
+            steps.append(DataflowStep(kind="sink", ref=Ref(file=f.location.file, line=f.location.start_line),
+                                      code=(self.ledger.line_text(f.location.file, f.location.start_line) or "").strip()))
+        f.dataflow = steps
+        f.add_evidence(Evidence(level=Level.L2, by="semgrep-taint",
+                                detail="request input reaches the sink; no sanitizer recognised on the path",
+                                refs=[s.ref for s in steps]))
+        f.not_verified.append("trace comes from Semgrep's intra-file taint: flows through other files are not followed")
+        if re.search(r"(^|/)(tests?|__tests__|spec|fixtures)/|\.(test|spec)\.[jt]sx?$|_test\.go$|Test\w*\.java$",
+                     f.location.file):
+            f.not_verified.append("defender: code lives in a test file")
+            return
+        f.add_evidence(Evidence(level=Level.L3, by="defender",
+                                detail="source is an HTTP request input of a framework handler, not test code; "
+                                       "no sanitizer in the rule's sanitizer list on the path",
+                                refs=[steps[0].ref, steps[-1].ref]))
+
+    # --- hygiene ---------------------------------------------------------------------------------
+    def _verify_hygiene(self, f: Finding, ctx: ContextSlice) -> None:
+        cand = (f.extra.get("candidates") or [{}])[0]
+        f.extra["severity_hint"] = (cand.get("extra") or {}).get("severity_hint")
+        ref = Ref(file=f.location.file, line=f.location.start_line)
+        try:
+            self.fs.read_file(ref.file, ref.line, ref.line)
+        except OSError:
+            pass
+        rule = cand.get("rule_id", "")
+        fact = {"caa.hygiene.env-tracked": "git ls-files lists the file",
+                "caa.hygiene.env-not-ignored": "git check-ignore says the file is not ignored",
+                "caa.hygiene.gitignore-missing-env": "git check-ignore says a .env file would not be ignored"
+                }.get(rule, "the cited line states it")
+        f.add_evidence(Evidence(level=Level.L2, by="hygiene", detail=f"fact verified: {fact}", refs=[ref]))
+        if re.search(r"(^|/)(examples?|samples?|docs?|tests?|fixtures)/", f.location.file):
+            f.not_verified.append("defender: file is in an example/test directory")
+            return
+        f.add_evidence(Evidence(level=Level.L3, by="defender", detail="not an example or test file", refs=[ref]))
 
     def _refute(self, f: Finding, ref: Ref, by: str) -> bool:
         if not self.ledger.verify(ref):
@@ -311,9 +393,13 @@ class CodeEngine(EvidenceEngine):
         entry_fn = None
         if entry and f.dataflow:
             entry_fn = self.taint.func_at(f.dataflow[0].ref.file, f.dataflow[0].ref.line)
-        if entry_fn is None or not is_route(entry_fn):
-            if not (entry_fn and entry_fn.name == "main"):
-                objections.append("no HTTP route or CLI entry point found at the start of the trace")
+        kind = self.taint.entry_kind(f.dataflow[0].ref.file, entry_fn) if entry_fn is not None else None
+        f.extra["entry_kind"] = kind
+        if kind is None:
+            objections.append("no HTTP route or CLI entry point found at the start of the trace")
+        elif kind == "cli":
+            f.not_verified.append("entry point is a command-line argument: exploitable only if another program "
+                                  "or user passes untrusted values to this command")
         if re.search(r"(^|/)(tests?|fixtures)/", f.location.file):
             objections.append("code lives in a test directory")
         entry_file = f.dataflow[0].ref.file if f.dataflow else f.location.file
@@ -326,8 +412,8 @@ class CodeEngine(EvidenceEngine):
             f.not_verified += [f"defender: {o}" for o in objections]
             return
         f.add_evidence(Evidence(level=Level.L3, by="defender",
-                                detail=f"refutation failed: entry {entry}() is a route, no sanitizer on the path, "
-                                       "no global input filter, not test code",
+                                detail=f"refutation failed: entry {entry}() is a{'n HTTP route' if kind == 'http' else ' CLI command'}"
+                                       ", no sanitizer on the path, no global input filter, not test code",
                                 refs=[f.dataflow[0].ref, f.dataflow[-1].ref]))
 
     def _verify_access(self, f: Finding, ctx: ContextSlice) -> None:
@@ -429,11 +515,40 @@ class CodeEngine(EvidenceEngine):
         else:
             f.add_evidence(Evidence(level=Level.L2, by="line-check", detail="configuration value read", refs=[ref]))
 
+    IMPORT_PATTERNS = {
+        "PyPI": (r"^\s*(import|from)\s+{name}\b", "*.py"),
+        "npm": (r"(require\(\s*['\"]{name}(/[^'\"]*)?['\"]\s*\)|from\s+['\"]{name}(/[^'\"]*)?['\"])", "*.{js,ts,jsx,tsx,mjs,cjs}"),
+        "Go": (r"\"{name}(/[^\"]*)?\"", "*.go"),
+        "Maven": (r"^\s*import\s+{name}\.", "*.java"),
+    }
+
     def _verify_deps(self, f: Finding, ctx: ContextSlice) -> None:
         cand = (f.extra.get("candidates") or [{}])[0].get("extra", {})
-        imp = cand.get("import_name")
-        f.extra["dependency"] = {k: cand.get(k) for k in ("package", "version", "vuln_id", "fixed", "db")}
-        hits = [h for h in self.fs.search(rf"^\s*(import|from)\s+{re.escape(imp)}\b", "*.py")] if imp else []
+        f.extra["dependency"] = {k: cand.get(k) for k in ("package", "version", "vuln_id", "fixed", "db",
+                                                          "advisories", "ecosystem")}
+        if cand.get("reachable"):
+            ref = Ref(file=f.location.file, line=f.location.start_line)
+            self.fs.read_file(ref.file, ref.line, ref.line)
+            f.add_evidence(Evidence(level=Level.L3, by="govulncheck",
+                                    detail="call graph shows first-party code calling the vulnerable function",
+                                    refs=[ref]))
+            f.not_verified.append("no exploit is run; reachability is static (call graph)")
+            return
+        eco = cand.get("ecosystem") or ("PyPI" if f.location.file.endswith(".txt") else None)
+        if eco == "Go" and cand.get("package") == "stdlib":
+            ref = Ref(file=f.location.file, line=f.location.start_line)
+            self.fs.read_file(ref.file, ref.line, ref.line)
+            f.add_evidence(Evidence(level=Level.L2, by="toolchain-fact",
+                                    detail=f"module declares Go {cand.get('version')}; the standard library is always linked",
+                                    refs=[ref]))
+            f.not_verified.append("whether the affected stdlib package is used was not analysed (run govulncheck)")
+            return
+        name = cand.get("import_name") or cand.get("package") or ""
+        if eco == "Maven" and ":" in name:
+            name = name.split(":")[0]                     # groupId as import prefix (approximation)
+        pat, glob = self.IMPORT_PATTERNS.get(eco, self.IMPORT_PATTERNS["PyPI"])
+        hits = self.fs.search(pat.format(name=re.escape(name)), glob) if name else []
+        hits = [h for h in hits if not re.search(r"(^|/)(node_modules|vendor)/", h[0])]
         if hits:
             f.add_evidence(Evidence(level=Level.L2, by="import-fact",
                                     detail=f"vulnerable version pinned and package imported ({len(hits)} import(s))",
@@ -455,10 +570,83 @@ class CodeEngine(EvidenceEngine):
         order = ["low", "medium", "high", "critical"]
         reach = "reachable from an HTTP route" if f.level >= Level.L3 else "reachability not proven"
         sev = base
-        if f.level < Level.L2 and base in order[1:]:
+        if (f.level < Level.L2 or f.extra.get("entry_kind") == "cli") and base in order[1:]:
             sev = order[order.index(base) - 1]
+        if f.extra.get("severity_hint") in order:
+            sev = f.extra["severity_hint"]
         f.severity = sev
         f.severity_rationale = f"impact: {card.get('impact', 'n/a')} | {reach} (evidence {f.confidence_label})"
+
+    # ------------------------------------------------------------- runtime (app in sandbox)
+    def runtime(self, findings: list[Finding], inventory: dict) -> list[Finding]:
+        if self.sandbox is None:
+            inventory["runtime"] = {"status": "skipped", "reason": "sandbox disabled (trusted code only)"}
+            return []
+        plans = detect_plans(self.fs, install=self.install_deps)
+        by_id = {f.id: f for f in findings}
+        new: list[Finding] = []
+        summary = []
+        for plan in plans:
+            attach_probes(plan, self.routes.routes, findings)
+            self.audit.write("runtime_start", plan=plan.name, cmd=plan.cmd, network=self.sandbox.cfg.network,
+                             probes=plan.probes)
+            res = self.sandbox.run_app(self.root, plan.spec())
+            self.audit.write("runtime_result", plan=plan.name, result=res)
+            summary.append({"app": plan.name, "started": res.get("started"), "boot_seconds": res.get("boot_seconds"),
+                            "probes": len(plan.probes), "network": self.sandbox.cfg.network,
+                            "reason": None if res.get("started") else (res.get("reason") or res.get("output_tail", "")[-300:])})
+            if not res.get("started"):
+                continue
+            anchor = Ref(file=plan.file or ".", line=1)
+            for pr in res.get("probes", []):
+                spec = next((p for p in plan.probes if p["path"] == pr["path"] and p["kind"] == pr["kind"]
+                             and p.get("param") == pr.get("param")), None)
+                f = by_id.get(spec["finding"]) if spec else None
+                if pr["kind"] == "reflect" and f is not None:
+                    if pr.get("raw_reflected"):
+                        f.add_evidence(Evidence(level=Level.L4, by=f"runtime[{self.sandbox.backend}]",
+                                                detail=f"running app reflected the HTML marker unescaped on GET "
+                                                       f"{pr['path']}?{pr['param']}=", refs=[f.dataflow[-1].ref]))
+                    elif pr.get("escaped"):
+                        f.not_verified.append("runtime: the running app escaped the marker (static trace not confirmed)")
+                elif pr["kind"] == "errors" and f is not None and f.cwe == "CWE-89" and pr.get("quote_breaks_server") \
+                        and "sql-error" not in (pr.get("signatures") or []):
+                    f.add_evidence(Evidence(level=Level.L4, by=f"runtime[{self.sandbox.backend}]",
+                                            detail=f"running app: {pr['path']} answers {pr['baseline_status']} for a "
+                                                   f"plain value but {pr['status']} when the value contains quotes",
+                                            refs=[f.dataflow[-1].ref]))
+                    f.not_verified.append("runtime differential shows quotes break the request; the database error "
+                                          "itself was not visible (debug off)")
+                if pr["kind"] == "errors" and pr.get("signatures"):
+                    if f is not None and "sql-error" in pr["signatures"] and f.cwe == "CWE-89":
+                        f.add_evidence(Evidence(level=Level.L4, by=f"runtime[{self.sandbox.backend}]",
+                                                detail=f"a quote marker on {pr['path']} made the database raise a "
+                                                       "syntax error: input reaches the SQL text",
+                                                refs=[f.dataflow[-1].ref]))
+                    leaks = [s for s in pr["signatures"] if s != "sql-error"] or pr["signatures"]
+                    nf = self._runtime_finding("CWE-209", "Error details exposed to clients", f.location if f else None,
+                                               anchor, f"GET {pr['path']} with a quote marker returned: {', '.join(leaks)}")
+                    new.append(nf)
+                elif pr["kind"] == "headers" and pr.get("missing") and plan.file:
+                    new.append(self._runtime_finding(
+                        "CWE-693", "Missing security headers", None, anchor,
+                        f"{plan.name}: response to {pr['path']} lacks {', '.join(pr['missing'])}"))
+        inventory["runtime"] = summary
+        return new
+
+    def _runtime_finding(self, cwe: str, title: str, loc, anchor: Ref, detail: str) -> Finding:
+        location = loc.model_copy() if loc is not None else Location(file=anchor.file, start_line=anchor.line)
+        f = Finding(title=title, cwe=cwe, group=Group.SECRETS_CONFIG, location=location, sources=["runtime"],
+                    explanation=detail)
+        try:
+            self.fs.read_file(location.file, location.start_line, location.start_line)
+        except OSError:
+            pass
+        f.add_evidence(Evidence(level=Level.L4, by=f"runtime[{self.sandbox.backend}]", detail=detail,
+                                refs=[Ref(file=location.file, line=location.start_line)]))
+        f.make_id()
+        self._severity(f)
+        return f
 
     # ------------------------------------------------------------- L4
     def _spec(self, f: Finding) -> dict | None:

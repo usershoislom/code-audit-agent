@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import sys
 import time
@@ -48,15 +49,24 @@ LABELS = ROOT / "eval" / "seeded" / "labels.yaml"
 RESULTS = ROOT / "eval" / "results"
 
 ROWS = {
-    "sast_only": dict(generators=set(), verify=False, triage=False, entry=False, rag=False, dynamic=False, reanchor=False),
+    "sast_only": dict(generators={"semgrep", "bandit", "gosec"}, verify=False, triage=False, entry=False, rag=False, dynamic=False, reanchor=False),
     "llm_only_files": dict(llm_baseline=True),
-    "sast_llm_triage": dict(generators=set(), verify=False, triage=True, entry=False, rag=True, dynamic=False),
+    "sast_llm_triage": dict(generators={"semgrep", "bandit", "gosec"}, verify=False, triage=True, entry=False, rag=True, dynamic=False),
     "agent_no_llm": dict(verify=True, triage=False, entry=False, rag=False, dynamic=False),
     "agent_llm_norag": dict(verify=True, triage=True, entry=True, rag=False, dynamic=False),
     "agent_llm_rag": dict(verify=True, triage=True, entry=True, rag=True, dynamic=False),
-    "agent_full": dict(verify=True, triage=False, entry=False, rag=False, dynamic=True, patch=True),
+    "agent_full": dict(verify=True, triage=False, entry=False, rag=False, dynamic=True, patch=True, runtime=True),
 }
 NEEDS_LLM = {"llm_only_files", "sast_llm_triage", "agent_llm_norag", "agent_llm_rag"}
+
+
+CODE_FILES = re.compile(r"\.(py|js|ts|jsx|tsx|java|go|html?)$|(^|/)(requirements[^/]*\.txt|package\.json|go\.mod|"
+                        r"pom\.xml|Dockerfile)$")
+
+
+def scanned_files() -> list[str]:
+    """Every file the evaluation counts (for FPR on clean files)."""
+    return [f for f in RepoFS(REPO).iter_files("*") if CODE_FILES.search(f)]
 
 
 def rows_from_findings(findings) -> list[dict]:
@@ -90,6 +100,7 @@ def run_row(name: str, spec: dict, router, sandbox) -> dict:
     opts = PipelineOptions(use_verification=spec["verify"], use_llm_triage=spec["triage"],
                            use_llm_entrypoints=spec["entry"], use_rag=spec["rag"],
                            use_dynamic=spec.get("dynamic", False), use_patch=spec.get("patch", False),
+                           use_runtime=spec.get("runtime", False),
                            target_trust="own_stand")
     res = Orchestrator(eng, kb, opts, out, router=router if spec["triage"] or spec["entry"] else None,
                        audit=audit).run()
@@ -97,7 +108,7 @@ def run_row(name: str, spec: dict, router, sandbox) -> dict:
     (out / "findings.json").write_text(json.dumps(findings, indent=1))
     (out / "report.md").write_text(to_markdown(res.findings, res.inventory, res.stats, f"Seeded stand: {name}"))
     (out / "report.sarif").write_text(json.dumps(to_sarif(res.findings), indent=1))
-    return {"seconds": round(time.time() - t0, 1), "stats": res.stats, "loc": res.inventory["python_loc"]}
+    return {"seconds": round(time.time() - t0, 1), "stats": res.stats, "loc": res.inventory["loc"]}
 
 
 def run_llm_baseline(out: Path, router, t0) -> dict:
@@ -106,7 +117,7 @@ def run_llm_baseline(out: Path, router, t0) -> dict:
     fs = RepoFS(REPO, ledger)
     findings, loc = [], 0
     audit = AuditLog(out / "audit.jsonl")
-    files = fs.iter_files("*.py") + fs.iter_files("*requirements*.txt")
+    files = scanned_files()
     codes = {rel: fs.read_file(rel, 1, None) for rel in files}
     loc = sum(c.count("\n") + 1 for c in codes.values())
     with ThreadPoolExecutor(max_workers=8) as pool:
@@ -129,7 +140,7 @@ def meta_from_logs(name: str) -> dict:
     calls = [r for r in recs if r["kind"] == "llm_call"]
     usage = {"prompt_tokens": 0, "completion_tokens": sum(r.get("completion_tokens") or 0 for r in calls),
              "calls": len(calls)}
-    loc = sum((REPO / f).read_text().count("\n") + 1 for f in RepoFS(REPO).iter_files("*.py"))
+    loc = sum((REPO / f).read_text().count("\n") + 1 for f in scanned_files())
     return {"seconds": round(recs[-1]["ts"] - recs[0]["ts"], 1) if recs else 0,
             "stats": {"llm_usage": {"analysis": usage}}, "loc": loc, "derived_from_logs": True}
 
@@ -202,7 +213,7 @@ def main() -> int:
     args = ap.parse_args()
     load_dotenv()
     labels = load_labels(LABELS, REPO)
-    all_files = RepoFS(REPO).iter_files("*.py") + ["requirements.txt"]
+    all_files = scanned_files()
     meta_path = RESULTS / "runs.json"
     results = json.loads(meta_path.read_text()) if meta_path.exists() else {}
     if not args.from_logs:

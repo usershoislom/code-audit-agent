@@ -35,9 +35,14 @@ def shannon_entropy(s: str) -> float:
 
 
 def scan_secrets(fs: RepoFS) -> list[Candidate]:
+    """gitleaks (broad rule set) united with the built-in high-signal rules; one candidate per line."""
+    found = _builtin(fs)
     if shutil.which("gitleaks"):
-        return _gitleaks(fs)
-    return _builtin(fs)
+        seen = {(c.location.file, c.location.start_line) for c in found}
+        for c in _gitleaks(fs):
+            if (c.location.file, c.location.start_line) not in seen:
+                found.append(c)
+    return found
 
 
 def _builtin(fs: RepoFS) -> list[Candidate]:
@@ -70,12 +75,12 @@ def _builtin(fs: RepoFS) -> list[Candidate]:
 def _gitleaks(fs: RepoFS) -> list[Candidate]:
     with tempfile.TemporaryDirectory() as td:
         report = Path(td) / "gl.json"
-        subprocess.run(["gitleaks", "detect", "--no-git", "--redact", "-s", str(fs.root), "-r", str(report),
+        subprocess.run(["gitleaks", "dir", str(fs.root), "--redact", "--no-banner", "-r", str(report),
                         "-f", "json"], capture_output=True, text=True, timeout=300)
         try:
             data = json.loads(report.read_text())
         except (OSError, json.JSONDecodeError):
-            return _builtin(fs)
+            return []
     out = []
     for r in data:
         rel = Path(r["File"]).resolve().relative_to(fs.root).as_posix() if Path(r["File"]).is_absolute() else r["File"]

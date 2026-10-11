@@ -16,7 +16,7 @@ _SECRET_PATTERNS = [
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),                              # OpenAI-style
     re.compile(r"gsk_[A-Za-z0-9]{20,}"),                               # Groq
     re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"),
-    re.compile(r"(?i)(?:password|passwd|pwd|token|api_key|apikey|secret)\s*[=:]\s*['\"]([^'\"\s]{6,})['\"]"),
+    re.compile(r"(?i)\w*(?:password|passwd|pwd|token|api_?key|secret)\w*['\"\]]{0,2}\s*[=:]\s*['\"]([^'\"\s]{6,})['\"]"),
     re.compile(r"(?i)authorization:\s*(?:bearer|basic)\s+[A-Za-z0-9._~+/=-]+"),
     re.compile(r"(?i)(?:session|sessionid|csrftoken)=[A-Za-z0-9._%-]{8,}"),
 ]

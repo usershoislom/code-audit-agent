@@ -1,0 +1,325 @@
+# Go (net/http, gin, echo, gorilla/mux). Taint mode -> traces become L2 evidence; gosec runs alongside.
+# Sources are scoped to handler signatures (typed metavariables are unreliable for Go in Semgrep CE).
+rules:
+- id: caa.go.sqli.taint
+  languages:
+  - go
+  severity: ERROR
+  message: Request data reaches a SQL query string.
+  metadata:
+    cwe: CWE-89
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: strconv.Atoi(...)
+  - pattern: strconv.ParseInt(...)
+  - pattern: strconv.ParseUint(...)
+  - pattern: uuid.Parse(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: $DB.Query($Q, ...)
+      - pattern: $DB.QueryRow($Q, ...)
+      - pattern: $DB.Exec($Q, ...)
+      - pattern: $DB.QueryContext($CTX, $Q, ...)
+      - pattern: $DB.QueryRowContext($CTX, $Q, ...)
+      - pattern: $DB.ExecContext($CTX, $Q, ...)
+      - pattern: $DB.Raw($Q, ...)
+    - focus-metavariable: $Q
+- id: caa.go.cmdi.taint
+  languages:
+  - go
+  severity: ERROR
+  message: Request data reaches a shell command.
+  metadata:
+    cwe: CWE-78
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: strconv.Atoi(...)
+  - pattern: strconv.ParseInt(...)
+  - pattern: strconv.ParseUint(...)
+  - pattern: uuid.Parse(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: exec.Command("sh", "-c", $C, ...)
+      - pattern: exec.Command("bash", "-c", $C, ...)
+      - pattern: exec.CommandContext($CTX, "sh", "-c", $C, ...)
+      - pattern: exec.Command($C, ...)
+    - focus-metavariable: $C
+- id: caa.go.path.taint
+  languages:
+  - go
+  severity: WARNING
+  message: Request data is used as a file path.
+  metadata:
+    cwe: CWE-22
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: filepath.Base(...)
+  - pattern: path.Base(...)
+  - pattern: strconv.Atoi(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: os.Open($P)
+      - pattern: os.OpenFile($P, ...)
+      - pattern: os.ReadFile($P)
+      - pattern: ioutil.ReadFile($P)
+      - pattern: os.Remove($P)
+      - pattern: http.ServeFile($W2, $R2, $P)
+    - focus-metavariable: $P
+- id: caa.go.xss.taint
+  languages:
+  - go
+  severity: WARNING
+  message: Request data is written into an HTML response without escaping.
+  metadata:
+    cwe: CWE-79
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: html.EscapeString(...)
+  - pattern: template.HTMLEscapeString(...)
+  - pattern: url.QueryEscape(...)
+  - pattern: strconv.Atoi(...)
+  - pattern: json.Marshal(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: fmt.Fprintf($W2, $FMT, ..., $X, ...)
+      - pattern: fmt.Fprint($W2, ..., $X, ...)
+      - pattern: io.WriteString($W2, $X)
+      - pattern: $W2.Write([]byte($X))
+      - pattern: template.HTML($X)
+    - focus-metavariable: $X
+- id: caa.go.ssrf.taint
+  languages:
+  - go
+  severity: WARNING
+  message: Request data decides the URL of an outbound request.
+  metadata:
+    cwe: CWE-918
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: strconv.Atoi(...)
+  - pattern: strconv.ParseInt(...)
+  - pattern: strconv.ParseUint(...)
+  - pattern: uuid.Parse(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: http.Get($U)
+      - pattern: http.Post($U, ...)
+      - pattern: http.NewRequest($M, $U, ...)
+      - pattern: http.NewRequestWithContext($CTX, $M, $U, ...)
+    - focus-metavariable: $U
+- id: caa.go.open-redirect.taint
+  languages:
+  - go
+  severity: WARNING
+  message: Request data decides the redirect target.
+  metadata:
+    cwe: CWE-601
+    group: A
+  mode: taint
+  pattern-sources:
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($W http.ResponseWriter, $R *http.Request) { ... }
+      - pattern-inside: func($W http.ResponseWriter, $R *http.Request) { ... }
+    - pattern-either:
+      - pattern: $R.URL.Query()
+      - pattern: $R.FormValue(...)
+      - pattern: $R.PostFormValue(...)
+      - pattern: $R.Header.Get(...)
+      - pattern: $R.PathValue(...)
+      - pattern: $R.Body
+      - pattern: mux.Vars($R)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C *gin.Context) { ... }
+      - pattern-inside: func($C *gin.Context) { ... }
+    - pattern-either:
+      - pattern: $C.Query(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.PostForm(...)
+      - pattern: $C.DefaultQuery(...)
+      - pattern: $C.GetHeader(...)
+  - patterns:
+    - pattern-either:
+      - pattern-inside: func $F($C echo.Context) error { ... }
+      - pattern-inside: func($C echo.Context) error { ... }
+    - pattern-either:
+      - pattern: $C.QueryParam(...)
+      - pattern: $C.Param(...)
+      - pattern: $C.FormValue(...)
+  pattern-sanitizers:
+  - pattern: strconv.Atoi(...)
+  - pattern: strconv.ParseInt(...)
+  - pattern: strconv.ParseUint(...)
+  - pattern: uuid.Parse(...)
+  pattern-sinks:
+  - patterns:
+    - pattern-either:
+      - pattern: http.Redirect($W2, $R2, $U, ...)
+      - pattern: $C2.Redirect($CODE, $U)
+    - focus-metavariable: $U

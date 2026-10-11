@@ -119,11 +119,21 @@ def is_route(func: ast.FunctionDef) -> bool:
     return any(ROUTE_DECOS.search(_dotted(d)) for d in func.decorator_list)
 
 
+CLI_DECOS = re.compile(r"\.(command|option|argument|callback)\(|^click\.|^typer\.")
+
+
+def is_cli_command(func: ast.FunctionDef) -> bool:
+    """click / typer commands: every parameter is a command-line value."""
+    return any(CLI_DECOS.search(_dotted(d)) for d in func.decorator_list)
+
+
 class TaintEngine:
     def __init__(self, fs: RepoFS, symbols: SymbolIndex):
         self.fs = fs
         self.symbols = symbols
         self._trees: dict[str, ast.Module] = {}
+        # (file, function) -> (framework, client-controlled parameter names); filled from the route map
+        self.entries: dict[tuple[str, str], tuple[str, list[str]]] = {}
         self._summaries: dict[tuple[str, str], tuple[str, Taint | None]] = {}
 
     # ------------------------------------------------------------------ utils
@@ -213,12 +223,13 @@ class TaintEngine:
         rparams = set()
         result_holder = TraceResult()
         if func is not None:
-            rparams = route_params(func)
+            kind, rparams = self.entry_params(file, func)
             for a in func.args.args + func.args.kwonlyargs:
                 if a.arg in ("self", "cls"):
                     continue
                 if a.arg in rparams:
-                    env[a.arg] = Taint([self.step("source", file, func.lineno, note=f"route parameter <{a.arg}>")])
+                    what = "CLI argument" if kind == "cli" else "route parameter"
+                    env[a.arg] = Taint([self.step("source", file, func.lineno, note=f"{what} <{a.arg}>")])
                 elif a.arg == "request":
                     continue
                 else:
@@ -231,6 +242,33 @@ class TaintEngine:
             return s.result
         result_holder.notes.append("sink statement not reached by the walker")
         return result_holder
+
+    def entry_params(self, file: str, func) -> tuple[str | None, set[str]]:
+        """Which parameters of `func` the outside world controls, and through what kind of entry point."""
+        if (file, func.name) in self.entries:
+            fw, params = self.entries[(file, func.name)]
+            return "http", set(params)
+        if is_cli_command(func):
+            return "cli", {a.arg for a in func.args.args + func.args.kwonlyargs if a.arg not in ("self", "cls", "ctx")}
+        rp = route_params(func)
+        return ("http", rp) if rp or is_route(func) else (None, set())
+
+    def entry_kind(self, file: str, func) -> str | None:
+        """http | cli | None for the function a trace starts in."""
+        kind, _ = self.entry_params(file, func)
+        if kind:
+            return kind
+        if func.name == "main" or self._called_from_main_block(file, func.name):
+            return "cli"
+        return None
+
+    def _called_from_main_block(self, file: str, name: str) -> bool:
+        tree = self.tree(file)
+        for n in (tree.body if tree else []):
+            if isinstance(n, ast.If) and "__main__" in _dotted(n.test):
+                if any(isinstance(c, ast.Call) and _call_name(c) == name for c in ast.walk(n)):
+                    return True
+        return False
 
     def resolves(self, caller_file: str, name: str, callee_file: str) -> bool:
         """Does `name` called in caller_file refer to the definition in callee_file? (import-aware)"""
@@ -306,6 +344,8 @@ class _Ctx:
             return None
         if isinstance(node, ast.Name):
             return env.get(node.id)
+        if isinstance(node, ast.Await):
+            return self.expr(env, node.value)
         if self._is_request_source(node):
             ln = getattr(node, "lineno", self.line)
             return Taint([self.eng.step("source", self.file, ln, note=_dotted(node)[:80])])
@@ -347,6 +387,8 @@ class _Ctx:
             cur = cur.func if isinstance(cur, ast.Call) else cur.value
         if isinstance(node, ast.Call) and _call_name(node) == "input" and isinstance(node.func, ast.Name):
             return True
+        if isinstance(node, ast.Call) and _call_name(node) in ("parse_args", "parse_known_args"):
+            return True                       # argparse: every attribute of the namespace is a CLI value
         if isinstance(node, ast.Subscript) and _dotted(node.value) == "sys.argv":
             return True
         return False
@@ -561,7 +603,7 @@ class _Ctx:
                 continue
             name = _call_name(n)
             dotted = _dotted(n.func)
-            if cwe == "CWE-89" and name in ("execute", "executemany", "executescript", "text", "raw"):
+            if cwe == "CWE-89" and name in ("execute", "executemany", "executescript", "text", "raw", "RawSQL"):
                 if not n.args:
                     continue
                 candidates.append((n.args[0], n.lineno))
@@ -585,7 +627,8 @@ class _Ctx:
                     candidates.append((n.func.value, n.lineno))
                 elif n.args:
                     candidates.append((n.args[0], n.lineno))
-            elif cwe == "CWE-79" and name in ("make_response", "render_template_string", "Markup", "Response", "HTMLResponse"):
+            elif cwe == "CWE-79" and name in ("make_response", "render_template_string", "Markup", "Response",
+                                               "HTMLResponse", "HttpResponse", "mark_safe"):
                 if n.args:
                     candidates.append((n.args[0], n.lineno))
             elif cwe == "CWE-918" and (dotted.startswith("requests.") or name in ("urlopen", "get", "post")) and \
@@ -594,7 +637,8 @@ class _Ctx:
                 candidates.append((arg, n.lineno))
         if cwe == "CWE-79" and isinstance(st, ast.Return) and st.value is not None and not candidates:
             v = st.value
-            if isinstance(v, ast.Call) and _call_name(v) in ("render_template", "jsonify", "redirect", "url_for"):
+            if isinstance(v, (ast.Dict, ast.List)) or (isinstance(v, ast.Call) and _call_name(v) in (
+                    "render_template", "jsonify", "redirect", "url_for", "JsonResponse", "JSONResponse", "render")):
                 return "SAFE", st.lineno
             candidates.append((v, st.lineno))
         if not candidates:
