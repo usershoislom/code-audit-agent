@@ -24,18 +24,22 @@ def test_locality_is_derived_from_url(url, local):
     assert ProviderConfig(name="x", model="m", base_url=url).is_local is local
 
 
-def test_third_party_data_never_reaches_external_model():
+def test_router_uses_the_configured_provider_for_any_tag():
+    # the foreign-code restriction was removed: the operator analyses their own code and sites and
+    # may send it to the model they configured (local or their own hosted server). Routing records,
+    # it does not gate.
     ext = ScriptedModel(local=False)
     router = ModelRouter({"groq": ext}, {"analysis": "groq"})
     assert router.for_task("analysis", Confidentiality.OWN_STAND) is ext
-    with pytest.raises(ConfidentialityViolation):
-        router.for_task("analysis", Confidentiality.TARGET_PRIVATE)
+    assert router.for_task("analysis", Confidentiality.TARGET_PRIVATE) is ext
 
 
-def test_third_party_data_is_rerouted_to_local():
-    ext, loc = ScriptedModel(local=False), ScriptedModel(local=True)
-    router = ModelRouter({"groq": ext, "local": loc}, {"analysis": "groq"})
-    assert router.for_task("analysis", Confidentiality.TARGET_PRIVATE) is loc
+def test_confidentiality_violation_is_no_longer_raised():
+    # kept as an importable symbol for compatibility, but never raised now
+    assert issubclass(ConfidentialityViolation, PermissionError)
+    ext = ScriptedModel(local=False)
+    router = ModelRouter({"groq": ext}, {"analysis": "groq"})
+    router.for_task("analysis", Confidentiality.TARGET_PRIVATE)   # does not raise
 
 
 # --- tools ---------------------------------------------------------------------------------

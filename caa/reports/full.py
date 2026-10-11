@@ -23,8 +23,8 @@ T = {
     "ru": {
         "title": "Отчёт о проверке безопасности",
         "summary": "Сводка", "target": "Цель", "commit": "Коммит", "branch": "Ветка", "started": "Начало",
-        "duration": "Длительность", "mode": "Режим", "trust_tp": "чужой код (только статический анализ, модель — локальная)",
-        "trust_own": "собственный/доверенный код", "llm": "Модель", "llm_off": "не использовалась",
+        "duration": "Длительность", "mode": "Режим", "mode_code": "анализ исходного кода",
+        "llm": "Модель", "llm_off": "не использовалась",
         "sandbox": "Песочница", "sandbox_off": "выключена", "network": "сеть", "verdict": "Итог",
         "open": "открытых находок", "need_human": "требуют проверки человеком", "refuted": "кандидатов снято со ссылкой на защиту",
         "overview": "Обзор рисков", "by_sev": "По серьёзности", "severity": "Серьёзность", "count": "Кол-во",
@@ -56,8 +56,8 @@ T = {
     "en": {
         "title": "Security review report",
         "summary": "Summary", "target": "Target", "commit": "Commit", "branch": "Branch", "started": "Started",
-        "duration": "Duration", "mode": "Mode", "trust_tp": "third-party code (static analysis only, local model)",
-        "trust_own": "own / trusted code", "llm": "Model", "llm_off": "not used",
+        "duration": "Duration", "mode": "Mode", "mode_code": "source code analysis",
+        "llm": "Model", "llm_off": "not used",
         "sandbox": "Sandbox", "sandbox_off": "off", "network": "network", "verdict": "Result",
         "open": "open findings", "need_human": "need human review", "refuted": "candidates refuted with a cited protection",
         "overview": "Risk overview", "by_sev": "By severity", "severity": "Severity", "count": "Count",
@@ -207,7 +207,7 @@ def _run_rows(r: Report) -> list[tuple[str, str]]:
     if run.get("seconds") is not None:
         rows.append((t["duration"], f"{run['seconds']} s"))
     opts = run.get("options") or {}
-    rows.append((t["mode"], t["trust_own"] if opts.get("trust") == "own" else t["trust_tp"]))
+    rows.append((t["mode"], opts.get("mode") or t["mode_code"]))
     rows.append((t["llm"], opts.get("llm") or t["llm_off"]))
     sb = opts.get("sandbox")
     rows.append((t["sandbox"], f"{sb}, {t['network']}: {opts.get('network', 'none')}" if sb else t["sandbox_off"]))

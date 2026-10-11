@@ -10,7 +10,7 @@ from pathlib import Path
 
 import yaml
 
-from caa.core.audit import AuditLog
+from caa.core.audit import NULL_AUDIT, AuditLog
 from caa.core.kb import KnowledgeBase
 from caa.core.models import Status
 from caa.core.orchestrator import Orchestrator, PipelineOptions
@@ -95,7 +95,7 @@ def cmd_scan(args) -> int:
                             codeql_sarif=Path(args.codeql_sarif) if args.codeql_sarif else None,
                             install_deps=args.install_deps)
         llm_cfg = cfg.get("llm", {})
-        trust = "own_stand" if (args.own_stand or args.trust_target) else cfg.get("target_trust", "third_party")
+        trust = "own_stand"   # the operator analyses their own code; providers are theirs to use
         opts = PipelineOptions(use_llm_triage=args.llm,
                                use_llm_entrypoints=args.llm and llm_cfg.get("entrypoint_pass", True),
                                use_dynamic=sandbox is not None, use_runtime=sandbox is not None and args.run_app,
@@ -112,7 +112,7 @@ def cmd_scan(args) -> int:
         llm_name = f"{role}: {router.models[role].config.model}" if role in router.models else role
     run = {"source": source.meta(), "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
            "seconds": round(time.time() - t_start, 1),
-           "options": {"trust": "own" if trust == "own_stand" else "third_party", "llm": llm_name,
+           "options": {"mode": "source code analysis", "llm": llm_name,
                        "sandbox": sandbox.backend if sandbox else None, "network": args.sandbox_network,
                        "run_app": args.run_app}}
     rep = _write(out, res.findings, res.inventory, res.stats, name, run, args.report_lang)
@@ -122,8 +122,38 @@ def cmd_scan(args) -> int:
 
 
 def cmd_live(args) -> int:
-    print("[caa] engine HTTP is not implemented in this build", file=sys.stderr)
-    return 2
+    """Passive, read-only security check of a live website (engine HTTP)."""
+    from caa.engine_http.scanner import WebScan
+    from caa.reports.full import console_summary
+
+    if not args.authorized:
+        print("[caa] `caa live` checks a LIVE site. Run it only against a site you own or are explicitly\n"
+              "      authorised to test, and confirm with --authorized. The scan is read-only (GET/HEAD,\n"
+              "      no attacks), but hitting someone else's site without permission is not OK.", file=sys.stderr)
+        return 2
+    t_start = time.time()
+    try:
+        scan = WebScan(args.url, audit=NULL_AUDIT)
+    except ValueError as exc:
+        print(f"[caa] {exc}", file=sys.stderr)
+        return 2
+    name = (scan.host or "site").replace(":", "_")
+    default_root = "/out" if os.environ.get("CAA_IN_DOCKER") else "caa-out"
+    out = Path(args.out or f"{default_root}/{name}-{time.strftime('%Y%m%d-%H%M%S')}")
+    out.mkdir(parents=True, exist_ok=True)
+    scan.audit = AuditLog(out / "audit.jsonl")
+    scan.audit.write("live_start", target=scan.origin, authorised=True)
+    print(f"[caa] checking {scan.origin} (read-only, passive)", file=sys.stderr)
+    findings, inventory = scan.run()
+    run = {"source": {"url": scan.origin}, "engine": "http",
+           "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
+           "seconds": round(time.time() - t_start, 1),
+           "options": {"mode": "live (black box, passive)", "requests": scan._count,
+                       "llm": None, "sandbox": None, "network": "target only"}}
+    rep = _write(out, findings, inventory, {}, name, run, args.report_lang)
+    print(console_summary(rep))
+    print(f"[caa] full report: {out / 'report.html'}  |  {out / 'report.md'}  |  SARIF: {out / 'report.sarif'}")
+    return 0
 
 
 def main(argv=None) -> int:
@@ -133,15 +163,14 @@ def main(argv=None) -> int:
     s.add_argument("target", help="local folder OR https git URL (github.com/owner/repo or owner/repo)")
     s.add_argument("--ref", help="branch or tag to clone (remote targets)")
     s.add_argument("--keep-clone", action="store_true", help="keep the cloned repository after the scan")
-    s.add_argument("--report-lang", choices=["ru", "en"], default="ru", help="language of report headings")
+    s.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     s.add_argument("--out")
     s.add_argument("--config", default=str(ROOT / "configs" / "default.yaml"))
     s.add_argument("--providers", default=str(ROOT / "configs" / "providers.yaml"))
     s.add_argument("--llm", action="store_true", help="enable LLM triage / entry-point pass (local model by default)")
-    s.add_argument("--own-stand", action="store_true",
-                   help="target is our own stand: hosted providers allowed (default: third-party, local model only)")
+    s.add_argument("--own-stand", action="store_true", help=argparse.SUPPRESS)   # deprecated: kept as a no-op
     s.add_argument("--trust-target", action="store_true",
-                   help="code is trusted (own stand): allow L4 property checks in the sandbox")
+                   help="allow running the target's code in the sandbox (L4 property checks / --run-app)")
     s.add_argument("--sandbox", choices=["auto", "docker", "local-unshare"])
     s.add_argument("--run-app", action="store_true",
                    help="start the application(s) in the sandbox and run localhost-only runtime checks")
@@ -152,11 +181,12 @@ def main(argv=None) -> int:
     s.add_argument("--codeql-sarif")
     s.add_argument("--no-patch", action="store_true")
     s.set_defaults(fn=cmd_scan)
-    lv = sub.add_parser("live", help="read-only assessment of a live app within an ROE (engine HTTP)")
-    lv.add_argument("--roe", required=True)
+    lv = sub.add_parser("live", help="passive, read-only security check of a live website (engine HTTP)")
+    lv.add_argument("url", help="site URL, e.g. https://example.com (your own site, or one you may test)")
+    lv.add_argument("--authorized", action="store_true",
+                    help="confirm you own / are authorised to test this site (required)")
+    lv.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     lv.add_argument("--out")
-    lv.add_argument("--llm", action="store_true")
-    lv.add_argument("--providers", default=str(ROOT / "configs" / "providers.yaml"))
     lv.set_defaults(fn=cmd_live)
     args = p.parse_args(argv)
     load_dotenv()
