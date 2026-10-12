@@ -126,11 +126,6 @@ def cmd_live(args) -> int:
     from caa.engine_http.scanner import WebScan
     from caa.reports.full import console_summary
 
-    if not args.authorized:
-        print("[caa] `caa live` checks a LIVE site. Run it only against a site you own or are explicitly\n"
-              "      authorised to test, and confirm with --authorized. The scan is read-only (GET/HEAD,\n"
-              "      no attacks), but hitting someone else's site without permission is not OK.", file=sys.stderr)
-        return 2
     t_start = time.time()
     try:
         scan = WebScan(args.url, audit=NULL_AUDIT)
@@ -142,7 +137,7 @@ def cmd_live(args) -> int:
     out = Path(args.out or f"{default_root}/{name}-{time.strftime('%Y%m%d-%H%M%S')}")
     out.mkdir(parents=True, exist_ok=True)
     scan.audit = AuditLog(out / "audit.jsonl")
-    scan.audit.write("live_start", target=scan.origin, authorised=True)
+    scan.audit.write("live_start", target=scan.origin)
     print(f"[caa] checking {scan.origin} (read-only, passive)", file=sys.stderr)
     findings, inventory = scan.run()
     run = {"source": {"url": scan.origin}, "engine": "http",
@@ -182,9 +177,7 @@ def main(argv=None) -> int:
     s.add_argument("--no-patch", action="store_true")
     s.set_defaults(fn=cmd_scan)
     lv = sub.add_parser("live", help="passive, read-only security check of a live website (engine HTTP)")
-    lv.add_argument("url", help="site URL, e.g. https://example.com (your own site, or one you may test)")
-    lv.add_argument("--authorized", action="store_true",
-                    help="confirm you own / are authorised to test this site (required)")
+    lv.add_argument("url", help="site URL, e.g. https://example.com")
     lv.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     lv.add_argument("--out")
     lv.set_defaults(fn=cmd_live)

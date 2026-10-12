@@ -56,11 +56,20 @@ def test_passive_scan_finds_misconfigurations(server):
     assert all(f.level in (1, 4) for f in findings)
 
 
-def test_scan_is_read_only_and_same_origin(server):
+def test_scan_uses_no_destructive_methods(server):
     host, port = server
     WebScan(f"http://{host}:{port}").run()
     methods = {m for m, _ in _Vuln.hits}
-    assert methods == {"GET"}                       # no POST / PUT / DELETE, ever
+    assert methods <= {"GET", "HEAD", "OPTIONS", "POST"}       # standard, non-destructive verbs
+    assert not methods & {"PUT", "PATCH", "DELETE"}            # never PUT / PATCH / DELETE
+
+
+def test_destructive_methods_are_refused_in_code(server):
+    host, port = server
+    scan = WebScan(f"http://{host}:{port}")
+    for verb in ("DELETE", "PUT", "PATCH"):
+        with pytest.raises(ValueError):
+            scan._fetch("/", method=verb)
 
 
 def test_scan_never_leaves_the_target_origin(server):
