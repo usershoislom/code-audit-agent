@@ -37,6 +37,13 @@ DOM_MARK = f"<{DOM_TAG}></{DOM_TAG}>"
 NAV_TIMEOUT_MS = 15000
 
 
+def _benign_for(field: dict) -> str:
+    """A harmless default value to fill non-targeted fields so a form submits (owner's own app)."""
+    t = field.get("type", "text")
+    return {"email": "caa@example.com", "number": "1", "tel": "1000000", "url": "https://example.com",
+            "password": "Caa-Test-123", "checkbox": "on", "date": "2020-01-01"}.get(t, "caa")
+
+
 def available() -> bool:
     try:
         import playwright.sync_api  # noqa: F401
@@ -53,6 +60,7 @@ class BrowserCrawl:
     max_pages: int = 8
     audit: AuditLog = NULL_AUDIT
     pages: list[dict] = field(default_factory=list)
+    points: list[dict] = field(default_factory=list)   # enumerated injection points (for the active prober)
     _mixed: dict = field(default_factory=dict)      # page url -> list of http subresource urls
     _idx: int = 0
 
@@ -120,9 +128,11 @@ class BrowserCrawl:
         findings += self._csrf_findings(forms_seen)
         for f in findings:
             f.make_id()
+        self.points = self.injection_points(forms_seen, sorted(seen))
         inv = {
             "pages_crawled": len(seen),
             "forms": len(forms_seen),
+            "injection_points": len(self.points),
             "cookies": [{"name": c.get("name"), "secure": c.get("secure"), "httpOnly": c.get("httpOnly"),
                          "sameSite": c.get("sameSite")} for c in cookies_final],
             "page_list": self.pages,
@@ -146,12 +156,47 @@ class BrowserCrawl:
                 action: f.getAttribute('action')||'',
                 hasToken: !!f.querySelector("input[type=hidden][name*=csrf i],input[type=hidden][name*=token i],"
                     + "input[name=_token],input[name=authenticity_token],input[name=csrfmiddlewaretoken]"),
+                fields: Array.from(f.querySelectorAll('input[name],textarea[name],select[name]'))
+                    .map(e => ({name: e.getAttribute('name'),
+                                type: (e.getAttribute('type')||'text').toLowerCase(),
+                                value: e.getAttribute('value')||''})),
             }))""") or []
         except Exception:
             return []
         for r in raw:
             r["page"] = url
         return raw
+
+    def injection_points(self, forms: list[dict], urls: list[str]) -> list[dict]:
+        """Enumerate places user input enters the app: form fields and query parameters. Used by the
+        optional active prober. Each point: {method, url, fields:{name:value}, submit:[names], page}."""
+        import urllib.parse as up
+        points, seen = [], set()
+        for form in forms:
+            fields = {f["name"]: (f.get("value") or _benign_for(f)) for f in form.get("fields", []) if f.get("name")}
+            if not fields:
+                continue
+            action = up.urljoin(form["page"], form.get("action") or "")
+            if not self._same_origin(action):
+                continue
+            key = (form.get("method", "get"), action, tuple(sorted(fields)))
+            if key in seen:
+                continue
+            seen.add(key)
+            points.append({"method": form.get("method", "get"), "url": action, "fields": dict(fields),
+                           "submit": list(fields), "page": form["page"]})
+        for u in urls:
+            parts = up.urlparse(u)
+            qs = dict(up.parse_qsl(parts.query))
+            if not qs:
+                continue
+            base = parts._replace(query="").geturl()
+            key = ("get", base, tuple(sorted(qs)))
+            if key in seen:
+                continue
+            seen.add(key)
+            points.append({"method": "get", "url": base, "fields": qs, "submit": list(qs), "page": u})
+        return points
 
     def _check_dom_reflection(self, page, urls: list[str]) -> list[Finding]:
         out = []

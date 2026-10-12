@@ -142,17 +142,20 @@ def cmd_live(args) -> int:
     findings, inventory = scan.run()
 
     from caa.engine_http import browser as browser_mod
+    crawl = None
     use_browser = not args.no_browser and browser_mod.available()
     if use_browser:
         print(f"[caa] driving a headless browser over {scan.origin} (crawling up to {args.crawl} pages)",
               file=sys.stderr)
         try:
-            bfind, binv = browser_mod.BrowserCrawl(scan.origin, scan.host, scan.origin + (scan.start_path or "/"),
-                                                   max_pages=args.crawl, audit=scan.audit).run()
+            crawl = browser_mod.BrowserCrawl(scan.origin, scan.host, scan.origin + (scan.start_path or "/"),
+                                             max_pages=args.crawl, audit=scan.audit)
+            bfind, binv = crawl.run()
             findings += bfind
             inventory["browser"] = binv
             inventory["analyzers"].append({"analyzer": "web-browser", "status": "ok", "candidates": len(bfind),
-                                           "note": f"Playwright/Chromium, {binv['pages_crawled']} page(s) crawled"})
+                                           "note": f"Playwright/Chromium, {binv['pages_crawled']} page(s), "
+                                           f"{binv['injection_points']} input point(s)"})
         except Exception as exc:
             print(f"[caa] browser crawl skipped: {exc}", file=sys.stderr)
             inventory["analyzers"].append({"analyzer": "web-browser", "status": "failed",
@@ -160,6 +163,22 @@ def cmd_live(args) -> int:
     elif not args.no_browser:
         inventory["analyzers"].append({"analyzer": "web-browser", "status": "skipped", "candidates": 0,
                                        "note": "Playwright not installed (Docker: uncomment WITH_BROWSER=1 in build.conf)"})
+
+    if args.active:
+        from caa.engine_http.active import ActiveProber
+        points = crawl.points if crawl else []
+        print(f"[caa] ACTIVE testing {scan.origin}: submitting inputs/forms on {len(points)} input point(s) with "
+              "benign probes.\n      This sends real requests and may change data - run it against your own app or "
+              "a staging copy.", file=sys.stderr)
+        if not points:
+            print("[caa] no input points found to probe (need the browser crawl; is --no-browser set?)",
+                  file=sys.stderr)
+        afind, ainv = ActiveProber(scan.origin, scan.host, points, audit=scan.audit).run()
+        findings += afind
+        inventory["active"] = ainv
+        inventory["analyzers"].append({"analyzer": "web-active", "status": "ok", "candidates": len(afind),
+                                       "note": f"{ainv['points_tested']} point(s) probed, {ainv['requests']} requests"})
+
     run = {"source": {"url": scan.origin}, "engine": "http",
            "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
            "seconds": round(time.time() - t_start, 1),
@@ -202,6 +221,9 @@ def main(argv=None) -> int:
                     help="skip the headless-browser crawl; run only the passive HTTP checks")
     lv.add_argument("--crawl", type=int, default=8, metavar="N",
                     help="max same-origin pages the browser crawls (default 8)")
+    lv.add_argument("--active", action="store_true",
+                    help="actively test your own app: submit inputs/forms with benign probes (XSS, SQLi, "
+                         "redirect, traversal, command injection). Sends real requests - use on your own app.")
     lv.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     lv.add_argument("--out")
     lv.set_defaults(fn=cmd_live)

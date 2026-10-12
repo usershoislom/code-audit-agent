@@ -136,3 +136,73 @@ def test_browser_crawl_finds_reflected_xss_and_csrf_form(app_server):
 
 def test_browser_available_is_boolean():
     assert isinstance(browser_mod.available(), bool)
+
+
+# --- active probing (opt-in, own app) ------------------------------------------------------
+from caa.engine_http.active import ActiveProber
+
+
+class _VulnApp(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+
+    def _send(self, code, body, headers=None):
+        self.send_response(code)
+        for k, v in (headers or {}).items():
+            self.send_header(k, v)
+        self.send_header("Content-Type", "text/html"); self.end_headers()
+        self.wfile.write(body.encode())
+
+    def do_GET(self):
+        import urllib.parse as up
+        p = up.urlparse(self.path); q = up.parse_qs(p.query)
+        if p.path == "/search":                         # reflects q unescaped -> XSS
+            self._send(200, f"<html>You searched: {q.get('q',[''])[0]}</html>")
+        elif p.path == "/item":                         # odd number of quotes -> SQL error (error-based SQLi)
+            v = q.get("id", [""])[0]
+            if v.count("'") % 2 == 1:
+                self._send(500, "<html>You have an error in your SQL syntax near '''</html>")
+            else:
+                self._send(200, "<html>item ok</html>")
+        elif p.path == "/go":                           # open redirect
+            self._send(302, "", {"Location": q.get("url", [""])[0]})
+        else:
+            self._send(200, "<html>home</html>")
+
+
+@pytest.fixture()
+def vuln_server():
+    socketserver.TCPServer.allow_reuse_address = True
+    httpd = socketserver.TCPServer(("127.0.0.1", 0), _VulnApp)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    yield httpd.server_address
+    httpd.shutdown()
+
+
+def _point(origin, path, params):
+    return {"method": "get", "url": f"{origin}{path}", "fields": dict(params), "submit": list(params), "page": ""}
+
+
+def test_active_confirms_xss_sqli_and_open_redirect(vuln_server):
+    host, port = vuln_server
+    origin = f"http://{host}:{port}"
+    points = [_point(origin, "/search", {"q": "x"}),
+              _point(origin, "/item", {"id": "1"}),
+              _point(origin, "/go", {"url": "/home"})]
+    findings, summary = ActiveProber(origin, host, points).run()
+    cwes = {f.cwe for f in findings}
+    assert "CWE-79" in cwes        # reflected XSS confirmed by unescaped marker
+    assert "CWE-89" in cwes        # error-based SQL injection
+    assert "CWE-601" in cwes       # open redirect
+    assert all(f.level == 4 for f in findings)
+    assert summary["points_tested"] == 3
+
+
+def test_active_is_same_origin_and_non_destructive_verbs(vuln_server):
+    host, port = vuln_server
+    origin = f"http://{host}:{port}"
+    pr = ActiveProber(origin, host, [])
+    with pytest.raises(ValueError):
+        pr._request("GET", "http://example.org/x", {})      # off-origin refused
+    with pytest.raises(ValueError):
+        pr._request("DELETE", f"{origin}/x", {})            # destructive verb refused

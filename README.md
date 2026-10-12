@@ -133,10 +133,38 @@ button, or does anything destructive, and it stays on your domain. Control it wi
 many pages, default 8) or `--no-browser` (passive HTTP checks only). In Docker, the browser is an
 optional build — uncomment `WITH_BROWSER=1` in `build.conf`.
 
-The results go into the same HTML / Markdown / SARIF report. The boundaries (standard methods only,
-your domain only, navigation only, a capped number of requests and pages) are enforced in the code.
+### Active testing of your own app (`--active`)
 
-> Run `caa live` against sites you own or are allowed to test.
+By default the live check only observes. With `--active` the agent **actually exercises every input
+it found** — query parameters and form fields, including POST forms — to confirm whether your app
+really lets an attack through. This is the "find the holes I missed" mode:
+
+```powershell
+.\caa.ps1 live https://your-app.com --active
+```
+
+| Active check | How it confirms (benign, no exploitation) |
+|---|---|
+| Reflected XSS (CWE-79) | a unique harmless marker comes back as unescaped HTML |
+| SQL injection (CWE-89) | a single quote raises a DB error a balanced quote doesn't; or `' OR '1'='1` vs `' OR '1'='2` change the response |
+| OS command injection (CWE-78) | a `sleep` makes the response measurably slower, confirmed on a repeat |
+| Open redirect (CWE-601) | a redirect parameter sends the browser to a marker host |
+| Path traversal (CWE-22) | a `../` sequence returns a world-readable file's format signature |
+
+It confirms by **benign signals only** — unique markers, error/boolean differences, a timing delay,
+a redirect target, a format signature. It never runs a destructive payload: no `DROP`/`DELETE`, no
+`rm`/`cat`, no data read out or written, and never PUT/PATCH/DELETE. It stays on your domain, caps
+the number of inputs and requests, and logs every request.
+
+> **Active mode submits forms, so it can create or change data.** Run it against your own app, ideally
+> a staging copy. The passive and browser checks (above) are read-only; `--active` is the one that
+> sends real inputs.
+
+The results go into the same HTML / Markdown / SARIF report. The boundaries (standard methods only,
+your domain only, a fixed benign payload set, a capped number of requests, inputs and pages) are
+enforced in the code.
+
+> Run `caa live` against sites and apps you own or are allowed to test.
 
 ---
 
@@ -287,7 +315,7 @@ function check confirms SQLi instead.
 caa/langs.py       project profile: languages, frameworks, kind of program
 caa/core/          orchestrator, data models, ladder, KB (CWE cards + BM25), triage, LLM layer, audit
 caa/engine_code/   engine A (white box): Python taint, route map (Flask/FastAPI/Django) + ABSENTIA, patcher, verification
-caa/engine_http/   engine B (black box): scanner.py (passive HTTP checks) + browser.py (Playwright crawl) for caa live
+caa/engine_http/   engine B (black box): scanner.py (passive HTTP) + browser.py (Playwright crawl) + active.py (opt-in probing) for caa live
 caa/tools/         tool whitelist for the model; analyzers.py (per-language plugins), sast.py (SARIF),
                    deps.py (osv-scanner offline), secrets_scan.py, hygiene.py
 caa/sandbox/       runner.py (docker / unshare, network none|egress), harness.py (function property tests),
