@@ -118,8 +118,23 @@ what the site reveals on its own:
 | Directory listing | browsing a folder's contents is left enabled |
 | Exposed files | `/.git/HEAD`, `/.env` and similar are served publicly (confirmed by their content) |
 
+If a headless browser (Playwright + Chromium) is available, the agent also **drives a real browser**
+over the site — it runs the page's JavaScript, crawls same-origin links, and sees what a user
+actually gets. That adds checks a plain HTTP client cannot do:
+
+| Browser check | Example finding |
+|---|---|
+| Reflected / DOM-based XSS | a marker put in a URL parameter is rendered as a real HTML element (CWE-79) |
+| CSRF | a state-changing POST form has no anti-CSRF token field (CWE-352) |
+| Mixed content | an `https` page loads `http://` scripts or styles (CWE-319) |
+
+The browser only navigates (GET) and reads the rendered page — it never submits a form, clicks a
+button, or does anything destructive, and it stays on your domain. Control it with `--crawl N` (how
+many pages, default 8) or `--no-browser` (passive HTTP checks only). In Docker, the browser is an
+optional build — uncomment `WITH_BROWSER=1` in `build.conf`.
+
 The results go into the same HTML / Markdown / SARIF report. The boundaries (standard methods only,
-your domain only, a capped number of requests) are enforced in the code.
+your domain only, navigation only, a capped number of requests and pages) are enforced in the code.
 
 > Run `caa live` against sites you own or are allowed to test.
 
@@ -147,6 +162,7 @@ tools are optional — uncomment a line in `build.conf` and the next run rebuild
 |---|---|---|
 | `WITH_GO=1` | gosec, govulncheck and Go: deeper Go checks, run Go apps | +3–5 min |
 | `WITH_NODE=1` | Node.js and npm: run JS/TS apps with `--run-app` | +1 min |
+| `WITH_BROWSER=1` | Playwright + Chromium: `caa live` drives a real browser (crawl, DOM-XSS, CSRF) | +~400 MB |
 
 ### Running your app in the sandbox
 
@@ -271,7 +287,7 @@ function check confirms SQLi instead.
 caa/langs.py       project profile: languages, frameworks, kind of program
 caa/core/          orchestrator, data models, ladder, KB (CWE cards + BM25), triage, LLM layer, audit
 caa/engine_code/   engine A (white box): Python taint, route map (Flask/FastAPI/Django) + ABSENTIA, patcher, verification
-caa/engine_http/   engine B (black box): passive live-site checks (caa live)
+caa/engine_http/   engine B (black box): scanner.py (passive HTTP checks) + browser.py (Playwright crawl) for caa live
 caa/tools/         tool whitelist for the model; analyzers.py (per-language plugins), sast.py (SARIF),
                    deps.py (osv-scanner offline), secrets_scan.py, hygiene.py
 caa/sandbox/       runner.py (docker / unshare, network none|egress), harness.py (function property tests),

@@ -88,3 +88,51 @@ def test_unreachable_target_reports_cleanly():
 def test_rejects_non_http_url():
     with pytest.raises(ValueError):
         WebScan("ftp://example.com")
+
+
+# --- browser-driven crawl (Playwright) -----------------------------------------------------
+import caa.engine_http.browser as browser_mod
+
+
+class _App(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+
+    def do_GET(self):
+        import urllib.parse as up
+        p = up.urlparse(self.path)
+        q = up.parse_qs(p.query)
+        if p.path == "/search":
+            body = f"<html><body>Results for {q.get('q', [''])[0]}<a href='/login'>login</a></body></html>"
+        elif p.path == "/login":
+            body = ("<html><body><form method='post' action='/login'>"
+                    "<input name='user'><button>go</button></form></body></html>")
+        else:
+            body = "<html><body><a href='/search?q=hi'>s</a> <a href='/login'>l</a></body></html>"
+        self.send_response(200); self.send_header("Content-Type", "text/html"); self.end_headers()
+        self.wfile.write(body.encode())
+
+
+@pytest.fixture()
+def app_server():
+    socketserver.TCPServer.allow_reuse_address = True
+    httpd = socketserver.TCPServer(("127.0.0.1", 0), _App)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    yield httpd.server_address
+    httpd.shutdown()
+
+
+@pytest.mark.skipif(not browser_mod.available(), reason="Playwright not installed")
+def test_browser_crawl_finds_reflected_xss_and_csrf_form(app_server):
+    host, port = app_server
+    origin = f"http://{host}:{port}"
+    findings, inv = browser_mod.BrowserCrawl(origin, host, origin + "/", max_pages=6).run()
+    cwes = {f.cwe for f in findings}
+    assert "CWE-79" in cwes        # reflected marker rendered as a real DOM element
+    assert "CWE-352" in cwes       # POST /login form has no token field
+    assert inv["pages_crawled"] >= 2
+    assert all(f.level == 4 for f in findings)   # observed live in the browser
+
+
+def test_browser_available_is_boolean():
+    assert isinstance(browser_mod.available(), bool)

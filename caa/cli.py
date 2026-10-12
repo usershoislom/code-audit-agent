@@ -140,6 +140,26 @@ def cmd_live(args) -> int:
     scan.audit.write("live_start", target=scan.origin)
     print(f"[caa] checking {scan.origin} (read-only, passive)", file=sys.stderr)
     findings, inventory = scan.run()
+
+    from caa.engine_http import browser as browser_mod
+    use_browser = not args.no_browser and browser_mod.available()
+    if use_browser:
+        print(f"[caa] driving a headless browser over {scan.origin} (crawling up to {args.crawl} pages)",
+              file=sys.stderr)
+        try:
+            bfind, binv = browser_mod.BrowserCrawl(scan.origin, scan.host, scan.origin + (scan.start_path or "/"),
+                                                   max_pages=args.crawl, audit=scan.audit).run()
+            findings += bfind
+            inventory["browser"] = binv
+            inventory["analyzers"].append({"analyzer": "web-browser", "status": "ok", "candidates": len(bfind),
+                                           "note": f"Playwright/Chromium, {binv['pages_crawled']} page(s) crawled"})
+        except Exception as exc:
+            print(f"[caa] browser crawl skipped: {exc}", file=sys.stderr)
+            inventory["analyzers"].append({"analyzer": "web-browser", "status": "failed",
+                                           "candidates": 0, "note": str(exc)[:200]})
+    elif not args.no_browser:
+        inventory["analyzers"].append({"analyzer": "web-browser", "status": "skipped", "candidates": 0,
+                                       "note": "Playwright not installed (Docker: uncomment WITH_BROWSER=1 in build.conf)"})
     run = {"source": {"url": scan.origin}, "engine": "http",
            "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
            "seconds": round(time.time() - t_start, 1),
@@ -178,6 +198,10 @@ def main(argv=None) -> int:
     s.set_defaults(fn=cmd_scan)
     lv = sub.add_parser("live", help="passive, read-only security check of a live website (engine HTTP)")
     lv.add_argument("url", help="site URL, e.g. https://example.com")
+    lv.add_argument("--no-browser", action="store_true",
+                    help="skip the headless-browser crawl; run only the passive HTTP checks")
+    lv.add_argument("--crawl", type=int, default=8, metavar="N",
+                    help="max same-origin pages the browser crawls (default 8)")
     lv.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     lv.add_argument("--out")
     lv.set_defaults(fn=cmd_live)
