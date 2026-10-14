@@ -10,214 +10,93 @@ every claim must point to a line the tool actually read. That keeps false alarms
 
 ---
 
-## What it can do
+## Install
 
-- **Review source code** in Python, JavaScript/TypeScript, Java, Go and HTML. Give it a GitHub URL
-  or a local folder.
-- **Find real bugs, not just patterns:** injection, path traversal, SSRF, open redirect, missing
-  access control, hard-coded secrets, vulnerable dependencies, and common misconfigurations.
-- **Check a live website** from its URL alone, with no access to the code — see [Check a live
-  website](#check-a-live-website).
-- **Run your app safely in a sandbox** and confirm some findings at runtime (Python apps).
-- **Write a full report** — an HTML page you open in a browser, plus Markdown and SARIF (for IDEs
-  and CI).
+Only [Docker Desktop](https://www.docker.com/products/docker-desktop/) is needed — no WSL, no Python setup.
 
-Everything runs on your machine. Your code and your model stay with you.
-
----
-
-## Quick start (Docker)
-
-You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) — no WSL, no Python
-setup. The first run builds the image (about a minute, plus downloading the base image).
-
-**Windows (PowerShell):**
-```powershell
+```bash
 git clone https://github.com/usershoislom/code-audit-agent.git
 cd code-audit-agent
-.\caa.ps1 scan https://github.com/owner/repo
 ```
-If PowerShell blocks scripts: `powershell -ExecutionPolicy Bypass -File .\caa.ps1 scan ...`
 
-**macOS / Linux:**
+Run with `.\caa.ps1 <args>` on **Windows (PowerShell)** or `./caa.sh <args>` on **macOS/Linux**. The first run builds the image (~1 min). Below, `caa` stands for whichever wrapper you use.
+
+The default image scans Python, JS/TS, Java, Go and HTML and can run Python apps. Optional extras (uncomment a line in `build.conf`, the next run rebuilds): `WITH_GO=1` (Go tools / run Go apps), `WITH_NODE=1` (run JS/TS apps), `WITH_BROWSER=1` (browser-based live checks, +~400 MB).
+
+<sub>Without Docker (Linux): `pip install -e '.[stand,dev,browser]'` · `scripts/install_tools.sh && export PATH="$HOME/.local/caa-tools/bin:$PATH"` · then `caa scan ...` / `caa live ...` directly.</sub>
+
+---
+
+## The two commands
+
+### `caa scan` — review source code
+
 ```bash
-./caa.sh scan https://github.com/owner/repo
+caa scan https://github.com/owner/repo          # a public repo by URL
+caa scan owner/repo --ref develop               # short form + branch/tag
+caa scan C:\path\to\my-app                       # a local folder (mounted read-only)
+caa scan owner/repo --llm                        # + model review of findings
+caa scan C:\path\to\my-app --trust-target --run-app   # also start the app and test it live in a sandbox
 ```
 
-### Ways to scan
-
-| Command | What it does |
+| Flag | What it adds |
 |---|---|
-| `caa scan https://github.com/owner/repo` | a repository by URL |
-| `caa scan owner/repo --ref develop` | short form + a branch or tag |
-| `caa scan C:\projects\my-app` | a folder on your computer (mounted read-only) |
-| `caa scan owner/repo --llm` | also let the model review findings (keys from `.env`) |
-| `caa scan C:\projects\my-app --trust-target --run-app` | your own app: sandbox checks + run the app |
-| `caa live https://your-site.com` | check a live website (no code needed) |
-| `caa rebuild` | rebuild the image after `git pull` |
+| `--llm` | the model reviews candidates (keys from `.env`) |
+| `--trust-target` | allow running the target's code in the sandbox (required by the flags below) |
+| `--run-app` | start the app in the sandbox, run harmless localhost checks |
+| `--sandbox-network egress` | let the sandboxed app reach the internet |
+| `--install-deps` | install the app's dependencies first (needs `egress`) |
+| `--report-lang ru` | Russian report (default is English) |
 
-(On Windows write `.\caa.ps1 ...`, on macOS/Linux `./caa.sh ...`.)
+### `caa live` — test a running website (no code needed)
+
+Three depths, each adding to the previous. Run against a site/app **you own or may test**.
+
+```bash
+caa live https://your-site.com                   # 1. passive + browser crawl (read-only)
+caa live https://your-site.com --no-browser      # 1a. passive HTTP only (no browser)
+caa live https://your-app.com  --active          # 2. also actively probe inputs/forms
+```
+
+| Depth | What it does | Changes data? |
+|---|---|---|
+| **passive** | reads headers, cookies, errors, exposed files (`/.git`, `/.env`) | no |
+| **browser** (default, needs `WITH_BROWSER=1`) | runs JS, crawls pages, finds DOM-XSS, CSRF forms, mixed content | no |
+| **`--active`** | submits inputs/forms with benign probes to confirm XSS, SQLi, command injection, open redirect, path traversal | **yes — may create/change data** |
+
+`--active` sends real requests and submits forms, so run it on your own app or a staging copy. It confirms issues with benign signals only (unique markers, error/timing differences) — never destructive payloads, only GET/POST, same-origin, capped requests. Other flags: `--crawl N` (pages to crawl, default 8), `--report-lang ru`.
 
 ---
 
-## How to read the report
+## Where to read the results
 
-After the scan a short summary prints in the console, and a folder appears in
-`caa-reports\<name>-<date>\`:
+Every run prints a one-line summary and writes a folder: `caa-reports/<name>-<date>/`.
 
-- **`report.html`** — the main report, open it in a browser. It has:
-  - a summary: target, commit, mode, how long it took;
-  - a risk overview by severity, type, confidence and language;
-  - **Fix first** — the findings that matter most;
-  - the project profile (languages, frameworks);
-  - which checks ran and which were skipped (and why);
-  - the app run, if you used `--run-app`;
-  - every finding in full: where it is, the evidence, what was **not** verified, and a fix;
-  - candidates that were dismissed, each with the protecting line that cleared it.
-- `report.md` — the same in Markdown.
-- `report.sarif` — for IDEs and CI.
-- `run.json`, `audit.jsonl`, `state/` — the log and intermediate results.
+| File | Open it in | What's inside |
+|---|---|---|
+| **`report.html`** | **a browser — start here** | risk overview, "fix first", every finding with evidence and a fix, dismissed candidates |
+| `report.md` | any editor | the same report in Markdown |
+| `report.sarif` | your IDE / CI | machine-readable findings |
+| `findings.json`, `run.json`, `audit.jsonl`, `state/` | — | raw findings, run metadata, full log |
 
-**Confidence (L0–L5).** Each finding carries a confidence level. Higher means more was proven:
+**Reading a finding.** Each one shows *what* and *where* (file:line or URL), a plain-language *why*, the *evidence*, what was **not** verified, and a suggested *fix*. Sort by **severity** (critical → low) and start with the **Fix first** list.
 
-| Level | Meaning |
-|---|---|
-| L0 | a rule matched (weakest) |
-| L1 | two independent tools agree |
-| L2 | a traced path from input to the dangerous call, every step a real `file:line` |
-| L3 | a dedicated "defender" pass looked for a protection and found none |
-| L4 | a harmless runtime check in the sandbox confirmed it |
-| L5 | the suggested fix was applied and the issue is gone |
+**Confidence (L0–L5)** — how much was proven, shown on each finding:
 
-Report headings are in English by default. Add `--report-lang ru` for Russian.
+| L0 | L1 | L2 | L3 | L4 | L5 |
+|---|---|---|---|---|---|
+| a rule matched | two tools agree | input→sink path traced, each step a real line | a "defender" pass found no protection | confirmed live (sandbox or against the site) | the fix was applied and the issue is gone |
 
----
+Higher = more certain. For code scans, treat **L2+** as solid; live-site findings are **L4** (observed on the running app).
 
-## Check a live website
+### Model keys (optional) and private repos — `.env`
 
-If you don't have the code and only have an address, the agent checks the site from the outside
-(black box):
-
-```powershell
-.\caa.ps1 live https://your-site.com
-```
-
-The check is **passive**: it makes ordinary requests and reads what the server returns — no attacks,
-no fuzzing, no brute force. It uses standard, non-destructive methods (GET, HEAD, OPTIONS, and POST
-where a browser would); it never uses PUT/PATCH/DELETE and never leaves your domain. It looks at
-what the site reveals on its own:
-
-| Check | Example finding |
-|---|---|
-| Transport | site on `http://` with no redirect to `https`; no HSTS |
-| Security headers | missing CSP, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` |
-| Cookies | session cookie without `Secure` / `HttpOnly` / `SameSite` |
-| CORS | server reflects any `Origin` with credentials; a cross-origin preflight for POST is allowed too broadly |
-| Server banner | the server version is visible in headers (helps attackers match known CVEs) |
-| Errors | a missing path returns a stack trace / debug page (CWE-209) |
-| Directory listing | browsing a folder's contents is left enabled |
-| Exposed files | `/.git/HEAD`, `/.env` and similar are served publicly (confirmed by their content) |
-
-If a headless browser (Playwright + Chromium) is available, the agent also **drives a real browser**
-over the site — it runs the page's JavaScript, crawls same-origin links, and sees what a user
-actually gets. That adds checks a plain HTTP client cannot do:
-
-| Browser check | Example finding |
-|---|---|
-| Reflected / DOM-based XSS | a marker put in a URL parameter is rendered as a real HTML element (CWE-79) |
-| CSRF | a state-changing POST form has no anti-CSRF token field (CWE-352) |
-| Mixed content | an `https` page loads `http://` scripts or styles (CWE-319) |
-
-The browser only navigates (GET) and reads the rendered page — it never submits a form, clicks a
-button, or does anything destructive, and it stays on your domain. Control it with `--crawl N` (how
-many pages, default 8) or `--no-browser` (passive HTTP checks only). In Docker, the browser is an
-optional build — uncomment `WITH_BROWSER=1` in `build.conf`.
-
-### Active testing of your own app (`--active`)
-
-By default the live check only observes. With `--active` the agent **actually exercises every input
-it found** — query parameters and form fields, including POST forms — to confirm whether your app
-really lets an attack through. This is the "find the holes I missed" mode:
-
-```powershell
-.\caa.ps1 live https://your-app.com --active
-```
-
-| Active check | How it confirms (benign, no exploitation) |
-|---|---|
-| Reflected XSS (CWE-79) | a unique harmless marker comes back as unescaped HTML |
-| SQL injection (CWE-89) | a single quote raises a DB error a balanced quote doesn't; or `' OR '1'='1` vs `' OR '1'='2` change the response |
-| OS command injection (CWE-78) | a `sleep` makes the response measurably slower, confirmed on a repeat |
-| Open redirect (CWE-601) | a redirect parameter sends the browser to a marker host |
-| Path traversal (CWE-22) | a `../` sequence returns a world-readable file's format signature |
-
-It confirms by **benign signals only** — unique markers, error/boolean differences, a timing delay,
-a redirect target, a format signature. It never runs a destructive payload: no `DROP`/`DELETE`, no
-`rm`/`cat`, no data read out or written, and never PUT/PATCH/DELETE. It stays on your domain, caps
-the number of inputs and requests, and logs every request.
-
-> **Active mode submits forms, so it can create or change data.** Run it against your own app, ideally
-> a staging copy. The passive and browser checks (above) are read-only; `--active` is the one that
-> sends real inputs.
-
-The results go into the same HTML / Markdown / SARIF report. The boundaries (standard methods only,
-your domain only, a fixed benign payload set, a capped number of requests, inputs and pages) are
-enforced in the code.
-
-> Run `caa live` against sites and apps you own or are allowed to test.
-
----
-
-## Options and setup
-
-### Model and private repositories — the `.env` file
-
-Put a `.env` file next to `caa.ps1`:
+`--llm` and private clones read a `.env` next to the wrapper:
 ```
 GEMMA_API_KEY=...
 GROQ_API_KEY=...
-CAA_GIT_TOKEN=...   # private repos only; sent as a header, never in the URL or the report
+CAA_GIT_TOKEN=...   # private repos only; sent as a header, never stored in the report
 ```
-`--llm` turns on the model pass. If your model runs on the same machine (Ollama and the like), set
-its address in `configs/providers.yaml` to `http://host.docker.internal:11434/v1`.
-
-### Adding more languages to the image (optional)
-
-The default image already scans Python, JS/TS, Java, Go and HTML and can run Python apps. Extra
-tools are optional — uncomment a line in `build.conf` and the next run rebuilds the image:
-
-| Line | What it adds | Build time |
-|---|---|---|
-| `WITH_GO=1` | gosec, govulncheck and Go: deeper Go checks, run Go apps | +3–5 min |
-| `WITH_NODE=1` | Node.js and npm: run JS/TS apps with `--run-app` | +1 min |
-| `WITH_BROWSER=1` | Playwright + Chromium: `caa live` drives a real browser (crawl, DOM-XSS, CSRF) | +~400 MB |
-
-### Running your app in the sandbox
-
-`--run-app` (with `--trust-target`) starts your app in an isolated sandbox and runs harmless
-localhost-only checks against it. `--sandbox-network egress` lets the app reach the internet (its
-own APIs, package registries) and `--install-deps` installs its dependencies first. These flags run
-the target's code, so they require `--trust-target`.
-
-### Safe cloning by URL
-
-Only `https://` addresses are accepted; git is restricted to the https protocol; a single branch is
-cloned with no history and no submodules.
-
----
-
-## Without Docker (Linux)
-
-```bash
-pip install -e '.[stand,dev]'
-scripts/install_tools.sh && export PATH="$HOME/.local/caa-tools/bin:$PATH"
-make test
-caa scan https://github.com/owner/repo
-caa scan path/to/own-app --trust-target --run-app
-caa live https://your-site.com
-```
-
----
 
 ---
 
@@ -437,3 +316,4 @@ business logic; with the model it is found (C 1/1).
 Versions are pinned in `pyproject.toml`; rules and the vulnerability snapshot live offline in
 `configs/`; the model uses `temperature=0` and `seed=0`. Each evaluation row is its own directory
 with `state/`, `audit.jsonl`, `findings.json`, `report.md` and `report.sarif`.
+
