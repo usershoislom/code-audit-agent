@@ -126,11 +126,6 @@ def cmd_live(args) -> int:
     from caa.engine_http.scanner import WebScan
     from caa.reports.full import console_summary
 
-    if not args.authorized:
-        print("[caa] `caa live` checks a LIVE site. Run it only against a site you own or are explicitly\n"
-              "      authorised to test, and confirm with --authorized. The scan is read-only (GET/HEAD,\n"
-              "      no attacks), but hitting someone else's site without permission is not OK.", file=sys.stderr)
-        return 2
     t_start = time.time()
     try:
         scan = WebScan(args.url, audit=NULL_AUDIT)
@@ -142,9 +137,48 @@ def cmd_live(args) -> int:
     out = Path(args.out or f"{default_root}/{name}-{time.strftime('%Y%m%d-%H%M%S')}")
     out.mkdir(parents=True, exist_ok=True)
     scan.audit = AuditLog(out / "audit.jsonl")
-    scan.audit.write("live_start", target=scan.origin, authorised=True)
+    scan.audit.write("live_start", target=scan.origin)
     print(f"[caa] checking {scan.origin} (read-only, passive)", file=sys.stderr)
     findings, inventory = scan.run()
+
+    from caa.engine_http import browser as browser_mod
+    crawl = None
+    use_browser = not args.no_browser and browser_mod.available()
+    if use_browser:
+        print(f"[caa] driving a headless browser over {scan.origin} (crawling up to {args.crawl} pages)",
+              file=sys.stderr)
+        try:
+            crawl = browser_mod.BrowserCrawl(scan.origin, scan.host, scan.origin + (scan.start_path or "/"),
+                                             max_pages=args.crawl, audit=scan.audit)
+            bfind, binv = crawl.run()
+            findings += bfind
+            inventory["browser"] = binv
+            inventory["analyzers"].append({"analyzer": "web-browser", "status": "ok", "candidates": len(bfind),
+                                           "note": f"Playwright/Chromium, {binv['pages_crawled']} page(s), "
+                                           f"{binv['injection_points']} input point(s)"})
+        except Exception as exc:
+            print(f"[caa] browser crawl skipped: {exc}", file=sys.stderr)
+            inventory["analyzers"].append({"analyzer": "web-browser", "status": "failed",
+                                           "candidates": 0, "note": str(exc)[:200]})
+    elif not args.no_browser:
+        inventory["analyzers"].append({"analyzer": "web-browser", "status": "skipped", "candidates": 0,
+                                       "note": "Playwright not installed (Docker: uncomment WITH_BROWSER=1 in build.conf)"})
+
+    if args.active:
+        from caa.engine_http.active import ActiveProber
+        points = crawl.points if crawl else []
+        print(f"[caa] ACTIVE testing {scan.origin}: submitting inputs/forms on {len(points)} input point(s) with "
+              "benign probes.\n      This sends real requests and may change data - run it against your own app or "
+              "a staging copy.", file=sys.stderr)
+        if not points:
+            print("[caa] no input points found to probe (need the browser crawl; is --no-browser set?)",
+                  file=sys.stderr)
+        afind, ainv = ActiveProber(scan.origin, scan.host, points, audit=scan.audit).run()
+        findings += afind
+        inventory["active"] = ainv
+        inventory["analyzers"].append({"analyzer": "web-active", "status": "ok", "candidates": len(afind),
+                                       "note": f"{ainv['points_tested']} point(s) probed, {ainv['requests']} requests"})
+
     run = {"source": {"url": scan.origin}, "engine": "http",
            "started": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
            "seconds": round(time.time() - t_start, 1),
@@ -182,9 +216,14 @@ def main(argv=None) -> int:
     s.add_argument("--no-patch", action="store_true")
     s.set_defaults(fn=cmd_scan)
     lv = sub.add_parser("live", help="passive, read-only security check of a live website (engine HTTP)")
-    lv.add_argument("url", help="site URL, e.g. https://example.com (your own site, or one you may test)")
-    lv.add_argument("--authorized", action="store_true",
-                    help="confirm you own / are authorised to test this site (required)")
+    lv.add_argument("url", help="site URL, e.g. https://example.com")
+    lv.add_argument("--no-browser", action="store_true",
+                    help="skip the headless-browser crawl; run only the passive HTTP checks")
+    lv.add_argument("--crawl", type=int, default=8, metavar="N",
+                    help="max same-origin pages the browser crawls (default 8)")
+    lv.add_argument("--active", action="store_true",
+                    help="actively test your own app: submit inputs/forms with benign probes (XSS, SQLi, "
+                         "redirect, traversal, command injection). Sends real requests - use on your own app.")
     lv.add_argument("--report-lang", choices=["en", "ru"], default="en", help="language of report headings")
     lv.add_argument("--out")
     lv.set_defaults(fn=cmd_live)

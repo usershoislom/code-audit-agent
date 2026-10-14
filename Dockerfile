@@ -85,6 +85,17 @@ COPY eval ./eval
 COPY tests ./tests
 RUN pip install --no-cache-dir -e '.[stand,dev]'
 
+# Optional headless browser for `caa live` (Playwright + Chromium). Heavy (~400 MB), so off by
+# default; enable with WITH_BROWSER=1. Installed into a world-readable path so the non-root user
+# can launch it.
+ARG WITH_BROWSER=0
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN if [ "$WITH_BROWSER" = "1" ]; then \
+      pip install --no-cache-dir playwright==1.56.0 \
+      && playwright install --with-deps chromium \
+      && chmod -R a+rX /ms-playwright ; \
+    fi
+
 RUN useradd -m -u 10001 caa \
  && mkdir -p /out /work \
  && chown caa:caa /out /work \

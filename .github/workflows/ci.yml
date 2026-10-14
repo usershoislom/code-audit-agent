@@ -34,7 +34,7 @@ jobs:
       matrix:
         include:
           - {variant: default, build_args: ""}
-          - {variant: full, build_args: "--build-arg WITH_GO=1 --build-arg WITH_NODE=1"}
+          - {variant: full, build_args: "--build-arg WITH_GO=1 --build-arg WITH_NODE=1 --build-arg WITH_BROWSER=1"}
     name: docker (${{ matrix.variant }})
     steps:
       - uses: actions/checkout@v4

@@ -56,11 +56,20 @@ def test_passive_scan_finds_misconfigurations(server):
     assert all(f.level in (1, 4) for f in findings)
 
 
-def test_scan_is_read_only_and_same_origin(server):
+def test_scan_uses_no_destructive_methods(server):
     host, port = server
     WebScan(f"http://{host}:{port}").run()
     methods = {m for m, _ in _Vuln.hits}
-    assert methods == {"GET"}                       # no POST / PUT / DELETE, ever
+    assert methods <= {"GET", "HEAD", "OPTIONS", "POST"}       # standard, non-destructive verbs
+    assert not methods & {"PUT", "PATCH", "DELETE"}            # never PUT / PATCH / DELETE
+
+
+def test_destructive_methods_are_refused_in_code(server):
+    host, port = server
+    scan = WebScan(f"http://{host}:{port}")
+    for verb in ("DELETE", "PUT", "PATCH"):
+        with pytest.raises(ValueError):
+            scan._fetch("/", method=verb)
 
 
 def test_scan_never_leaves_the_target_origin(server):
@@ -79,3 +88,121 @@ def test_unreachable_target_reports_cleanly():
 def test_rejects_non_http_url():
     with pytest.raises(ValueError):
         WebScan("ftp://example.com")
+
+
+# --- browser-driven crawl (Playwright) -----------------------------------------------------
+import caa.engine_http.browser as browser_mod
+
+
+class _App(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+
+    def do_GET(self):
+        import urllib.parse as up
+        p = up.urlparse(self.path)
+        q = up.parse_qs(p.query)
+        if p.path == "/search":
+            body = f"<html><body>Results for {q.get('q', [''])[0]}<a href='/login'>login</a></body></html>"
+        elif p.path == "/login":
+            body = ("<html><body><form method='post' action='/login'>"
+                    "<input name='user'><button>go</button></form></body></html>")
+        else:
+            body = "<html><body><a href='/search?q=hi'>s</a> <a href='/login'>l</a></body></html>"
+        self.send_response(200); self.send_header("Content-Type", "text/html"); self.end_headers()
+        self.wfile.write(body.encode())
+
+
+@pytest.fixture()
+def app_server():
+    socketserver.TCPServer.allow_reuse_address = True
+    httpd = socketserver.TCPServer(("127.0.0.1", 0), _App)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    yield httpd.server_address
+    httpd.shutdown()
+
+
+@pytest.mark.skipif(not browser_mod.available(), reason="Playwright not installed")
+def test_browser_crawl_finds_reflected_xss_and_csrf_form(app_server):
+    host, port = app_server
+    origin = f"http://{host}:{port}"
+    findings, inv = browser_mod.BrowserCrawl(origin, host, origin + "/", max_pages=6).run()
+    cwes = {f.cwe for f in findings}
+    assert "CWE-79" in cwes        # reflected marker rendered as a real DOM element
+    assert "CWE-352" in cwes       # POST /login form has no token field
+    assert inv["pages_crawled"] >= 2
+    assert all(f.level == 4 for f in findings)   # observed live in the browser
+
+
+def test_browser_available_is_boolean():
+    assert isinstance(browser_mod.available(), bool)
+
+
+# --- active probing (opt-in, own app) ------------------------------------------------------
+from caa.engine_http.active import ActiveProber
+
+
+class _VulnApp(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+
+    def _send(self, code, body, headers=None):
+        self.send_response(code)
+        for k, v in (headers or {}).items():
+            self.send_header(k, v)
+        self.send_header("Content-Type", "text/html"); self.end_headers()
+        self.wfile.write(body.encode())
+
+    def do_GET(self):
+        import urllib.parse as up
+        p = up.urlparse(self.path); q = up.parse_qs(p.query)
+        if p.path == "/search":                         # reflects q unescaped -> XSS
+            self._send(200, f"<html>You searched: {q.get('q',[''])[0]}</html>")
+        elif p.path == "/item":                         # odd number of quotes -> SQL error (error-based SQLi)
+            v = q.get("id", [""])[0]
+            if v.count("'") % 2 == 1:
+                self._send(500, "<html>You have an error in your SQL syntax near '''</html>")
+            else:
+                self._send(200, "<html>item ok</html>")
+        elif p.path == "/go":                           # open redirect
+            self._send(302, "", {"Location": q.get("url", [""])[0]})
+        else:
+            self._send(200, "<html>home</html>")
+
+
+@pytest.fixture()
+def vuln_server():
+    socketserver.TCPServer.allow_reuse_address = True
+    httpd = socketserver.TCPServer(("127.0.0.1", 0), _VulnApp)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    yield httpd.server_address
+    httpd.shutdown()
+
+
+def _point(origin, path, params):
+    return {"method": "get", "url": f"{origin}{path}", "fields": dict(params), "submit": list(params), "page": ""}
+
+
+def test_active_confirms_xss_sqli_and_open_redirect(vuln_server):
+    host, port = vuln_server
+    origin = f"http://{host}:{port}"
+    points = [_point(origin, "/search", {"q": "x"}),
+              _point(origin, "/item", {"id": "1"}),
+              _point(origin, "/go", {"url": "/home"})]
+    findings, summary = ActiveProber(origin, host, points).run()
+    cwes = {f.cwe for f in findings}
+    assert "CWE-79" in cwes        # reflected XSS confirmed by unescaped marker
+    assert "CWE-89" in cwes        # error-based SQL injection
+    assert "CWE-601" in cwes       # open redirect
+    assert all(f.level == 4 for f in findings)
+    assert summary["points_tested"] == 3
+
+
+def test_active_is_same_origin_and_non_destructive_verbs(vuln_server):
+    host, port = vuln_server
+    origin = f"http://{host}:{port}"
+    pr = ActiveProber(origin, host, [])
+    with pytest.raises(ValueError):
+        pr._request("GET", "http://example.org/x", {})      # off-origin refused
+    with pytest.raises(ValueError):
+        pr._request("DELETE", f"{origin}/x", {})            # destructive verb refused

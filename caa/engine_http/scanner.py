@@ -1,22 +1,23 @@
-"""Engine HTTP (black box): a passive, read-only security check of a live website.
+"""Engine HTTP (black box): a passive security check of a live website from its URL.
 
 Given only a URL, it reports configuration and hygiene mistakes an owner commonly leaves behind.
-It NEVER attacks the site: every request is a plain GET/HEAD, same-origin, no payloads, no fuzzing,
-no authentication bypass, no state change. The checks only observe what the server already reveals:
+It does not attack the site, inject payloads or fuzz it: it observes what the server already reveals
+and asks standard questions a browser would. The checks:
 
   transport     HTTPS reachable, HTTP->HTTPS redirect, HSTS
   headers       CSP, X-Content-Type-Options, X-Frame-Options / frame-ancestors, Referrer-Policy
   cookies       Secure / HttpOnly / SameSite flags on Set-Cookie
-  cors          Access-Control-Allow-Origin reflects an arbitrary Origin together with credentials
+  cors          Access-Control-Allow-Origin reflects an arbitrary Origin together with credentials;
+                a cross-origin preflight (OPTIONS) for a POST is allowed too broadly
   banner        Server / X-Powered-By version disclosure
-  errors        a request for a random missing path returns a stack trace / debug page (not an attack)
+  errors        a request for a random missing path returns a stack trace / debug page
   listing       directory listing (autoindex) left on
   exposed       well-known sensitive files served publicly (confirmed by content, e.g. /.git/HEAD)
 
 Boundaries are in the code, not in a prompt:
   * only the scheme+host the operator passed; links are never followed off-origin;
-  * only GET and HEAD; a small, fixed request budget; a short delay between requests;
-  * the operator must confirm they own / are authorised to test the target (see cli: --authorized).
+  * GET, HEAD, OPTIONS and POST are permitted; destructive verbs (PUT/PATCH/DELETE) are not used;
+  * a small, fixed request budget and a short delay between requests.
 """
 from __future__ import annotations
 
@@ -106,6 +107,8 @@ class WebScan:
     # -- transport: only GET/HEAD, only the operator's origin, budget-limited, no redirects followed blindly
     def _fetch(self, path_or_url: str, method: str = "GET", extra_headers: dict | None = None,
                scheme: str | None = None) -> Exchange:
+        if method not in ("GET", "HEAD", "OPTIONS", "POST"):   # never PUT/PATCH/DELETE - no destructive verbs
+            raise ValueError(f"method {method!r} is not allowed")
         if self._count >= REQUEST_BUDGET:
             raise RuntimeError("request budget exhausted")
         if "://" in path_or_url:
@@ -156,6 +159,7 @@ class WebScan:
             add(self._check_banner(main))
             add(self._check_listing(main))
         add(self._check_cors())
+        add(self._check_cors_preflight())
         add(self._check_errors())
         for f in self._check_exposed():
             add(f)
@@ -277,6 +281,27 @@ class WebScan:
         if acao == "*" and acac:
             return self._f(ex, "CWE-942", "CORS allows '*' with credentials", Group.ACCESS_CONTROL, "medium",
                            "Access-Control-Allow-Origin: * together with credentials is a misconfiguration.")
+        return None
+
+    def _check_cors_preflight(self) -> Finding | None:
+        # a CORS preflight is an OPTIONS request a browser sends before a cross-origin POST. It changes
+        # nothing on the server - it only asks "would you allow this?". We read the answer.
+        probe = "https://caa-cors-probe.example"
+        try:
+            ex = self._fetch(self.start_path, method="OPTIONS",
+                             extra_headers={"Origin": probe, "Access-Control-Request-Method": "POST",
+                                            "Access-Control-Request-Headers": "authorization,content-type"})
+        except (ValueError, RuntimeError):
+            return None
+        acao = ex.headers.get("access-control-allow-origin", "")
+        methods = (ex.headers.get("access-control-allow-methods", "") or "").upper()
+        acac = (ex.headers.get("access-control-allow-credentials", "") or "").lower() == "true"
+        if acao in (probe, "*") and "POST" in methods and acac:
+            return self._f(ex, "CWE-942", "CORS preflight allows cross-origin POST with credentials",
+                           Group.ACCESS_CONTROL, "high",
+                           "An OPTIONS preflight from an arbitrary origin is answered with "
+                           f"Allow-Origin: {acao}, Allow-Methods including POST and Allow-Credentials: true, so a "
+                           "malicious site could make state-changing requests on behalf of a logged-in user.")
         return None
 
     def _check_errors(self) -> Finding | None:

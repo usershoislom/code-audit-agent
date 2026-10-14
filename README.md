@@ -1,345 +1,319 @@
 # code-audit-agent
 
-Локальный ИИ-агент для **defensive** security code review. Он находит кандидатов в уязвимости, поднимает каждого по лестнице доказательств L0–L5, снимает ложные срабатывания только со ссылкой на строку защиты и выдаёт отчёт с проверенным патчем.
+A local AI agent for **defensive** security review. Point it at your code (or a live site) and it
+finds likely vulnerabilities, checks each one as far as it safely can, and writes a clear report
+with a suggested fix.
 
-Главный принцип: **модель не ищет уязвимости «на глаз»**. Recall даёт генератор кандидатов (SAST, анализ маршрутов, сканеры секретов и зависимостей). Precision дают детерминированная верификация и узкие LLM-узлы с выводом по JSON-схеме, где каждое утверждение обязано ссылаться на строку, которую реально прочитал инструмент.
+Its guiding rule: **the model never guesses vulnerabilities by eye.** Scanners and analyzers find
+the candidates; deterministic checks and narrow, schema-constrained model steps confirm them, and
+every claim must point to a line the tool actually read. That keeps false alarms low.
 
-## Статус
+---
 
-| Часть | Состояние |
-|---|---|
-| Ядро: 6 стадий, сериализуемое состояние, лестница L0–L5, отчёт SARIF + Markdown | готово |
-| Автоопределение языков и фреймворков, выбор анализаторов под проект | готово: Python, JavaScript, TypeScript, Java, Go, HTML |
-| Python: Flask, Django, FastAPI, CLI (argparse/click/typer) | готово: свой taint-анализ, карта маршрутов, L4 свойство-тесты, L5 патчи |
-| JS/TS, Java, Go | готово: Opengrep taint-правила с трассами (до L3), gosec/govulncheck для Go; патчей пока нет |
-| Гигиена репозитория (.env в .gitignore, Dockerfile, CI, настройки) | готово |
-| Песочница: без сети или с выходом в интернет; запуск самого приложения и проверки на localhost | готово |
-| LLM-слой (локальная или своя размещённая модель, внешний API) | готово; прогнан на Gemma 4 31B |
-| Группа C (бизнес-логика) | только через LLM; всегда `needs_human`, не выше L3 |
-| Загрузка репозитория по ссылке, полный отчёт (HTML + Markdown), Docker-образ | готово |
-| Движок HTTP (проверка живого сайта по адресу, чёрный ящик) | готово: пассивная, только чтение — `caa live <url> --authorized` |
+## Install
 
-## Быстрый старт: Docker (Windows без WSL, macOS, Linux)
+Only [Docker Desktop](https://www.docker.com/products/docker-desktop/) is needed — no WSL, no Python setup.
 
-Нужен только [Docker Desktop](https://www.docker.com/products/docker-desktop/). Первая сборка образа занимает около минуты (плюс скачивание базового образа Python).
-
-**Что в образе по умолчанию:** агент и сканеры, которые статически проверяют Python, JS/TS, Java, Go и HTML (opengrep, bandit, gitleaks, osv-scanner). Python-приложения можно запускать в песочнице.
-
-**Опционально** (файл `build.conf`, раскомментируйте строку; при следующем запуске образ пересоберётся сам):
-
-| Строка | Что добавляет | Время сборки |
-|---|---|---|
-| `WITH_GO=1` | gosec, govulncheck и Go: глубже проверка Go-кода, запуск Go-приложений | +3–5 мин |
-| `WITH_NODE=1` | Node.js и npm: запуск JS/TS-приложений с `--run-app` | +1 мин |
-
-**Windows (PowerShell):**
-```powershell
+```bash
 git clone https://github.com/usershoislom/code-audit-agent.git
 cd code-audit-agent
-.\caa.ps1 scan https://github.com/owner/repo          # первый запуск сам соберёт образ (несколько минут)
 ```
-Если PowerShell не даёт запускать скрипты: `powershell -ExecutionPolicy Bypass -File .\caa.ps1 scan ...`.
 
-**macOS / Linux:**
+Run with `.\caa.ps1 <args>` on **Windows (PowerShell)** or `./caa.sh <args>` on **macOS/Linux**. The first run builds the image (~1 min). Below, `caa` stands for whichever wrapper you use.
+
+The default image scans Python, JS/TS, Java, Go and HTML and can run Python apps. Optional extras (uncomment a line in `build.conf`, the next run rebuilds): `WITH_GO=1` (Go tools / run Go apps), `WITH_NODE=1` (run JS/TS apps), `WITH_BROWSER=1` (browser-based live checks, +~400 MB).
+
+<sub>Without Docker (Linux): `pip install -e '.[stand,dev,browser]'` · `scripts/install_tools.sh && export PATH="$HOME/.local/caa-tools/bin:$PATH"` · then `caa scan ...` / `caa live ...` directly.</sub>
+
+---
+
+## The two commands
+
+### `caa scan` — review source code
+
 ```bash
-./caa.sh scan https://github.com/owner/repo
+caa scan https://github.com/owner/repo          # a public repo by URL
+caa scan owner/repo --ref develop               # short form + branch/tag
+caa scan C:\path\to\my-app                       # a local folder (mounted read-only)
+caa scan owner/repo --llm                        # + model review of findings
+caa scan C:\path\to\my-app --trust-target --run-app   # also start the app and test it live in a sandbox
 ```
 
-**Что можно сканировать:**
-
-| Команда | Что делает |
+| Flag | What it adds |
 |---|---|
-| `.\caa.ps1 scan https://github.com/owner/repo` | репозиторий по ссылке |
-| `.\caa.ps1 scan owner/repo --ref develop` | короткая форма + ветка или тег |
-| `.\caa.ps1 scan C:\projects\my-app` | папка на компьютере (подключается только для чтения) |
-| `.\caa.ps1 scan owner/repo --llm` | + разбор находок моделью (ключи из `.env`) |
-| `.\caa.ps1 scan C:\projects\my-app --trust-target --run-app` | своё приложение: проверки в песочнице и запуск приложения |
-| `... --sandbox-network egress --install-deps` | то же, но приложению разрешён интернет и установка зависимостей |
-| `.\caa.ps1 rebuild` | пересобрать образ после `git pull` |
+| `--llm` | the model reviews candidates (keys from `.env`) |
+| `--trust-target` | allow running the target's code in the sandbox (required by the flags below) |
+| `--run-app` | start the app in the sandbox, run harmless localhost checks |
+| `--sandbox-network egress` | let the sandboxed app reach the internet |
+| `--install-deps` | install the app's dependencies first (needs `egress`) |
+| `--report-lang ru` | Russian report (default is English) |
 
-## Проверка живого сайта (без доступа к коду)
+### `caa live` — test a running website (no code needed)
 
-Если кода нет, а есть только адрес, агент проверит сайт снаружи — по принципу «чёрного ящика»:
+Three depths, each adding to the previous. Run against a site/app **you own or may test**.
 
-```powershell
-.\caa.ps1 live https://мой-сайт.ru --authorized
+```bash
+caa live https://your-site.com                   # 1. passive + browser crawl (read-only)
+caa live https://your-site.com --no-browser      # 1a. passive HTTP only (no browser)
+caa live https://your-app.com  --active          # 2. also actively probe inputs/forms
 ```
 
-Проверка **пассивная и только на чтение**: обычные GET-запросы, без атак, без подбора, без изменения
-данных. Что ищется в том, что сайт сам отдаёт:
+| Depth | What it does | Changes data? |
+|---|---|---|
+| **passive** | reads headers, cookies, errors, exposed files (`/.git`, `/.env`) | no |
+| **browser** (default, needs `WITH_BROWSER=1`) | runs JS, crawls pages, finds DOM-XSS, CSRF forms, mixed content | no |
+| **`--active`** | submits inputs/forms with benign probes to confirm XSS, SQLi, command injection, open redirect, path traversal | **yes — may create/change data** |
 
-| Проверка | Пример находки |
-|---|---|
-| Транспорт | сайт по `http://` без переадресации на `https`; нет HSTS |
-| Заголовки безопасности | нет CSP, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` |
-| Cookie | сессионная cookie без `Secure` / `HttpOnly` / `SameSite` |
-| CORS | сервер отражает любой `Origin` вместе с `credentials` |
-| Баннер | в заголовках видна версия сервера (помогает подобрать известные CVE) |
-| Ошибки | на несуществующий путь возвращается трассировка / debug-страница (CWE-209) |
-| Листинг | включён просмотр содержимого каталога |
-| Открытые файлы | публично отдаются `/.git/HEAD`, `/.env` и подобное (проверяется по содержимому) |
+`--active` sends real requests and submits forms, so run it on your own app or a staging copy. It confirms issues with benign signals only (unique markers, error/timing differences) — never destructive payloads, only GET/POST, same-origin, capped requests. Other flags: `--crawl N` (pages to crawl, default 8), `--report-lang ru`.
 
-`--authorized` обязателен: это ваше подтверждение, что сайт ваш или у вас есть разрешение его
-проверять. Запуск — ваше ручное действие. Границы (только GET/HEAD, только ваш домен, лимит на число
-запросов) заданы в коде, а не в настройках.
+---
 
-**Отчёт** появляется в `caa-reports\<имя>-<дата>\`:
-- **`report.html`** — полный отчёт, открывается в браузере. В нём:
-  - сводка: цель, коммит, режим, длительность;
-  - обзор рисков по серьёзности, группам, уровням и языкам;
-  - «что исправить первым»;
-  - профиль проекта;
-  - какие проверки выполнены и какие пропущены (с причиной);
-  - запуск приложения;
-  - все находки целиком: путь данных, доказательства, что **не** проверено, патч;
-  - снятые кандидаты со строкой защиты;
-  - ограничения прогона;
-- `report.md` — то же в Markdown;
-- `report.sarif` — для IDE и CI;
-- `run.json`, `audit.jsonl`, `state/` — журнал и промежуточные результаты.
+## Where to read the results
 
-В конце скана в консоль выводится краткая сводка. Язык заголовков отчёта: `--report-lang en|ru`, по умолчанию `en` (английский).
+Every run prints a one-line summary and writes a folder: `caa-reports/<name>-<date>/`.
 
-**Модель и приватные репозитории** — файл `.env` рядом с `caa.ps1`:
+| File | Open it in | What's inside |
+|---|---|---|
+| **`report.html`** | **a browser — start here** | risk overview, "fix first", every finding with evidence and a fix, dismissed candidates |
+| `report.md` | any editor | the same report in Markdown |
+| `report.sarif` | your IDE / CI | machine-readable findings |
+| `findings.json`, `run.json`, `audit.jsonl`, `state/` | — | raw findings, run metadata, full log |
+
+**Reading a finding.** Each one shows *what* and *where* (file:line or URL), a plain-language *why*, the *evidence*, what was **not** verified, and a suggested *fix*. Sort by **severity** (critical → low) and start with the **Fix first** list.
+
+**Confidence (L0–L5)** — how much was proven, shown on each finding:
+
+| L0 | L1 | L2 | L3 | L4 | L5 |
+|---|---|---|---|---|---|
+| a rule matched | two tools agree | input→sink path traced, each step a real line | a "defender" pass found no protection | confirmed live (sandbox or against the site) | the fix was applied and the issue is gone |
+
+Higher = more certain. For code scans, treat **L2+** as solid; live-site findings are **L4** (observed on the running app).
+
+### Model keys (optional) and private repos — `.env`
+
+`--llm` and private clones read a `.env` next to the wrapper:
 ```
 GEMMA_API_KEY=...
 GROQ_API_KEY=...
-CAA_GIT_TOKEN=...          # только для приватных репозиториев; передаётся заголовком, не попадает в URL и отчёты
-```
-Если модель запущена на этом же компьютере (Ollama и т. п.), в `configs/providers.yaml` укажите адрес `http://host.docker.internal:11434/v1`. Этот адрес считается локальным.
-
-**Безопасность загрузки по ссылке.** Принимаются только `https://`-адреса. git разрешён только протокол https. Клонируется одна ветка без истории и без подмодулей. Скачанный код по умолчанию считается **чужим**: никакого его исполнения, модель — только локальная или ваша собственная.
-
-## Без Docker (Linux)
-
-```bash
-pip install -e '.[stand,dev]'
-scripts/install_tools.sh && export PATH="$HOME/.local/caa-tools/bin:$PATH"
-make test
-caa scan https://github.com/owner/repo
-caa scan path/to/own-app --trust-target --run-app
+CAA_GIT_TOKEN=...   # private repos only; sent as a header, never stored in the report
 ```
 
-Флаги, которые **исполняют код цели** (`--run-app`, `--sandbox-network egress`, `--install-deps`), работают только вместе с `--trust-target` — для своего или доверенного кода.
+---
 
-## Языки и инструменты
+# Technical details
 
-Сначала `caa/langs.py` строит профиль проекта: языки (по расширениям), фреймворки (по импортам и `package.json`), тип программы (web / cli / library). По профилю `caa/tools/analyzers.py` запускает только подходящие плагины. Пропущенные плагины и причина пропуска записываются в инвентарь.
+The rest of this document is for readers who want to know how it works inside.
 
-| Плагин | Языки | Инструмент | Что даёт |
+## How it works
+
+`caa/langs.py` first builds a project profile: languages (by extension), frameworks (by imports and
+`package.json`), and the kind of program (web / cli / library). From that profile
+`caa/tools/analyzers.py` runs only the relevant tools; skipped tools and the reason are recorded.
+
+**Pipeline** (the order is fixed in code, `caa/core/orchestrator.py`):
+1. inventory;
+2. candidates: SAST → SARIF → dedup by (file, line, CWE), moved to the sink line, plus routes,
+   secrets, dependencies and an optional model pass;
+3. context slice;
+4. model triage (optional);
+5. evidence ladder;
+6. patch and re-scan.
+
+After each stage the state is written to `out/state/NN-*.json`; every tool and model call is written
+to `out/audit.jsonl` with secrets masked.
+
+## Languages and tools
+
+| Tool | Languages | Engine | What it gives |
 |---|---|---|---|
-| semgrep | все | **Opengrep** (LGPL), иначе Semgrep CE + наши правила `configs/rules/<язык>.yaml` | поиск; у Opengrep — трассы «источник → сток» в SARIF |
-| bandit | Python | Bandit | второй независимый источник для Python |
-| gosec | Go | gosec | SAST для Go |
-| govulncheck | Go | govulncheck | уязвимые зависимости, **вызов которых реально есть в коде** (нужен `CAA_DEPS_ONLINE=1` или локальная база) |
-| osv | все манифесты | osv-scanner с **офлайн-базой** | уязвимые зависимости PyPI/npm/Go/Maven; список пакетов проекта никуда не отправляется |
-| secrets | все | gitleaks + встроенные правила | ключи и пароли в коде |
-| hygiene | все | встроенные проверки | см. ниже |
+| semgrep | all | **Opengrep** (LGPL), else Semgrep CE, with our own rules in `configs/rules/<lang>.yaml` | matches; Opengrep adds source→sink traces in SARIF |
+| bandit | Python | Bandit | a second independent source for Python |
+| gosec | Go | gosec | SAST for Go |
+| govulncheck | Go | govulncheck | vulnerable dependencies **whose vulnerable function is actually called** (needs `CAA_DEPS_ONLINE=1` or a local DB) |
+| osv | all manifests | osv-scanner with an **offline DB** | vulnerable PyPI/npm/Go/Maven dependencies; the package list never leaves the machine |
+| secrets | all | gitleaks + built-in rules | keys and passwords in code |
+| hygiene | all | built-in checks | see below |
 
-Официальные правила Semgrep с декабря 2024 распространяются под некоммерческой лицензией, поэтому в репозитории только свои правила. Сканеры ставятся в отдельный префикс: у них свои закреплённые зависимости (Semgrep, например, конфликтует со свежим FastAPI).
+Semgrep's official rules became non-commercial in December 2024, so the repo ships only its own
+rules. Scanners install into a separate prefix because their pinned dependencies conflict with the
+app frameworks (Semgrep, for example, clashes with a recent FastAPI).
 
-**Глубина проверки по языкам:**
-- **Python** — собственный taint-анализ:
-  - межпроцедурный, с санитайзерами и guard-проверками;
-  - источники: параметры маршрутов Flask/FastAPI/Django, `request.*`, `argparse`, `click`, `typer`, `sys.argv`, `input()`;
-  - карта маршрутов для контроля доступа (`@login_required`, `Depends(get_current_user)`, проверки владельца);
-  - проверки в песочнице (L4) и шаблонные патчи (L5).
-- **JS/TS, Java, Go** — taint-правила Opengrep внутри файла. Трасса цитируется построчно → L2; защитник (тестовый код, источник — запрос фреймворка) → L3. Для этих языков пока нет L4/L5 и потоков между файлами.
-- **HTML-шаблоны** — шаблонные правила: SRI для CDN-скриптов, `target=_blank` без `rel`, `|safe`/`autoescape off`, POST-форма без CSRF-токена.
+**Depth per language:**
+- **Python** — a custom taint analysis: inter-procedural, with sanitizers and guard checks; sources
+  include Flask/FastAPI/Django route params, `request.*`, `argparse`, `click`, `typer`, `sys.argv`,
+  `input()`; a route map for access control (`@login_required`, `Depends(get_current_user)`,
+  ownership checks); sandbox property checks (L4) and template fixes (L5).
+- **JS/TS, Java, Go** — Opengrep taint rules within a file. A quoted line-by-line trace → L2; a
+  defender (test code, the source being a framework request) → L3. No L4/L5 or cross-file flow yet.
+- **HTML templates** — template rules: SRI for CDN scripts, `target=_blank` without `rel`,
+  `|safe` / `autoescape off`, a POST form without a CSRF token.
 
-## Гигиена репозитория
+## Repository hygiene
 
-`caa/tools/hygiene.py`; каждая находка указывает на конкретный файл и строку.
+`caa/tools/hygiene.py`; each finding points to a concrete file and line.
 
-| Проверка | Что ищет |
+| Check | What it looks for |
 |---|---|
-| `.env` / ключи / `credentials.json` | файл есть и **не игнорируется** git (`git check-ignore`) или уже **закоммичен** (`git ls-files`) |
-| `.gitignore` | его нет, или он не игнорирует `.env`, хотя проект загружает `.env` |
-| Dockerfile | нет непривилегированного `USER`; образ без версии / `:latest`; `ADD <url>`; секрет в `ENV/ARG`; `COPY .` при наличии `.env` и без `.dockerignore` |
+| `.env` / keys / `credentials.json` | the file exists and is **not git-ignored** (`git check-ignore`) or is already **committed** (`git ls-files`) |
+| `.gitignore` | missing, or does not ignore `.env` although the project loads `.env` |
+| Dockerfile | no non-root `USER`; unpinned / `:latest` image; `ADD <url>`; secret in `ENV/ARG`; `COPY .` with a `.env` present and no `.dockerignore` |
 | Django settings | `DEBUG = True`, `ALLOWED_HOSTS = ['*']`, `*_COOKIE_SECURE = False` |
-| CORS | любой origin вместе с credentials (FastAPI/Starlette/Express) |
-| Зависимости | `requirements.txt` без точных версий; `package.json` без lock-файла |
-| GitHub Actions | `pull_request_target` + checkout кода PR; сторонний action на ветке `@main`; текст issue/PR внутри `run:` |
+| CORS | any origin together with credentials (FastAPI/Starlette/Express) |
+| Dependencies | `requirements.txt` without exact versions; `package.json` without a lockfile |
+| GitHub Actions | `pull_request_target` + checkout of PR code; a third-party action on `@main`; issue/PR text inside `run:` |
 
-## Запуск приложения в песочнице
+## Running the app in the sandbox
 
-`--run-app` (только с `--trust-target`): `caa/sandbox/app_runner.py` определяет, как поднять приложение, и запускает его в песочнице.
+`--run-app` (with `--trust-target`): `caa/sandbox/app_runner.py` works out how to start the app and
+runs it in the sandbox.
 
-| Как запускается | Команда |
+| How it starts | Command |
 |---|---|
-| конфиг пользователя `.caa.yaml` | `run: {cmd: [...], port: 8000, health: /}` |
+| user config `.caa.yaml` | `run: {cmd: [...], port: 8000, health: /}` |
 | Flask | `flask --app` |
 | FastAPI | `uvicorn` |
 | Django | `manage.py runserver` |
 | Node | `npm start` |
 | Go | `go run .` |
 
-Затем `caa/sandbox/runtime_harness.py` выполняет безвредные GET-проверки — **только на 127.0.0.1**, это проверяется в коде:
-- приложение поднялось и отвечает;
-- заголовки безопасности (CSP, X-Content-Type-Options, X-Frame-Options);
-- HTML-маркер возвращается неэкранированным → **L4 для XSS**;
-- кавычка в параметре вызывает трассировку стека, debug-страницу или ошибку SQL, или ломает запрос, который с обычным значением работает → **L4 для SQLi / CWE-209**.
+Then `caa/sandbox/runtime_harness.py` runs harmless GET checks — **127.0.0.1 only**, asserted in
+code: the app came up and answers; security headers (CSP, X-Content-Type-Options, X-Frame-Options);
+an HTML marker returns unescaped → **L4 for XSS**; a quote in a parameter triggers a stack trace,
+debug page or SQL error, or breaks a request that works with a normal value → **L4 for SQLi /
+CWE-209**.
 
-**Сеть:**
-- `none` (по умолчанию) — сети нет вообще; в изолированном пространстве поднимается только `lo`;
-- `egress` — приложение ходит в интернет (свои API, реестры пакетов), `--install-deps` ставит его зависимости внутри песочницы:
-  - Docker: сеть `bridge`, остальные ограничения те же;
-  - запасной `unshare`: процесс использует сеть хоста (слабее, документировано).
+**Network:** `none` (default) — no network at all; `egress` — the app reaches the internet (Docker:
+`bridge`; the `unshare` fallback uses the host network, weaker, documented). Every `egress` run is
+written to the audit log. **Limitation:** the app needs its real environment (a database, configs).
+On the seeded stand the database is empty, so live SQLi checks often show nothing; there the sandbox
+function check confirms SQLi instead.
 
-Каждый запуск с `egress` пишется в журнал аудита.
-
-**Ограничение:** приложению нужно его реальное окружение (база, конфиги). На стенде база пустая, поэтому проверка SQL через живое приложение часто ничего не показывает. Тогда SQLi подтверждает проверка функции в песочнице.
-
-## Архитектура
+## Architecture
 
 ```
-caa/langs.py       профиль проекта: языки, фреймворки, тип программы
-caa/core/          оркестратор, модели данных, лестница, KB (карточки CWE + BM25), триаж, LLM-слой, аудит
-caa/engine_code/   движок A: taint Python, карта маршрутов (Flask/FastAPI/Django) + ABSENTIA, патчер, верификация
-caa/engine_http/   движок B: не реализован
-caa/tools/         белый список инструментов для модели; analyzers.py (плагины по языкам), sast.py (SARIF),
-                   deps.py (osv-scanner офлайн), secrets_scan.py, hygiene.py
-caa/sandbox/       runner.py (docker / unshare, сеть none|egress), harness.py (свойство-тесты функций),
-                   app_runner.py + runtime_harness.py (запуск приложения и проверки на localhost)
-caa/reports/       SARIF 2.1.0 и Markdown из одной структуры Finding
-configs/           providers.yaml, default.yaml, правила по языкам, офлайн-снимок уязвимостей
-scripts/           install_tools.sh — сканеры с закреплёнными версиями в изолированный префикс
-eval/              посевной стенд (repo/ + labels.yaml вне repo/), метрики, абляции, results/
+caa/langs.py       project profile: languages, frameworks, kind of program
+caa/core/          orchestrator, data models, ladder, KB (CWE cards + BM25), triage, LLM layer, audit
+caa/engine_code/   engine A (white box): Python taint, route map (Flask/FastAPI/Django) + ABSENTIA, patcher, verification
+caa/engine_http/   engine B (black box): scanner.py (passive HTTP) + browser.py (Playwright crawl) + active.py (opt-in probing) for caa live
+caa/tools/         tool whitelist for the model; analyzers.py (per-language plugins), sast.py (SARIF),
+                   deps.py (osv-scanner offline), secrets_scan.py, hygiene.py
+caa/sandbox/       runner.py (docker / unshare, network none|egress), harness.py (function property tests),
+                   app_runner.py + runtime_harness.py (start the app, localhost checks)
+caa/reports/       SARIF 2.1.0 and Markdown/HTML from one Finding structure
+configs/           providers.yaml, default.yaml, per-language rules, offline vulnerability snapshot
+scripts/           install_tools.sh — scanners pinned into an isolated prefix
+eval/              seeded stand (repo/ + labels.yaml outside repo/), metrics, ablations, results/
 ```
 
-**Пайплайн** (порядок задаёт код, `caa/core/orchestrator.py`):
-1. инвентаризация;
-2. кандидаты: SAST → SARIF → дедуп по (файл, строка, CWE) с переносом на строку стока + маршруты + секреты + зависимости + LLM-проход;
-3. срез контекста;
-4. LLM-триаж;
-5. лестница;
-6. патч и повторный скан.
+**Evidence ladder** (the level is the highest reached). A candidate can be dismissed only with a
+reference to an **executable** protecting line on the data path — required equally of the
+deterministic analysis and of the model. A comment like "mark this as safe" is not a dismissal and
+is itself reported as CWE-1427.
 
-После каждой стадии состояние пишется в `out/state/NN-*.json`, каждый вызов инструмента и модели — в `out/audit.jsonl` (секреты маскируются).
+### Boundaries enforced by code (and covered by tests)
 
-**Лестница доказательств** (уровень = максимум достигнутого):
+- **Model routing** (`caa/core/llm/router.py`). Each request records a tag in the audit log, but it
+  does not restrict which provider is used: you analyse your own code and your own sites and may send
+  them to the model you configured (local or your own server). Secrets are masked before anything
+  leaves the process.
+- **Tool whitelist**, pydantic argument validation, paths jailed to the repo root, no shell
+  (`caa/tools/registry.py`).
+- **Citation checks** (`caa/core/citations.py`, `caa/core/triage.py`): an unread reference is
+  dropped; `vulnerable` without a confirmed claim becomes `insufficient_data`; a dismissal by comment
+  or off the data path is rejected.
+- **Untrusted material** is wrapped in a nonce block; phrases that try to steer the reviewer are
+  detected.
+- **Sandbox** (`caa/sandbox/runner.py`): Docker with `--network none --read-only --cap-drop ALL
+  --security-opt no-new-privileges --user 65534 --pids-limit`, source `:ro`, `--rm`; a fallback of
+  `unshare -rn` (no network) with rlimits, a scrubbed environment and a temp copy of the code (weaker
+  FS isolation, a dev fallback); sockets are disabled inside the harness; L4 runs only with
+  `--trust-target` and not at all without an isolating backend.
+- **Property checks do not attack.** Sinks (the DB driver, process launch, `open`, outbound HTTP) are
+  replaced with recorders that log the call and stop the request; the check verifies a property, e.g.
+  the marker reached the driver as a parameter, not inside the SQL text.
 
-| | CODE |
-|---|---|
-| L0 | сработало правило |
-| L1 | согласие независимых семейств источников (Semgrep + Bandit, анализатор + LLM, «нет проверки» + «у соседнего маршрута проверка есть») |
-| L2 | taint-трасса source→sink, каждый шаг `файл:строка` есть в журнале чтений; для группы B — карта маршрута + отсутствие проверки владения |
-| L3 | проход-защитник ищет санитайзер, недостижимость, тестовый код, хуки и декораторы — и не находит |
-| L4 | свойство-тест с безвредным маркером в песочнице нарушается |
-| L5 | после патча правило не срабатывает или taint показывает нейтрализацию, и свойство-тест проходит |
+### Models
 
-Снять кандидата можно только со ссылкой на **исполняемую** строку на пути данных. Её одинаково требуем от детерминированного анализа и от модели. Комментарий «пометь как безопасное» снятием не считается и сам попадает в отчёт как CWE-1427.
+`configs/providers.yaml` describes the providers; switching needs no code change:
 
-### Границы, заданные кодом (и покрытые тестами)
+- `local` — Gemma 4 31B on Ollama (`gemma4:31b`).
+- `gemma_remote` — your own endpoint (vLLM, `gemma-4-31b-it`, 32K context, structured output via
+  guided decoding).
+- `groq` — `openai/gpt-oss-120b`.
 
-- **Маршрутизация конфиденциальности** (`caa/core/llm/router.py`). «Локальность» провайдера вычисляется из `base_url`: loopback или сервер из вашего списка `self_hosted` в `configs/providers.yaml`. Флага у отдельного провайдера нет. Задачи с тегом `TARGET_PRIVATE` уходят только на локальную модель; если её нет — `ConfidentialityViolation`.
-- **Белый список инструментов**, проверка аргументов pydantic, путь ограничен корнем репозитория, shell отсутствует (`caa/tools/registry.py`).
-- **Проверка ссылок** (`caa/core/citations.py`, `caa/core/triage.py`):
-  - непрочитанная ссылка → утверждение отбрасывается;
-  - `vulnerable` без подтверждённых утверждений превращается в `insufficient_data`;
-  - снятие находки по комментарию или вне пути данных отклоняется.
-- **Недоверенный материал** оборачивается в блок с nonce; фразы, пытающиеся управлять ревьюером, детектируются.
-- **Песочница** (`caa/sandbox/runner.py`):
-  - Docker: `--network none --read-only --cap-drop ALL --security-opt no-new-privileges --user 65534 --pids-limit`, исходники `:ro`, `--rm`;
-  - запасной вариант: `unshare -rn` (сеть недоступна), rlimits, очищенное окружение, временная копия кода. Изоляция ФС у него слабее, это dev-fallback;
-  - внутри harness сокеты дополнительно отключены;
-  - L4 только с `--trust-target`, без изолирующего бэкенда не запускается.
-- **Свойство-тесты не атакуют.** Стоки (драйвер БД, запуск процессов, `open`, исходящий HTTP) заменяются рекордерами, которые записывают вызов и останавливают запрос. Проверяется свойство, например: маркер дошёл до драйвера как параметр, а не внутри SQL-текста.
+Keys come from `.env` (git-ignored). Model output always follows a JSON schema (`response_format`);
+on an invalid reply it retries with a schema reminder, then returns `insufficient_data`. Triage is a
+loop of JSON `tool | verdict` actions with a call budget rather than native tool-calling, so the
+format does not depend on the provider.
 
-### Модели
+## Evaluation (seeded stand, `eval/`)
 
-`configs/providers.yaml` описывает три провайдера; переключение делается без изменения кода:
+**Stand:** 94 files, 61 labelled vulnerabilities.
 
-- `local` — Gemma 4 31B в Ollama (`gemma4:31b`, контекст по карточке 256K, `num_ctx` ограничен 32K, чтобы KV-кэш поместился в 24 ГБ).
-- `gemma_remote` — ваш endpoint (vLLM, `gemma-4-31b-it`, `max_model_len` 32768 — меньше 256K из карточки; structured output через guided decoding). Он **не loopback**, поэтому считается внешним: используется только для собственного стенда (`--own-stand`). Чтобы он работал как локальный для чужого кода, его можно пробросить на `127.0.0.1` через `ssh -L`.
-- `groq` — `openai/gpt-oss-120b` (`llama-3.3-70b-versatile` в аккаунте недоступна); оффлайн-роли и собственный стенд.
-
-Ключи читаются из `.env` (в `.gitignore`).
-
-Вывод модели всегда идёт по JSON-схеме (`response_format`). При невалидном ответе — повтор с напоминанием схемы, затем `insufficient_data`.
-
-Триаж реализован как цикл JSON-действий `tool | verdict` с бюджетом вызовов, а не через нативный tool-calling. Так формат не зависит от провайдера и ограничивается грамматикой на локальной модели.
-
-## Оценка (посевной стенд, `eval/`)
-
-**Стенд:** 94 файла, 61 размеченная уязвимость:
-
-| Язык / фреймворк | Сколько примеров |
+| Language / framework | Examples |
 |---|---|
 | Python | Flask 57, Django 5, FastAPI 2, CLI 3 |
 | JS/TS (Express) | 12 |
 | Java (Servlet / Spring) | 8 |
 | Go (net/http) | 2 |
-| HTML-шаблоны | 2 |
+| HTML templates | 2 |
 
-Группы A–E. У каждой уязвимости есть исправленный «близнец» (`*_fixed`) или ловушка — код, похожий на уязвимый, но безопасный. Разметка лежит в `eval/seeded/labels.yaml`, вне сканируемой папки, поэтому модель её не видит. Зависимости проверяются по **реальной** базе OSV, поэтому `requests==2.32.3` и `go 1.22` попали в разметку как настоящие уязвимые версии.
+Groups A–E. Each vulnerability has a fixed twin (`*_fixed`) or a trap — code that looks vulnerable
+but is safe. Labels live in `eval/seeded/labels.yaml`, outside the scanned folder, so the model never
+sees them. Dependencies are checked against the real OSV database. Model: Gemma 4 31B (vLLM),
+`temperature=0`. **One run per row.**
 
-Модель — Gemma 4 31B (vLLM, свой сервер), `temperature=0`. **Один запуск на строку.**
+| row | found | TP | FP | FN | P | R | F1 | FP vs SAST | P ≥L2 | R ≥L2 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| sast_only (Opengrep/Semgrep + Bandit + gosec) | 83 | 47 | 36 | 14 | 0.57 | 0.77 | 0.65 | — | — | — |
+| llm_only_files (model per file) | 77 | 52 | 25 | 9 | 0.68 | 0.85 | 0.75 | −31% | — | — |
+| sast_llm_triage (SAST + model triage) | 72 | 47 | 25 | 14 | 0.65 | 0.77 | 0.71 | −31% | — | — |
+| **agent_no_llm** | 65 | 60 | 5 | 1 | **0.92** | **0.98** | 0.95 | **−86%** | 0.97 | 0.93 |
+| agent_llm_norag | 66 | 60 | 6 | 1 | 0.91 | 0.98 | 0.95 | −83% | 0.98 | 0.92 |
+| agent_llm_rag | 65 | 60 | 5 | 1 | 0.92 | 0.98 | 0.95 | −86% | **1.00** | 0.92 |
+| agent_full (no model + L4 + app runs + L5) | 65 | 60 | 5 | 1 | 0.92 | 0.98 | 0.95 | −86% | 0.97 | 0.93 |
 
-| строка | найдено | TP | FP | FN | P | R | F1 | FP vs SAST | FPR чистых | парная | P ≥L2 | R ≥L2 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| sast_only (Opengrep/Semgrep + Bandit + gosec) | 83 | 47 | 36 | 14 | 0.57 | 0.77 | 0.65 | — | 0.45 | 0.54 | — | — |
-| llm_only_files (модель по файлу) | 77 | 52 | 25 | 9 | 0.68 | 0.85 | 0.75 | −31% | 0.30 | 0.69 | — | — |
-| sast_llm_triage (SAST + триаж моделью) | 72 | 47 | 25 | 14 | 0.65 | 0.77 | 0.71 | −31% | 0.28 | 0.57 | — | — |
-| **agent_no_llm** | 65 | 60 | 5 | 1 | **0.92** | **0.98** | 0.95 | **−86%** | 0.06 | 0.91 | 0.97 | 0.93 |
-| agent_llm_norag | 66 | 60 | 6 | 1 | 0.91 | 0.98 | 0.95 | −83% | 0.04 | 0.91 | 0.98 | 0.92 |
-| agent_llm_rag | 65 | 60 | 5 | 1 | 0.92 | 0.98 | 0.95 | −86% | **0.02** | **0.97** | **1.00** | 0.92 |
-| agent_full (без модели + L4 + запуск приложений + L5) | 65 | 60 | 5 | 1 | 0.92 | 0.98 | 0.95 | −86% | 0.06 | 0.91 | 0.97 | 0.93 |
+**The headline:** with no model the agent removes **86%** of SAST's false positives (36 → 5) without
+losing a single SAST true positive, and recall rises from 0.77 to 0.98 thanks to generators SAST
+lacks: routes (group B), hygiene (D), OSV (E).
 
-**Главное число:** без модели агент убирает **86%** ложных срабатываний SAST (36 → 5), не теряя ни одного TP, найденного SAST. Recall растёт с 0.77 до 0.98 за счёт генераторов, которых у SAST нет: маршруты (группа B), гигиена (D), OSV (E).
+**By group (agent_no_llm):** A 39/39 · B 5/5 · C 0/1 · D 13/13 · E 3/3. The only FN without a model is
+business logic; with the model it is found (C 1/1).
 
-**По группам (agent_no_llm):**
+### Error analysis
 
-| A — поток данных | B — доступ | C — бизнес-логика | D — секреты/настройки | E — зависимости |
-|---|---|---|---|---|
-| 39/39 | 5/5 | 0/1 | 13/13 | 3/3 |
+1. **FP `sqli/trap_column_map.py` and `ssrf/fetch_fixed.py`** (no model). Taint doesn't know a
+   constant dict is an allow-list, and doesn't model "a check on `urlparse(url).hostname` protects
+   `url`". L4 in the sandbox shows the property **holds** in both cases; the model dismisses both with
+   a cited protecting line.
+2. **FP gosec on `gosvc/handlers_fixed.go`.** `exec.Command` with an argument list and `os.ReadFile`
+   after `filepath.Base` are safe but gosec flags them. No trace, so they stay at L0 and never reach
+   the report at the ≥L2 threshold.
+3. **FP `requirements.txt` pyyaml.** The version is vulnerable but the package is not imported:
+   `needs_human`, L0.
+4. **The model wrongly dismissed `go.mod` (Go 1.22 stdlib), norag row.** It claimed `net/http` was
+   never imported, though `handlers.go` imports it, and cited the `go 1.22` line as "protection".
+   **Fixed after the run:** a protection must be a source line, not a manifest/config line
+   (`test_refutation_cannot_cite_a_manifest_line`). The table predates that rule.
+5. **The model dismissed `app.run(debug=True)` under `if __name__ == "__main__"`, rag row.** Its
+   argument: in production a WSGI server runs and this block does not execute — arguable but
+   defensible. Counted as a disagreement with the labels, not a reasoning error.
+6. **App runs.** 6 of the stand's 12 apps started; the rest need an `APP_SECRET` env var at import.
+   Expected: an app needs its environment, and `.caa.yaml` can set `env` for such cases.
 
-Единственный FN без модели — бизнес-логика. С моделью она находится (C 1/1).
+### Honest caveats
 
-**Калибровка** (precision по уровню доказательства):
+- **The numbers are optimistic:** rules, heuristics and the stand were written in one session. A
+  held-out evaluation is needed (CVEfixes pairs, third-party apps per language).
+- **For JS/TS, Java and Go** analysis is within-file (Opengrep taint), with no sandbox checks or
+  patches yet. The symbol index for the model is Python-only so far.
+- **One run per row** on a small stand: a 1–2 finding difference is noise.
+- **The eval was produced with the `local-unshare` backend** (no Docker daemon in that environment).
+  The Docker image build and the in-container sandbox are exercised in CI.
 
-| строка | L0 | L1 | L2 | L3 | L4 | L5 |
-|---|---|---|---|---|---|---|
-| agent_full | 0.50 | | 1.00 | 0.94 | 1.00 | 1.00 |
-| agent_llm_rag | 0.44 | | 1.00 | 1.00 | | |
+## Reproducibility
 
-**Что изменилось с моделью.** Модель снимает два FP, с которыми не справился taint-анализ: allow-list через словарь и проверку хоста на производном значении. Цена — свои ошибки:
-- **Ложные гипотезы доступа.** Гипотезы CWE-639 на Django-маршрутах `note_list` и `note_search` остаются на L0 и не попадают в отчёт на пороге ≥L2.
-- **Две неверно снятые настоящие уязвимости** — см. разбор ниже.
+Versions are pinned in `pyproject.toml`; rules and the vulnerability snapshot live offline in
+`configs/`; the model uses `temperature=0` and `seed=0`. Each evaluation row is its own directory
+with `state/`, `audit.jsonl`, `findings.json`, `report.md` and `report.sarif`.
 
-Итог по F1 тот же, а на пороге ≥L2 точность 1.00 при немного меньшем recall. RAG (карточки CWE) по сравнению с «без RAG» дал чуть меньше FP на чистых файлах (0.02 против 0.04), но при одном запуске это в пределах шума.
-
-**Время** (секунд на 1000 строк кода):
-
-| строка | сек/kLOC |
-|---|---|
-| без модели | ≈ 7 |
-| agent_full: + проверки в песочнице, запуск 12 приложений, патчи | 51 |
-| строки с моделью | ≈ 800 (около 500 тыс. completion-токенов на 1000 строк кода, включая рассуждения модели) |
-
-### Разбор ошибок
-
-1. **FP `sqli/trap_column_map.py` и `ssrf/fetch_fixed.py`** (без модели). Taint не знает, что словарь-константа — это allow-list. Отношение «проверка на `urlparse(url).hostname` защищает `url`» тоже не моделируется. L4 в песочнице в обоих случаях показывает, что свойство **держится**. Модель снимает оба FP со ссылкой на строку защиты.
-2. **FP gosec на `gosvc/handlers_fixed.go`.** `exec.Command` со списком аргументов и `os.ReadFile` после `filepath.Base` безопасны, но gosec их отмечает. Трассы нет, поэтому находки остаются на L0 и не попадают в отчёт на пороге ≥L2.
-3. **FP `requirements.txt` pyyaml.** Версия уязвима, но пакет не импортируется: `needs_human`, L0.
-4. **Модель неверно сняла `go.mod` (уязвимости stdlib Go 1.22), строка norag.** Модель утверждала, что `net/http` нигде не импортируется, хотя `handlers.go` его импортирует. В качестве «защиты» она указала строку `go 1.22`. **Исправлено после прогона:** защита должна быть строкой исходного кода, а не манифеста или конфига (`test_refutation_cannot_cite_a_manifest_line`). Таблица посчитана до этого правила.
-5. **Модель сняла `app.run(debug=True)` под `if __name__ == "__main__"`, строка rag.** Довод модели: в продакшене приложение запускает WSGI-сервер, и этот блок не выполняется. Это спорное, но защитимое суждение. Я считаю это расхождением с разметкой, а не ошибкой рассуждения.
-6. **Запуск приложений.** Из 12 приложений стенда поднялись 6. Остальные требуют переменную окружения `APP_SECRET` (`os.environ[...]` при импорте). Это ожидаемо: приложению нужно его окружение. Для таких случаев `.caa.yaml` позволяет задать `env`. Без базы данных проверка SQLi на живом приложении ничего не показывает (500 и на обычное значение тоже).
-7. **Ранее найденные и исправленные проблемы:**
-   - гипотезы доступа без политики приложения;
-   - общий журнал чтений;
-   - ссылка на собственную строку кандидата;
-   - бесплатная версия Semgrep перестала отдавать трассы — переход на Opengrep;
-   - конфликт зависимостей Semgrep с FastAPI — изолированная установка сканеров.
-
-### Честные оговорки
-
-- **Цифры оптимистичны:** правила, эвристики и стенд писались одной сессией. Нужна оценка на отложенных данных: пары CVEfixes, сторонние приложения на каждом языке.
-- **Для JS/TS, Java и Go** анализ идёт внутри файла (Opengrep taint), без проверок в песочнице и патчей. Индекс символов для модели (`find_symbol` и т. п.) пока работает только для Python.
-- **Один запуск на строку**, малый стенд: разница в 1–2 находки — шум.
-- **L4 и запуск приложений в этом окружении шли через `local-unshare`**: Docker-демона нет. Команда Docker проверена тестом, но здесь не запускалась.
-- **Движок HTTP не реализован.**
-
-## Воспроизводимость
-
-Версии зафиксированы в `pyproject.toml`; правила и снимок уязвимостей лежат офлайн в `configs/`; у модели `temperature=0` и `seed=0`. Каждая строка таблицы — это отдельная директория с `state/`, `audit.jsonl`, `findings.json`, `report.md` и `report.sarif`.
